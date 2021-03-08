@@ -1,11 +1,12 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
+@Getter @Setter
+@EqualsAndHashCode @RequiredArgsConstructor
 @Entity(name = "member")
 public class Member {
 
