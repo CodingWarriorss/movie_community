@@ -11,8 +11,11 @@ import javax.transaction.Transactional;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
     private MemberRepository memberRepository;
+
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) {

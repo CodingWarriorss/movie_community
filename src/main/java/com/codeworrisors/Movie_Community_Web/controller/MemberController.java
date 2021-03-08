@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/members")
 public class MemberController {
 
-    @Autowired
     private MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @PostMapping(value = "/")
     public void createMember(@RequestBody Member member){
         memberService.join(member);
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/signin")
     public int loginMember(@RequestBody Member member){
         int res = memberService.authenticateMember(member.getMemberId(), member.getMemberPassword());
         System.out.println(res);
