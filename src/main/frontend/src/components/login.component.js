@@ -23,7 +23,15 @@ export default class Login extends Component {
         axios.post(
             'http://localhost:8080/api/members/login',
             this.state
-        )
+        ).then(response => {
+            if (response.data === 1) {
+                alert("로그인 성공");
+            } else if (response.data === 0) {
+                alert("비밀 번호를 잘 못 입력하셨습니다.");
+            } else {
+                alert("존재하지 않는 사용자 입니다.");
+            }
+        })
     }
 
     render() {

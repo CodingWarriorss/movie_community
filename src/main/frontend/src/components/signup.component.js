@@ -51,8 +51,15 @@ export default class SignUp extends Component {
                 memberBirth : this.state.memberBirthYear + "/" + this.state.memberBirthMonth + "/" + this.state.memberBirthDay,
                 memberPhone : this.state.memberPhone1 + "-" + this.state.memberPhone2 + "-" + this.state.memberPhone3
             }
-        )
-        alert("회원 가입이 완료돠었습니다.");
+        ).then(response => {
+            if (response.data === 1) {
+                alert("회원 가입 성공");
+                window.history.back();
+            } else {
+                alert("회원 가입 실패");
+            }
+        })
+        
     }
 
     render() {
