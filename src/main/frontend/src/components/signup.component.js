@@ -40,7 +40,7 @@ export default class SignUp extends Component {
         });
         
         axios.post(
-            'localhost:8080/members/',
+            'http://localhost:8080/api/members/join',
             {
                 memberId : this.state.memberId,
                 memberPassword : this.state.memberPassword,
@@ -52,6 +52,7 @@ export default class SignUp extends Component {
                 memberPhone : this.state.memberPhone1 + "-" + this.state.memberPhone2 + "-" + this.state.memberPhone3
             }
         )
+        alert("회원 가입이 완료돠었습니다.");
     }
 
     render() {

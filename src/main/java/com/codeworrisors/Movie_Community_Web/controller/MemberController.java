@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
+@CrossOrigin("*")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/join")
     public void createMember(@RequestBody Member member){
         memberService.join(member);
     }
