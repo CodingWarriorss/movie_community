@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 @Transactional
@@ -18,21 +21,42 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void join(Member member) {
-        validateDuplicateMemberId(member);
+    public int joinMember(Member member) {
+        try {
+            validateDuplicateMemberId(member.getMemberId());
+        } catch (IllegalStateException e) {
+            return 0;//이미 존재하는 아이디
+        }
         memberRepository.save(member);
+        return 1;
     }
 
-    private void validateDuplicateMemberId(Member member) {
-        memberRepository.findByMemberId(member.getMemberId())
+    private void validateDuplicateMemberId(String id) {
+        memberRepository.findByMemberId(id)
                 .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                    throw new IllegalStateException("이미 존재하는 회원");
                 });
     }
 
     @Override
-    public int authenticateMember(String id, String password) {
-        Member m = memberRepository.findByMemberIdAndMemberPassword(id, password).get();
-        return m.getMemberId().equals(id) && m.getMemberPassword().equals(password) ? 1 : 0;
+    public int loginMember(String id, String password) {
+        try {
+            validateDuplicateMemberId(id);
+        } catch (IllegalStateException e) {
+            Member m = memberRepository.findByMemberId(id).get();
+            return m.getMemberId().equals(id) && m.getMemberPassword().equals(password) ? 1 : 0; // 로그인 성공(1), 로그인 실패(0)
+        }
+        return -1;// 존재하지 않는 ID(-1)
+    }
+
+    @Override
+    public void updateMember(Member member) {
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void withdrawMember(String id) {
+        Member member = memberRepository.getOne(id);
+        memberRepository.delete(member);
     }
 }
