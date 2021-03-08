@@ -2,15 +2,17 @@ package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
 
-    @Autowired
     private MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @PostMapping(value = "/")
     public void createMember(@RequestBody Member member){
