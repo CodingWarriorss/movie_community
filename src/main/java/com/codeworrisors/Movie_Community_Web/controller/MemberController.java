@@ -16,23 +16,6 @@ public class MemberController {
     }
 
     /*
-    * id 중복체크
-    * 1 (존재하지 않는 아이디), 0 (이미 존재하는 아이디)
-    * */
-    @PostMapping("/checkid")
-    public int checkID(@RequestBody String id){
-        int res = memberService.checkID(id);
-        if (res == 0){
-            System.out.println("이미 존재하는 아이디");
-        }else{
-            System.out.println("존재하지 않는 아이디");
-        }
-
-        return res;
-    }
-
-
-    /*
     * 회원가입
     * 중복체크 : 1 (성공), 0 (이미 존재하는 아이디)
     * */

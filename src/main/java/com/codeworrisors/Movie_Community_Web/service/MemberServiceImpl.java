@@ -21,16 +21,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int checkID(String id) {
-        try {
-            validateDuplicateMemberId(id);
-        } catch (IllegalStateException e) {
-            return 0;//이미 존재하는 아이디
-        }
-        return 1;
-    }
-
-    @Override
     public int joinMember(Member member) {
         try {
             validateDuplicateMemberId(member.getMemberId());
