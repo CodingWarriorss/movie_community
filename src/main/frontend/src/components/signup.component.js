@@ -21,13 +21,42 @@ export default class SignUp extends Component {
             memberPhone2 : '',
             memberPhone3 : ''
          }
+
+         // 바인딩
+         this.checkID = this.checkID.bind(this)
+         this.checkPWD = this.checkPWD.bind(this)
     }
 
-    changeHandler = (event) => {
-        this.setState({[event.target.name] : event.target.value});
+    // 모든 input 태그의 state 변화감지
+    changeHandler = (e) => {
+        this.setState({[e.target.name] : e.target.value});
     }
 
-    checkPWD = (event) => {
+    // 아이디 중복체크
+    checkID(e) {
+        e.preventDefault();
+
+        const data = {
+            id: this.state.memberId
+        }
+
+        fetch('http://localhost:8080/api/members/checkid', {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data), //json 형식으로 변환
+        })
+            .then(res => res.json())
+            .then(function (json) {
+                if (JSON.stringify(json) === '1') {
+                    alert('사용 가능한 id입니다.');
+                } else {
+                    alert('이미 사용중인 id입니다.');
+                }
+            });
+    }
+
+    // 비밀번호 일치여부 체크
+    checkPWD = (e) => {
         const {memberPassword, memberPassword2} = this.state;
 
         // 비밀번호 입력 안했거나 둘 중 하나의 값이 입력 상태가 아닐 때
@@ -49,8 +78,8 @@ export default class SignUp extends Component {
     }
 
 
-    submitHandler = (event) => {
-        event.preventDefault();
+    submitHandler = (e) => {
+        e.preventDefault();
 
         const {
             memberId, memberPassword, memberName, memberEmail, memberAddress
@@ -94,29 +123,6 @@ export default class SignUp extends Component {
             alert("회원 가입이 완료돠었습니다.");
             window.history.back();
         }
-    }
-
-    // DB에 해당 아이디 존재하는지 확인
-    checkID(e) {
-        e.preventDefault();
-
-        const data = {
-            id: this.state.memberId
-        }
-
-        fetch('http://localhost:8080/api/members/checkid', {
-            method: "post",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data), //json 형식으로 변환
-        })
-            .then(res => res.json())
-            .then(function (json) {
-                if (JSON.stringify(json) === '1') {
-                    alert('사용 가능한 id입니다.');
-                } else {
-                    alert('이미 사용중인 id입니다.');
-                }
-            });
     }
 
     render() {
