@@ -34,8 +34,6 @@ export default class SignUp extends Component {
 
     // 아이디 중복체크
     checkID(e) {
-        e.preventDefault();
-
         const data = {
             id: this.state.memberId
         }
@@ -163,7 +161,6 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <div style={{color: 'red'}}>{checkPassword}</div>
-
                 </div>
 
                 <div className="form-group">
