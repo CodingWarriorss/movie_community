@@ -14,6 +14,24 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
+    
+    /*
+    * 아이디 중복체크
+    * 1 (사용가능), 0 (이미 존재하는 아이디)
+    * */
+    @PostMapping("/checkid")
+    public int checkId(@RequestBody String id){
+        int res = memberService.checkId(id);
+        if (res == 1){
+            System.out.println("중복체크 : 사용가능한 아이디");
+        }
+        else{
+            System.out.println("중복체크 : 이미 존재하는 아이디");
+        }
+        
+        return res;
+    }
+    
 
     /*
     * 회원가입

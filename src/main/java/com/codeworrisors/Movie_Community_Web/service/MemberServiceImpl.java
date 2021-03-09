@@ -20,6 +20,17 @@ public class MemberServiceImpl implements MemberService {
         this.memberRepository = memberRepository;
     }
 
+
+    @Override
+    public int checkId(String id) {
+        try {
+            validateDuplicateMemberId(id);
+        } catch (IllegalStateException e) {
+            return 0;//이미 존재하는 아이디
+        }
+        return 1;// 사용가능한 아이디
+    }
+
     @Override
     public int joinMember(Member member) {
         try {
