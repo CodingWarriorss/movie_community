@@ -34,7 +34,7 @@ export default class SignUp extends Component {
 
     // 아이디 중복체크
     checkID(e) {
-        e.preventDefault(); // 
+        e.preventDefault(); //
 
         const data = {
             id: this.state.memberId
