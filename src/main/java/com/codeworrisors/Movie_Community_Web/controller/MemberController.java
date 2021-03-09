@@ -20,8 +20,8 @@ public class MemberController {
     * 1 (사용가능), 0 (이미 존재하는 아이디)
     * */
     @PostMapping("/checkid")
-    public int checkId(@RequestBody String id){
-        int res = memberService.checkId(id);
+    public int checkId(@RequestBody Member member){
+        int res = memberService.checkId(member.getMemberId());
         if (res == 1){
             System.out.println("중복체크 : 사용가능한 아이디");
         }
