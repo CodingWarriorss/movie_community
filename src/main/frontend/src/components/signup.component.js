@@ -37,7 +37,7 @@ export default class SignUp extends Component {
         e.preventDefault(); //
 
         const data = {
-            id: this.state.memberId
+            memberId: this.state.memberId
         }
 
         fetch('http://localhost:8080/api/members/checkid', {
