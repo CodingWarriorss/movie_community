@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 export default class SignUp extends Component {
 
@@ -7,29 +7,32 @@ export default class SignUp extends Component {
         super(props);
 
         this.state = {
-            memberId : '',
-            memberPassword : '',
-            memberName : '',
-            memberEmail : '',
-            memberAddress : '',
+            memberId: '',
+            memberIdIsPossible: false,
+            memberPassword: '',
+            memberPassword2: '',
+            memberPasswordIsPossible: false,
+            memberName: '',
+            memberEmail: '',
+            memberAddress: '',
             memberAddressDetail: '',
-            memberGender : '',
+            memberGender: '',
             memberBirthYear: '',
             memberBirthMonth: '',
             memberBirthDay: '',
-            memberPhone1 : '',
-            memberPhone2 : '',
-            memberPhone3 : ''
-         }
+            memberPhone1: '',
+            memberPhone2: '',
+            memberPhone3: ''
+        }
 
-         // 바인딩
-         this.checkID = this.checkID.bind(this)
-         this.checkPWD = this.checkPWD.bind(this)
+        // 바인딩
+        this.checkID = this.checkID.bind(this)
+        this.checkPWD = this.checkPWD.bind(this)
     }
 
     // 모든 input 태그의 state 변화감지
     changeHandler = (e) => {
-        this.setState({[e.target.name] : e.target.value});
+        this.setState({[e.target.name]: e.target.value});
     }
 
     // 아이디 중복체크
@@ -39,40 +42,54 @@ export default class SignUp extends Component {
         const data = {
             memberId: this.state.memberId
         }
+        const {memberIdIsPossible} = this.state;
+        const that = this;
 
         fetch('http://localhost:8080/api/members/checkid', {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data), //json 형식으로 변환
         })
-            .then(res => res.json())
-            .then(function (json) {
-                if (JSON.stringify(json) === '1') {
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (jsonData) {
+                return JSON.stringify(jsonData);
+            })
+            .then(function (jsonStr) {
+                if (jsonStr === '1') {
+                    that.setState({memberIdIsPossible: true});
                     alert('사용 가능한 id입니다.');
-                } else {
+                } else if (jsonStr === '0') {
+                    that.setState({memberIdIsPossible: false});
                     alert('이미 사용중인 id입니다.');
+                } else {
+                    alert('서버 오류');
                 }
             });
     }
 
     // 비밀번호 일치여부 체크
     checkPWD = (e) => {
-        const {memberPassword, memberPassword2} = this.state;
+        const {memberPassword, memberPassword2, memberPasswordIsPossible} = this.state;
 
         // 비밀번호 입력 안했거나 둘 중 하나의 값이 입력 상태가 아닐 때
         if (memberPassword.length < 1 || memberPassword2.length < 1) {
             this.setState({
                 checkPassword: '비밀번호를 입력하세요.',
+                memberPasswordIsPossible: false,
             });
         }
         // 비밀번호 같다면 일치
         else if (memberPassword === memberPassword2) {
             this.setState({
                 checkPassword: '비밀번호가 일치합니다.',
+                memberPasswordIsPossible: true,
             });
         } else {
             this.setState({
                 checkPassword: '비밀번호가 일치하지 않습니다.',
+                memberPasswordIsPossible: false,
             });
         }
     }
@@ -84,7 +101,8 @@ export default class SignUp extends Component {
         const {
             memberId, memberPassword, memberName, memberEmail, memberAddress
             , memberGender, memberBirthYear, memberBirthMonth, memberBirthDay,
-            memberPhone1, memberPhone2, memberPhone3
+            memberPhone1, memberPhone2, memberPhone3,
+            memberIdIsPossible, memberPasswordIsPossible,
         } = this.state;
 
         // 채우지 않은 항목이 있는 경우
@@ -93,6 +111,18 @@ export default class SignUp extends Component {
             || memberBirthYear.length < 1 || memberBirthMonth.length < 1 || memberBirthDay.length < 1
             || memberPhone1.length < 1 || memberPhone2.length < 1 || memberPhone3.length < 1) {
             alert('기입하지 않은 항목이 있습니다.');
+            return;
+        }
+        // 사용이 불가능한 아이디일 경우
+        else if (memberIdIsPossible === false) {
+            alert(memberIdIsPossible);
+            alert('사용이 불가능한 아이디 입니다.');
+            return;
+        }
+        // 비밀번호 확인이 일치하지 않을 경우
+        else if (memberPasswordIsPossible === false) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
         }
         // 모든 항목이 채워져 있는 경우
         else {
@@ -127,7 +157,8 @@ export default class SignUp extends Component {
 
     render() {
         const {
-            memberId, memberPassword, memberPassword2, checkPassword,
+            memberId, memberIdIsPossible,
+            memberPassword, memberPassword2, checkPassword, memberPasswordIsPossible,
             memberName, memberEmail,
             memberAddress, memberAddressDetail, memberGender, memberBirthYear, memberBirthMonth,
             memberBirthDay, memberPhone1, memberPhone2, memberPhone3
@@ -144,6 +175,10 @@ export default class SignUp extends Component {
                         placeholder="아이디" value={memberId} onChange={this.changeHandler}
                     />
                     <button className="btn btn-dark btn-lg btn-block" onClick={this.checkID}>중복확인</button>
+                </div>
+
+                <div className="form-group">
+                    <div style={{color: 'green'}}>{memberIdIsPossible}</div>
                 </div>
 
                 <div className="form-group">
