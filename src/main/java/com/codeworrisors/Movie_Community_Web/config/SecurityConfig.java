@@ -1,6 +1,9 @@
 package com.codeworrisors.Movie_Community_Web.config;
 
 import com.codeworrisors.Movie_Community_Web.config.jwt.JwtAuthenticationFilter;
+import com.codeworrisors.Movie_Community_Web.config.jwt.JwtAuthorizationFilter;
+import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,9 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity // 시큐리티 활성화
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private final MemberRepository memberRepository;
 
     private final CorsFilter corsFilter;
 
@@ -37,10 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable() // http basic 방식 사용 안함.
 
                 .addFilter(new JwtAuthenticationFilter(authenticationManager())) // 로그인 인증(Authentication) 필터 주입[,token]
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository))
 
                 .authorizeRequests() // Bearer 방식 사용 : `Authorization : jwt(ID,PWD 암호화값)`
-//                .antMatchers("/api/members/**")
-//                .access("hasRole('ROLE_USER')")
+                .antMatchers("/api/members/**")
+                .access("hasRole('ROLE_USER')")
                 .anyRequest()
                 .permitAll();
     }
