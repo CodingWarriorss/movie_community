@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject("cw토큰") // 토큰명
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME)) // 만료시간
                 .withClaim("id", principalDetails.getMember().getId()) // 비공개 claim (인증에 사용할 key와 value 삽입)
-                .withClaim("membername", principalDetails.getMember().getMemberName())
+                .withClaim("memberName", principalDetails.getMember().getMemberName())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));  // secret : 서버만 알고 있는 고유 값(cw)
 
         // Authorization : Bearer + ' ' + jwtToken
