@@ -16,10 +16,10 @@ function App() {
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/api/members/login"}>로그인</Link>
+                  <Link className="nav-link" to={"/login"}>로그인</Link>
                 </li>
             <li className="nav-item">
-                  <Link className="nav-link" to={"/api/members/join"}>회원 가입</Link>
+                  <Link className="nav-link" to={"/join"}>회원 가입</Link>
                 </li>
               </ul>
             </div>
@@ -29,8 +29,8 @@ function App() {
           <div className="inner">
             <Switch>
               <Route exact path='/' component={Login} />
-              <Route path="/api/members/login" component={Login} />
-              <Route path="/api/members/join" component={SignUp} />
+              <Route path="/login" component={Login} />
+              <Route path="/join" component={SignUp} />
             </Switch>
           </div>
         </div>
