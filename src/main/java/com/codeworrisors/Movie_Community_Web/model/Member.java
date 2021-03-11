@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Getter @Setter
-@EqualsAndHashCode @RequiredArgsConstructor
+@NoArgsConstructor
 @Entity(name = "member")
 public class Member {
 
@@ -26,4 +26,6 @@ public class Member {
     private String memberBirth;
 
     private String memberPhone;
+
+    private String memberRole; // ROLE_USER
 }
