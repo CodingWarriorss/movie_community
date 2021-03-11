@@ -21,7 +21,7 @@ export default class Login extends Component {
         console.log(this.state);
 
         axios.post(
-            'http://localhost:8080/api/members/login',
+            'http://localhost:8080/login',
             this.state
         ).then(response => {
             if (response.data === 1) {
