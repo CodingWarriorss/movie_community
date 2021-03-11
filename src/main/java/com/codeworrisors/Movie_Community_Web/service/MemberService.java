@@ -4,8 +4,8 @@ package com.codeworrisors.Movie_Community_Web.service;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 
 public interface MemberService {
-    void join(Member member);
-    int authenticateMember(String id, String password);
-//    void modify();
-//    void withdraw();
+    int joinMember(Member member);
+    int loginMember(String memberName, String password);
+    void updateMember(Member member);
+    void withdrawMember(String memberName);
 }
