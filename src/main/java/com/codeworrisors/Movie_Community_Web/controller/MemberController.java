@@ -20,13 +20,32 @@ public class MemberController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    // test
     private int id = 0;// 임시
+
+    // test : 성공. 권한 필요 x
+    @GetMapping({"/", ""})
+    public String main() {
+        return "<h1>인덱스 주소요청 테스트</h1>";
+    }
+
+    // test : 성공. 권한 필요 x
+    @GetMapping("home")
+    public String home() {
+        return "<h1>권한이 '필요없는' 페이지 테스트</h1>";
+    }
+
+    // test : 성공. 권한 필요 o
+    @PostMapping("/api/member/test")
+    public String member() {
+        return "<h1>권한이 '필요한' 페이지 테스트</h1>";
+    }
 
     /*
     * 회원가입
     * 중복체크 : 1 (성공), 0 (이미 존재하는 아이디)
     * */
-    @PostMapping("/join")
+    @PostMapping("join")
     public int createMember(@RequestBody Member member){
         System.out.println(member);
         member.setId(id++); // 임시

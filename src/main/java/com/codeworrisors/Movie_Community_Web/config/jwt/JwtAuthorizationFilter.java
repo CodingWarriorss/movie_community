@@ -35,37 +35,37 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("클라이언트가 인증/권한이 필요한 주소를 요청");
+        System.out.println("[BasicAuthenticationFilter의 doFilterInternal() 호출]");
 
         // 1. Request Header를 확인
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
-        if (jwtHeader == null || ! jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)){
+        if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
-        }
+        } else {
+            // 2. JWT 토큰 검증 : 권한 확인
+            String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
+            String memberName = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET))
+                    .build() // 암호화
+                    .verify(jwtToken)
+                    .getClaim("memberName").asString(); // JwtAuthenticationFilter에서 claim에 삽입한 값
 
-        // 2. JWT 토큰 검증 : 권한 확인
-        String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-        String memberName = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET))
-                .build() // 암호화
-                .verify(jwtToken)
-                .getClaim("memberName").asString(); // JwtAuthenticationFilter에서 claim에 삽입한 값
+            // 3. 서명이 정상
+            if (memberName != null) {
+                System.out.println("서명이 정상처리되었음");
 
-        // 3. 서명이 정상
-        if (memberName != null) {
-            System.out.println("서명이 정상처리되었음");
+                // 3-1) 임의로 authentication 객체를 생성
+                Member memberEntity = memberRepository.findByMemberName(memberName).get();
+                PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
+                Authentication authentication =
+                        new UsernamePasswordAuthenticationToken(principalDetails,
+                                null, principalDetails.getAuthorities());
 
-            // 3-1) 임의로 authentication 객체를 생성
-            Member memberEntity = memberRepository.findByMemberName(memberName).get();
-            PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
-            Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(principalDetails,
-                            null, principalDetails.getAuthorities());
+                // 3-2) 시큐리티 세션에 강제 주입
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // 3-2) 시큐리티 세션에 강제 주입
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // 프로세스 진행
-            chain.doFilter(request, response);
+                // 프로세스 진행
+                chain.doFilter(request, response);
+            }
         }
     }
 }
