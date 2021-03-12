@@ -1,6 +1,9 @@
   
 import axios from "axios";
 import React, { Component } from "react";
+import { GOOGLE_AUTH_URL, GITHUB_AUTH_URL, ACCESS_TOKEN } from '../constants/constants'
+import googleLogo from '../img/google-logo.png';
+import githubLogo from '../img/github-logo.png';
 
 export default class Login extends Component {
     constructor(props) {
@@ -62,6 +65,14 @@ export default class Login extends Component {
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
+
+                <div className="social-login">
+                    <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                        <img src={googleLogo} alt="Google" /> Log in with Google</a>
+                    <a className="btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
+                        <img src={githubLogo} alt="Github" /> Log in with Github</a>
+                </div>
+
 
                 <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
                 <p className="forgot-password text-right">

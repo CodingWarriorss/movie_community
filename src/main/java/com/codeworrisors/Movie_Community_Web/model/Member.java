@@ -1,29 +1,61 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import lombok.*;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
-@Getter @Setter
-@EqualsAndHashCode @RequiredArgsConstructor
-@Entity(name = "member")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+
+@Entity
+
+/**
+ * 테이블명 및 컬럼의 설정
+ * email은 아이디는 아니지만 유니크 해야하기 때문에 아래와 같은 설정으로 보입니다.
+ * 자세한 기능은 다시 찾아보겠습니다.
+ */
+@Table(name = "members" , uniqueConstraints = {
+    @UniqueConstraint(columnNames = "email")
+})
+@Getter
+@Setter
 public class Member {
-
     @Id
-    private String memberId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String memberPassword;
+    @Column(nullable = false)
+    private String name;
 
-    private String memberName;
+    @Email
+    @Column(nullable = false)
+    private String email;
 
-    private String memberEmail;
+    private String imageUrl;
 
-    private String memberAddress;
+    //이메일로 검증을 했는가 설정하는 부분 그냥 있길레 안지웠습니다.
+    @Column(nullable = false)
+    private Boolean emailVerified = false;
 
-    private String memberGender;
+    //json으로 생성시에 비밀번호는 안나오게 설정
+    @JsonIgnore
+    private String password;
 
-    private String memberBirth;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
 
-    private String memberPhone;
+    private String providerId;
 }

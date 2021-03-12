@@ -26,6 +26,19 @@ dependencies {
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// spring security 사용 boot에서 사용하는거라 조금 다른 건지는 잘 모르겠습니다.
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
+
+	// spring security에서 oauth관련 설정을 편하게 해주는 라이브러리
+	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.4.5'
+
+	// jwt 으로 처리하기 위한 라이브러리
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+	// Bean을 어노테이션으로 유효성 검사 라이브러리
+	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
 }
 
 def webappDir = "$projectDir/src/main/frontend"
