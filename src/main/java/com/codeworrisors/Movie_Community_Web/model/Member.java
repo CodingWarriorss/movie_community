@@ -5,8 +5,9 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Getter @Setter
-@EqualsAndHashCode @RequiredArgsConstructor
+@Setter @Getter
+@NoArgsConstructor
+@EqualsAndHashCode
 @Entity(name = "member")
 public class Member {
 
