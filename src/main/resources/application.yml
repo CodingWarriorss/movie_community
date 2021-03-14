@@ -33,3 +33,17 @@ app:
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
+
+#logging 설정 지금은 전부 다 보게 해놨습니다.
+logging:
+    level:
+      root: info
+    # 저장하는 파일 경로
+    file: 
+      name: log/dev_app.log
+    
+    pattern:
+      console: "%d %-5level %logger : %msg%n"
+      file: "%d %-5level [%thread] %logger : %msg%n"
+    
+      

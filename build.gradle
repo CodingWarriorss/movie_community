@@ -19,15 +19,27 @@ repositories {
 }
 
 dependencies {
+	//spring data jpa 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
-	annotationProcessor 'org.projectlombok:lombok'
+
+	//spring boot test 단위 테스트 이용시 사용?.
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// spring security 사용 boot에서 사용하는거라 조금 다른 건지는 잘 모르겠습니다.
+
+	//react로 분리시에 필요없는 view 엔진 삭제 예정
+	// implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	//spring boot web 설정 관련
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//lombok 라이브러리 ( 사용시 IDE에서 따로 플러그인 설치하여야 사용 가능 )
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	//OracleDB Driver
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+
+	// spring security 사용 boot에서 사용하는거라 조금 다른 건지는 잘 모르겠습니다. 아마도 좀 더 기본 설정이 자동으로 되어있은게 아닌가 추측해봅니다.
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
 
 	// spring security에서 oauth관련 설정을 편하게 해주는 라이브러리
@@ -38,6 +50,10 @@ dependencies {
 
 	// Bean을 어노테이션으로 유효성 검사 라이브러리
 	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+	// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+	testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
+
 
 }
 
