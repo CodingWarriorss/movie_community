@@ -2,8 +2,8 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { GOOGLE_AUTH_URL, GITHUB_AUTH_URL, ACCESS_TOKEN } from '../../../constants/constants'
-import googleLogo from '../../../img/google-logo.png';
-import githubLogo from '../../../img/github-logo.png';
+import googleLogo from '../../../img/logo/google-logo.png';
+import githubLogo from '../../../img/logo/github-logo.png';
 
 export default class Login extends Component {
     constructor(props) {
