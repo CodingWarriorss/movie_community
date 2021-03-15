@@ -230,24 +230,22 @@ class SignupComponent extends Component {
                 {/*아이디*/}
                 <div className="form-group">
                     <label>아이디</label>
-                    <input type="text" placeholder="아이디"
+                    <input type="text" className="form-control" placeholder="아이디" id="memberName"
                            name="memberName" value={memberName} onChange={this.changeHandler}/>
-                    <button onClick={this.validateName}>중복확인</button>
-                    <span style={checkNameStyle}>{checkNameText}</span>
+                    <button onClick={this.validateName} className="btn btn-dark" id="validate-id-btn">중복확인</button>
+                    <span className="custom-check" style={checkNameStyle}>{checkNameText}</span>
                 </div>
-                <div>
 
-                </div>
 
                 {/*비밀번호*/}
                 <div className="form-group">
                     <label>비밀번호</label>
-                    <input type="password" placeholder="비밀번호"
+                    <input type="password" className="form-control" placeholder="비밀번호"
                            name="password" value={password} onChange={this.changeHandler} onKeyUp={this.checkPWD}/>
                 </div>
                 <div className="form-group">
                     <label>비밀번호 확인</label>
-                    <input type="password" placeholder="비밀번호 확인"
+                    <input type="password" className="form-control" placeholder="비밀번호 확인"
                            name="password2" value={password2} onChange={this.changeHandler} onKeyUp={this.checkPWD}/>
                     <span style={checkPwdStyle}>{checkPwdText}</span>
                 </div>
@@ -257,47 +255,69 @@ class SignupComponent extends Component {
                 {/*기타정보*/}
                 <div className="form-group">
                     <label>이름</label>
-                    <input type="text" placeholder="이름"
+                    <input type="text" className="form-control" placeholder="이름"
                            name="name" value={name} onChange={this.changeHandler}/>
                 </div>
                 <div className="form-group">
                     <label>이메일</label>
-                    <input type="email" placeholder="이메일"
+                    <input type="email" className="form-control" placeholder="이메일"
                            name="email" value={email} onChange={this.changeHandler}/>
                 </div>
                 <div className="form-group">
-                    <label>성별</label>
-                    <label>남</label>
-                    <input type="radio" name="gender" value="male" checked={gender === 'male'}
-                           onChange={this.changeHandler}/>
-                    <label>여</label>
-                    <input type="radio" name="gender" value="female" checked={gender === 'female'}
-                           onChange={this.changeHandler}/>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                            type="radio" className="custom-control-input" id="customRadio"
+                            name="gender" value="male" checked={gender === 'male'}
+                            onChange={this.changeHandler}
+                        />
+                        <label className="custom-control-label" htmlFor="customRadio">남</label>
+                    </div>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                            type="radio" className="custom-control-input" id="customRadio2"
+                            name="gender" value="female" checked={gender === 'female'}
+                            onChange={this.changeHandler}
+                        />
+                        <label className="custom-control-label" htmlFor="customRadio2">여</label>
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>주소</label>
-                    <input type="text" placeholder="주소"
+                    <input type="text" className="form-control" placeholder="주소"
                            name="address" value={address} onChange={this.changeHandler}/>
-                    <input type="text" placeholder="상세주소"
+                    <input type="text" className="form-control" placeholder="상세주소"
                            name="addressDetail" value={addressDetail} onChange={this.changeHandler}/>
                 </div>
                 <div className="form-group">
                     <label>생년월일</label>
-                    <input type="number" name="birth1" value={birth1} onChange={this.changeHandler}/>
-                    <span>년</span>
-                    <input type="number" name="birth2" value={birth2} onChange={this.changeHandler}/>
-                    <span>월</span>
-                    <input type="number" name="birth3" value={birth3} onChange={this.changeHandler}/>
-                    <span>일</span>
+                    <div className="input-group">
+                        <input type="number" className="form-control"
+                               name="birth1" value={birth1} onChange={this.changeHandler}/>
+                        <span className="input-group-addon">년</span>
+                        <input type="number" className="form-control"
+                               name="birth2" value={birth2} onChange={this.changeHandler}/>
+                        <span className="input-group-addon">월</span>
+                        <input type="number" className="form-control"
+                               name="birth3" value={birth3} onChange={this.changeHandler}/>
+                        <span className="input-group-addon">일</span>
+
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>휴대전화</label>
-                    <input type="number" name="phone1" value={phone1} onChange={this.changeHandler}/>
-                    <input type="number" name="phone2" value={phone2} onChange={this.changeHandler}/>
-                    <input type="number" name="phone3" value={phone3} onChange={this.changeHandler}/>
+                    <div className="input-group">
+                        <input type="number" name="phone1" className="form-control" value={phone1}
+                               onChange={this.changeHandler}/>
+                        <span className="input-group-addon">-</span>
+                        <input type="number" name="phone2" className="form-control" value={phone2}
+                               onChange={this.changeHandler}/>
+                        <span className="input-group-addon">-</span>
+                        <input type="number" name="phone3" className="form-control" value={phone3}
+                               onChange={this.changeHandler}/>
+                    </div>
                 </div>
 
-                <button onClick={this.joinClicked}>회원가입</button>
+                <button onClick={this.joinClicked} className="btn btn-dark btn-lg btn-block">회원가입</button>
             </div>
         )
 
