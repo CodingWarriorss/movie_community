@@ -19,9 +19,9 @@ componentDidUpdate()
 */
 
 // [로그인 컴포넌트]
-class LoginComponent extends Component{
+class LoginComponent extends Component {
 
-    constructor(props){// props(컴포넌트) : React 엘리먼트
+    constructor(props) {// props(컴포넌트) : React 엘리먼트
         super(props); // 부모생성자(React.Component)를 호출. 선언전까지 생성자내에서 this 키워드 사용 불가
 
         // 기본 변수 세팅
@@ -37,16 +37,16 @@ class LoginComponent extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
     }
-    
+
     // 1. input value 변경시 실행되는 콜백함수
     handleChange(event) {
         this.setState(
             {
-                [event.target.name] : event.target.value
+                [event.target.name]: event.target.value
             }
         )
     }
-    
+
     // 2. 로그인 함수
     loginClicked() {
         AuthenticationService
@@ -54,12 +54,12 @@ class LoginComponent extends Component{
             .then((response) => {
                 AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response.data.token);
                 this.props.history.push(`/welcome/${this.state.memberName}`);
-            }).catch(() =>{
-            this.setState({showSuccessMessage:false});
-            this.setState({hasLoginFailed:true});
+            }).catch(() => {
+            this.setState({showSuccessMessage: false});
+            this.setState({hasLoginFailed: true});
         });
     }
-    
+
     /*
     https://medium.com/vingle-tech-blog/react-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-f255d6569849
     <렌더링>
@@ -69,19 +69,64 @@ class LoginComponent extends Component{
     4. 부모 컴포넌트가 렌더링 되었을 때
     */
     render() {
-        return(
-            <div>
-                <h1>Login</h1>
-                <div className="container">
-                    {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
-                    {this.state.showSuccessMessage && <div>Login Success</div>}
-                    memberName : <input type="text" name="memberName" value={this.state.memberName} onChange={this.handleChange}/>
-                    password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                    <button className="btn btn-success" onClick={this.loginClicked}>로그인</button>
+        return (
+                <div>
+                <h3>로그인</h3>
+                {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+                {this.state.showSuccessMessage && <div>Login Success</div>}
+
+                <div className="form-group">
+                    <label>아이디</label>
+                    <input type="text" className="form-control" placeholder="아이디"
+                           name="memberName" value={this.state.memberName}
+                           onChange={this.handleChange}/>
                 </div>
-            </div>
+
+                <div className="form-group">
+                    <label>비밀번호</label>
+                    <input type="password" className="form-control" placeholder="비밀번호"
+                           name="password" value={this.state.password}
+                           onChange={this.handleChange}/>
+                </div>
+
+                <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1"/>
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
+
+                <button className="btn btn-dark btn-lg btn-block" onClick={this.loginClicked}>로그인</button>
+                <p className="forgot-password text-right">Forgot
+                    <a href="#"> password?</a>
+                </p>
+
+
+                {/*-------------------------------------------------------------------------------------------*/}
+                {/*<div>*/}
+                {/*    <h1>Login</h1>*/}
+                {/*    <div className="container">*/}
+                {/*        {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}*/}
+                {/*        {this.state.showSuccessMessage && <div>Login Success</div>}*/}
+                {/*        memberName : <input type="text" name="memberName" value={this.state.memberName}*/}
+                {/*                            onChange={this.handleChange}/>*/}
+                {/*        password: <input type="password" name="password" value={this.state.password}*/}
+                {/*                         onChange={this.handleChange}/>*/}
+                {/*        <button className="btn btn-success" onClick={this.loginClicked}>로그인</button>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+
+                </div>
         )
     }
 }
 
 export default LoginComponent
+/*
+<export default>
+변수, 함수, 오브젝트, 클래스 등을 보낼 수 있는 명령어.
+default는 기본이라는 의미를 담고 있으며,
+default로 export한 Loginapp은 중괄호를 사용하지 않고도 import할 수 있다.
+https://m.blog.naver.com/gi_balja/221227430979
+*/
