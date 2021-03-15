@@ -10,13 +10,7 @@ class AuthenticationService{
         });
     }
 
-    // 2. 테스트
-    executeHomeService(){
-        console.log("========executeHomeService===========");
-        return axios.get('http://localhost:8080/home');
-    }
-
-    // 3. 로그인 성공 후처리
+    // 2. 로그인 성공 후처리
     registerSuccessfulLoginForJwt(memberName, token){
         console.log("====registerSuccessfulLoginJwt====");
         // 스토리지에 로그인된 유저의 id(memberName)과 token 저장
@@ -32,7 +26,7 @@ class AuthenticationService{
         return 'Bearer ' + token;
     }
 
-    // 5. 요청이나 응답전 axios
+    // 3. 요청이나 응답전 axios
     setupAxiosInterceptors(){
         // axios.interceptors : axios에 포함된 기능으로, request/response 전에 무언가를 수행하거나 오류발생시 수행할 것을 정의한다.
         axios.interceptors.request.use(
@@ -51,13 +45,13 @@ class AuthenticationService{
             });
     }
 
-    // 6. 로그아웃 : 스토리지에서 현재 유저 정보를 삭제
+    // 4. 로그아웃 : 스토리지에서 현재 유저 정보를 삭제
     logout(){
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
     }
 
-    // 7. 현재 사용자가 로그인되어 있는지 확인
+    // 5. 현재 사용자가 로그인되어 있는지 확인
     isMemberLoggedIn(){
         const token = localStorage.getItem('token');
         console.log("====MemberLoggedInCheck====");
@@ -69,7 +63,7 @@ class AuthenticationService{
         return false;
     }
 
-    // 8. 로그인된 사용자의 id(memberName) 반환
+    // 6. 로그인된 사용자의 id(memberName) 반환
     getLoggedInMemberName(){
         let member = localStorage.getItem("authenticatedMember");
         if (member === null) return '';
