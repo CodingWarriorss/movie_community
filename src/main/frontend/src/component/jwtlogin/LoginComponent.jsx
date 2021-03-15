@@ -72,8 +72,6 @@ class LoginComponent extends Component {
         return (
                 <div>
                 <h3>로그인</h3>
-                {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
-                {this.state.showSuccessMessage && <div>Login Success</div>}
 
                 <div className="form-group">
                     <label>아이디</label>
