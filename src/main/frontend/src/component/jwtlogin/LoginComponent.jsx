@@ -97,9 +97,9 @@ class LoginComponent extends Component {
                 </div>
 
                 <button className="btn btn-dark btn-lg btn-block" onClick={this.loginClicked}>로그인</button>
-                <p className="forgot-password text-right">Forgot
-                    <a href="#"> password?</a>
-                </p>
+                {/*<p className="forgot-password text-right">Forgot*/}
+                {/*    <a href="#"> password?</a>*/}
+                {/*</p>*/}
 
 
                 {/*-------------------------------------------------------------------------------------------*/}
