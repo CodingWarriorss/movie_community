@@ -15,6 +15,6 @@ public class Image {
     private int id;
     private String fileName;
 
-    @ManyToOne // 여러개의 이미지 - 하나의 리뷰 게시물
+    @ManyToOne(cascade = CascadeType.ALL) // 여러개의 이미지 - 하나의 리뷰 게시물
     private Review review;
 }
