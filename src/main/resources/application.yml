@@ -15,3 +15,5 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+file:
+  path: C:/Users/anyej/Downloads/movie_community/src/main/resources/static/upload
