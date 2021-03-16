@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api/members")
+//@RequestMapping("/api/members")
 @CrossOrigin("*")
 public class MemberController {
     private final static Logger LOG = Logger.getGlobal();
@@ -16,7 +16,10 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
-    
+
+    // 테스트
+
+
     /*
     * 아이디 중복체크
     * 1 (사용가능), 0 (이미 존재하는 아이디)
