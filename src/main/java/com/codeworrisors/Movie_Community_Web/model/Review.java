@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Setter
@@ -23,9 +24,12 @@ public class Review { // 리뷰 게시물
     private Timestamp createDate;   // 작성일
 
     // 작성자
-    @ManyToOne // 여러개의 게시물 - 한명의 작성자
+    @ManyToOne(cascade = CascadeType.ALL) // 여러개의 게시물 - 한명의 작성자
     private Member member;
     // 이미지
+    @OneToMany(cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
+    private List<Image> imageList;
+
     // 좋아요
     // 댓글
 }
