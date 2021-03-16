@@ -1,10 +1,13 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
+import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,8 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,19 +29,23 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     // (임시)
-    Member member = new Member();
+//    Member member = new Member();
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
 
-        member.setMemberName("anyeji1220"); // 임시
+//        member.setMemberName("anyeji1220"); // 임시
     }
 
     @PostMapping
     public void uploadReview
-    (@RequestParam("movieTitle") String movieTitle,
-     @RequestParam("content") String content,
-     @RequestParam("file") MultipartFile file) throws IOException {
+            (@AuthenticationPrincipal PrincipalDetails userDetail,
+             @RequestParam("movieTitle") String movieTitle,
+             @RequestParam("content") String content,
+             @RequestParam("file") MultipartFile file) throws IOException {
+        // id 세팅
+        Member member = userDetail.getMember();
+        System.out.println(member);
 
         // 이미지 업로드
         UUID uuid = UUID.randomUUID(); // 식별자 생성
@@ -48,7 +53,7 @@ public class ReviewController {
         Path filePath = Paths.get(fileRealPath + uuidFilename);
         Files.write(filePath, file.getBytes());
 
-        // Image(fk: review) < Review(fk: member) < Member
+        // DB 저장 [ Image(fk: review) < Review(fk: member) < Member ]
         Review review = new Review();
         Image image = new Image();
         ArrayList<Image> images = new ArrayList<>();
@@ -65,17 +70,17 @@ public class ReviewController {
         reviewService.createImage(image);
     }
 
-//    @PutMapping
+    //    @PutMapping
     public void updateReview(@RequestBody Review review) {
         // (임시) 실제로는 토큰으로 처리
-        review.setMember(member);
+//        review.setMember(member);
         reviewService.updateReview(review);
     }
 
-//    @DeleteMapping
+    //    @DeleteMapping
     public void deleteReview(@RequestBody Review review) {
         // (임시) 실제로는 토큰으로 처리
-        review.setMember(member);
+//        review.setMember(member);
         reviewService.deleteReview(review);
     }
 }
