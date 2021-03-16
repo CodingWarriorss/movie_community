@@ -31,8 +31,7 @@ dependencies {
 
 	//spring boot web 설정 관련
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	//lombok 라이브러리 ( 사용시 IDE에서 따로 플러그인 설치하여야 사용 가능 )
+  
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	

@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberController {
 
-    @Autowired
-    private MemberRepository memberRepository;
-
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public Member getCurrentUser(@CurrentMember UserPrincipal userPrincipal) {
