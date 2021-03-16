@@ -5,7 +5,6 @@ import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/members")
 @CrossOrigin("*")
 public class MemberController {
 
