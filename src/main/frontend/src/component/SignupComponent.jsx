@@ -184,19 +184,6 @@ class SignupComponent extends Component {
             phone1, phone2, phone3
         } = this.state;
 
-        // alert(
-        //     JSON.stringify({
-        //         memberName: memberName,
-        //         password: password,
-        //         name: name,
-        //         email: email,
-        //         address: address + " " + addressDetail,
-        //         gender: gender,
-        //         birth: birth1 + "/" + birth2 + "/" + birth3,
-        //         phone: phone1 + "-" + phone2 + "-" + phone3
-        //     })
-        // );
-
         axios.post(
             'http://localhost:8080/join',
             {
