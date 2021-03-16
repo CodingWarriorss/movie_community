@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import { withRouter } from 'react-router'
 import LoginComponent from "./LoginComponent";
 
 class LoginApp extends Component{

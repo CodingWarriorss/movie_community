@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import LoginApp from './component/jwtlogin/LoginApp'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
