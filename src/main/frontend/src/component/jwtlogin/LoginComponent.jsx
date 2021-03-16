@@ -98,23 +98,6 @@ class LoginComponent extends Component {
                 {/*<p className="forgot-password text-right">Forgot*/}
                 {/*    <a href="#"> password?</a>*/}
                 {/*</p>*/}
-
-
-                {/*-------------------------------------------------------------------------------------------*/}
-                {/*<div>*/}
-                {/*    <h1>Login</h1>*/}
-                {/*    <div className="container">*/}
-                {/*        {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}*/}
-                {/*        {this.state.showSuccessMessage && <div>Login Success</div>}*/}
-                {/*        memberName : <input type="text" name="memberName" value={this.state.memberName}*/}
-                {/*                            onChange={this.handleChange}/>*/}
-                {/*        password: <input type="password" name="password" value={this.state.password}*/}
-                {/*                         onChange={this.handleChange}/>*/}
-                {/*        <button className="btn btn-success" onClick={this.loginClicked}>로그인</button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-
                 </div>
         )
     }
