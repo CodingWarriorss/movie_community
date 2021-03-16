@@ -25,7 +25,7 @@ public class MemberController {
     public int checkId(@RequestBody Member member) {
         return memberService.checkId(member.getMemberName());
     }
-    
+
 
     /*
      * 회원가입
