@@ -18,6 +18,17 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     @Override
+    public int checkId(String memberName) {
+        System.out.println("MemberServiceImpl의 joinMember() 호출");
+        try {
+            validateDuplicateMemberId(memberName);
+        } catch (IllegalStateException e) {
+            return 0;//이미 존재하는 아이디
+        }
+        return 1;
+    }
+
+    @Override
     public int joinMember(Member member) {
         System.out.println("MemberServiceImpl의 joinMember() 호출");
         try {
