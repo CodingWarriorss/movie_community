@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
         } catch (IllegalStateException e) {
             return 0;//이미 존재하는 아이디
         }
-        return 1;// 사용가능한 아이디
+        return 1;
     }
 
     @Override
