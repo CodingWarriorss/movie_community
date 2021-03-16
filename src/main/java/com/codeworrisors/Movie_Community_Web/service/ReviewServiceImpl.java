@@ -23,7 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review updateReview(Review review) {
-        if (reviewRepository.findById(review.getReviewId()).isEmpty())
+        if (reviewRepository.findById(review.getId()).isEmpty())
             return null;
         return reviewRepository.save(review);
     }
