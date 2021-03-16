@@ -13,14 +13,16 @@ import java.sql.Timestamp;
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_Sequence")
-    @SequenceGenerator(name = "review_Sequence", sequenceName = "REVIEW_SEQ")
-    int reviewId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_Sequence")
+//    @SequenceGenerator(name = "review_Sequence", sequenceName = "REVIEW_SEQ")
+    private int reviewId;
+
     @ManyToOne
-    Member member;
-    String content;
-    String movieTitle;
-    String imageUrl;
+    private Member member;
+    private String content;
+    private String movieTitle;
+    private String imageUrl;
     @CreationTimestamp
     private Timestamp createDate;
 }
