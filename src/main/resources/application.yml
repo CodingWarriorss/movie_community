@@ -1,0 +1,17 @@
+logging:
+  level:
+    org:
+      hibernate: info
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    password: 1234
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: develop
+  jpa:
+    database: oracle
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true

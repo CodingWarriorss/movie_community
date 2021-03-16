@@ -2,28 +2,24 @@ package com.codeworrisors.Movie_Community_Web.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter @Setter
-@EqualsAndHashCode @RequiredArgsConstructor
-@Entity(name = "member")
+@NoArgsConstructor
+@ToString
+@Entity
 public class Member {
 
     @Id
-    private String memberId;
-
-    private String memberPassword;
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String memberName;
-
-    private String memberEmail;
-
-    private String memberAddress;
-
-    private String memberGender;
-
-    private String memberBirth;
-
-    private String memberPhone;
+    private String password;
+    private String name;
+    private String email;
+    private String address;
+    private String gender;
+    private String birth;
+    private String phone;
+    private String role; // ROLE_USER
 }
