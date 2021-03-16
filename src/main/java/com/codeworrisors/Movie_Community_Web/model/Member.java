@@ -11,10 +11,7 @@ import javax.persistence.*;
 public class Member {
 
     @Id
-    private String memberId;
-
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String memberName;
     private String password;
