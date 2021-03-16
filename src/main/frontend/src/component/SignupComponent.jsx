@@ -116,12 +116,13 @@ class SignupComponent extends Component {
     checkPWD = () => {    // 비밀번호 일치여부
         const {
             password, password2,
-            checkPwdStyle, checkPwdText
+            availablePwd, checkPwdStyle, checkPwdText
         } = this.state;
 
         // 비밀번호를 입력안했거나 둘 중 하나의 값이 입력 상태가 아닐 때에
         if (password.length < 1 || password2.length < 1) {
             this.setState({
+                availablePwd: false,
                 checkPwdStyle: {color: 'red'},
                 checkPwdText: '비말번호를 입력하세요.'
             });
@@ -129,6 +130,7 @@ class SignupComponent extends Component {
         // 비밀번호가 같다면
         else if (password === password2) {
             this.setState({
+                availablePwd : true,
                 checkPwdStyle: {color: 'green'},
                 checkPwdText: '일치'
             });
@@ -136,6 +138,7 @@ class SignupComponent extends Component {
         // 비밀번호가 같지 않다면
         else {
             this.setState({
+                availablePwd : false,
                 checkPwdStyle: {color: 'red'},
                 checkPwdText: '불일치'
             });
