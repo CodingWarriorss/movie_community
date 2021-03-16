@@ -13,20 +13,22 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
-public class Review {
+//@ToString
+public class Review { // 리뷰 게시물
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_Sequence")
-//    @SequenceGenerator(name = "review_Sequence", sequenceName = "REVIEW_SEQ")
-    private long reviewId;
-
-    @ManyToOne
-    private Member member;
-    private String content;
+    private int id;
     private String movieTitle;
-    private String imageUrl;
+    private String content;
     @CreationTimestamp
-    private Timestamp createDate;
+    private Timestamp createDate;   // 작성일
+
+    // 작성자
+    @ManyToOne // 여러개의 게시물 - 한명의 작성자
+    @JoinColumn(name = "member_id")
+    private Member member;
+    // 이미지
+    // 좋아요
+    // 댓글
 }
