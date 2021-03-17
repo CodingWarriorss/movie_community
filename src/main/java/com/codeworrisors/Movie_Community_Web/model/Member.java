@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
+@Setter @ToString
 public class Member {
 
     @Id
