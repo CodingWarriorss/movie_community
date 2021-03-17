@@ -6,7 +6,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
@@ -19,7 +21,9 @@ public class CorsConfig {
         config.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 ip에 응답 허용
         config.setAllowedHeaders(Collections.singletonList("*")); // 모든 header에 응답 허용
         config.setAllowedMethods(Collections.singletonList("*")); // 모든 (POST, GET, PUT, POST, DELETE..) 요청에 응답 허용
-
+        List<String> exposedHeaders = new ArrayList<>();
+        exposedHeaders.add("Authorization");
+        config.setExposedHeaders(exposedHeaders);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

@@ -4,6 +4,7 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import LoginComponent from "./component/jwtlogin/LoginComponent";
 import SignupComponent from "./component/SignupComponent";
+import ReviewWriteBox from './component/review/ReviewWriteBox';
 
 /*
 Link 컴포넌트 : 화면전환 컴포넌트. SPA에서 다른 라우트로 이동할 때, <a/>대신 사용한다.
@@ -25,6 +26,9 @@ class App extends Component {
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to={"/signup"}>회원가입</Link>
+                                    </li>
+                                    <li>
+                                        <ReviewWriteBox></ReviewWriteBox>
                                     </li>
                                 </ul>
                             </div>

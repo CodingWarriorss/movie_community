@@ -16,4 +16,4 @@ spring:
       ddl-auto: update
     show-sql: true
 file:
-  path: C:/Users/anyej/Downloads/movie_community/src/main/resources/static/upload/
+  path: C:/workspace/gitRepository/fork_repository/movie_community/imgFiles

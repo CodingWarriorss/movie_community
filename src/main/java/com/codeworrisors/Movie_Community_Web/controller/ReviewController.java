@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,16 +43,18 @@ public class ReviewController {
             (@AuthenticationPrincipal PrincipalDetails userDetail,
              @RequestParam("movieTitle") String movieTitle,
              @RequestParam("content") String content,
-             @RequestParam("file") MultipartFile file) throws IOException {
+             @RequestParam("imgFiles")List<MultipartFile> files ) throws IOException {
         // id 세팅
         Member member = userDetail.getMember();
         System.out.println(member);
 
         // 이미지 업로드
-        UUID uuid = UUID.randomUUID(); // 식별자 생성
-        String uuidFilename = uuid + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(fileRealPath + uuidFilename);
-        Files.write(filePath, file.getBytes());
+        // UUID uuid = UUID.randomUUID(); // 식별자 생성
+        // String uuidFilename = uuid + "_" + file.getOriginalFilename();
+        // Path filePath = Paths.get(fileRealPath + uuidFilename);
+        // Files.write(filePath, file.getBytes());
+
+        System.out.println( files.size() );
 
         // DB 저장 [ Image(fk: review) < Review(fk: member) < Member ]
         Review review = new Review();
@@ -65,9 +68,9 @@ public class ReviewController {
         review.setMember(member);// Review(주인)에 member를 세팅
         reviewService.createReview(review);
 
-        image.setFileName(uuidFilename);
-        image.setReview(review); // Image(주인)에 review를 세팅
-        reviewService.createImage(image);
+        // image.setFileName(uuidFilename);
+        // image.setReview(review); // Image(주인)에 review를 세팅
+        // reviewService.createImage(image);
     }
 
     //    @PutMapping
