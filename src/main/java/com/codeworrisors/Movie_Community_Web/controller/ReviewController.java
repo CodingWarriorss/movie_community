@@ -24,7 +24,7 @@ import java.util.UUID;
 public class ReviewController {
 
     @Value("${file.path}")
-    private String fileRealPath;
+    private String fileRealPath; // 이미지 저장 경로
 
     private final ReviewService reviewService;
 
