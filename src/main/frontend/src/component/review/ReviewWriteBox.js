@@ -39,20 +39,18 @@ export default class ReviewWriteBox extends Component {
 
     handleSummit(e) {
         const formData = new FormData();
-
-        console.log("movieTitle:" +  this.movieTitle.current.value);
-        console.log("content:" +  this.comment.current.value);
-        console.log("rating:" +  this.rating.current.value);
-
         formData.append("movieTitle", this.movieTitle.current.value);
         formData.append("content", this.comment.current.value);
-        formData.append("imgFiles", this.fileInput.current.files);
+
+        let files = [];
+        for(var i = 0 ; i < this.fileInput.current.files.length ; i++ ){
+            files.push( this.fileInput.current.files[i]);
+        }
+        formData.append("file", this.fileInput.current.files[0]);
         formData.append("rating", this.rating.current.value);
 
 
         const token = localStorage.getItem("token");
-
-        console.log( "localStorage.length : " + localStorage.length);
 
         for( let i = 0 ; i < localStorage.length ; i++){
             console.log( localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)) );

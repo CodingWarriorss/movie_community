@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LoginComponent from "./component/jwtlogin/LoginComponent";
 import SignupComponent from "./component/SignupComponent";
 import ReviewWriteBox from './component/review/ReviewWriteBox';
@@ -11,7 +11,9 @@ Link 컴포넌트 : 화면전환 컴포넌트. SPA에서 다른 라우트로 이
 */
 
 class App extends Component {
+
     render() {
+        var access = localStorage.getItem("token");
         return (
             <Router>
                 <div className="App">
@@ -30,6 +32,7 @@ class App extends Component {
                                     <li>
                                         <ReviewWriteBox></ReviewWriteBox>
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -38,8 +41,8 @@ class App extends Component {
                     <div className="outer">
                         <div className="inner">
                             <Switch>
-                            <Route path="/login" component={LoginComponent}/>
-                            <Route path="/signup" component={SignupComponent}/>
+                                <Route path="/login" component={LoginComponent} />
+                                <Route path="/signup" component={SignupComponent} />
                             </Switch>
                         </div>
                     </div>
