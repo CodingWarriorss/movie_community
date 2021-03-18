@@ -1,7 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.repository;
 
 import com.codeworrisors.Movie_Community_Web.model.Review;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ReviewRepository extends JpaRepository<Review,Integer> {
+public interface ReviewRepository extends PagingAndSortingRepository<Review, Integer> {
 }
