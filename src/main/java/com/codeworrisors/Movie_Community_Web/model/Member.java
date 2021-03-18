@@ -1,8 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
 import lombok.*;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,7 +11,8 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name = "member_id")
+    private long id;
     private String memberName;
     private String password;
     private String name;
@@ -21,4 +22,7 @@ public class Member {
     private String birth;
     private String phone;
     private String role; // ROLE_USER
+
+    @OneToMany
+    private List<Like> likes;
 }

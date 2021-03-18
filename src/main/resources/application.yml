@@ -13,7 +13,7 @@ spring:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 file:
-  path: C:/workspace/gitRepository/fork_repository/movie_community/imgFiles
+  path: /Users/heesang/dev/dev_web/movie_community/src/main/resources/imgFiles/

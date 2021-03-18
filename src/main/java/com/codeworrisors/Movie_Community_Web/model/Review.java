@@ -17,7 +17,8 @@ public class Review { // 리뷰 게시물
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name = "review_id")
+    private long id;
     private String movieTitle;
     private String content;
     @CreationTimestamp
@@ -33,5 +34,8 @@ public class Review { // 리뷰 게시물
     private List<Image> imageList;
 
     // 좋아요
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Like> likes;
+
     // 댓글
 }
