@@ -38,3 +38,6 @@ out/
 
 ### DS_STORE
 .DS_Store
+
+##image
+src/main/resources/imgFiles/*
