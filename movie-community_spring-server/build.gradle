@@ -42,9 +42,6 @@ dependencies {
     //spring boot test 환경 ? 관련
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //Log 구현체
-    testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-
 }
 
 test {

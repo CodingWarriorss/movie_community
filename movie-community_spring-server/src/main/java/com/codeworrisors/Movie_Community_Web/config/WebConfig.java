@@ -6,6 +6,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,51 +21,37 @@ import java.util.List;
     -> Override로 좀더 직관적으로? 설정되는 느낌적 느낌
 */
 @Configuration
+@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer{
-
-    // 어떤 부분이 이전 설정을 하는 부분인지 보고 이후 안쓰는 아래 코드는 삭제 요망.
-    // @Bean
-    // public CorsFilter corsFilter(){
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     CorsConfiguration config = new CorsConfiguration();
-    //     config.setAllowCredentials(true); // 자바 스크립트 json 처리 허용
-    //     config.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 ip에 응답 허용
-    //     config.setAllowedHeaders(Collections.singletonList("*")); // 모든 header에 응답 허용
-    //     config.setAllowedMethods(Collections.singletonList("*")); // 모든 (POST, GET, PUT, POST, DELETE..) 요청에 응답 허용
-    //     List<String> exposedHeaders = new ArrayList<>();
-    //     exposedHeaders.add("Authorization");
-    //     config.setExposedHeaders(exposedHeaders);
-    //     source.registerCorsConfiguration("/**", config);
-    //     return new CorsFilter(source);
-
-    // }
 
     private final long MAX_AGE_SECS = 3600;
 
     /*
         기존 @Bean으로 CORS관련 이슈를 해결하기 위한 설정을 
-        WebMvcConfigurer구현 하는 방식으로 변경하면서 아래와 같이 설정
+        WebMvcConfigurer구현 하는 방식으로 변경하면서 아래와 같이 설정하려 했으나
+        ?? addCorsMappings를 Overriding 해서는 cors 관련 필터가 작동하지 않는것으로 보입니다. ....
     */
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        //현재는 테스트를 위해 모든 경우를 허용하고 있지만 이후 필요한 부분만 엄격하게? 설정할것.
-        registry.addMapping("/**")
-            .allowCredentials(true)
-            .allowedHeaders("*")
-            .allowedMethods("*")
-            .allowedOrigins("*")
-            .exposedHeaders("*")
-            .maxAge(MAX_AGE_SECS);
-    }
+    // @Override
+    // public void addCorsMappings(CorsRegistry registry) {
+    //     //현재는 테스트를 위해 모든 경우를 허용하고 있지만 이후 필요한 부분만 엄격하게? 설정할것.
+
+    //     System.out.println("여기가 실행되면 허용 CORS 를 잘 설정한거 아니나굥?");
+    //     registry.addMapping("/**")
+    //         .allowCredentials(true)
+    //         .allowedHeaders("*")
+    //         .allowedMethods("*")
+    //         .allowedOrigins("http://localhost:3000")
+    //         .allowedOriginPatterns("http://localhost:3000")
+    //         .exposedHeaders("*");
+    // }
 
     /*
         Static resource 관련 설정 Method
-
     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("classpath:/image")
-        .addResourceLocations("/image");
+        registry.addResourceHandler("classpath:/image") //이 경로로 연결시킴
+        .addResourceLocations("/image");                //이런 패턴의 요청은
     }
 }
