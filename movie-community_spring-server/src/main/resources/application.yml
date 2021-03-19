@@ -1,0 +1,31 @@
+logging:
+  level: 
+    '[com.codeworrisors]': debug
+  #아래 설정으로 파일로 남김 but 파일을 나누는 단위나. 만료기간 등 설정을 아직 모르겠습니다.
+  #file:
+  #  name: /log/dev_app.log    
+
+  pattern:
+      console: "%d %-5level %logger : %msg%n"
+      file: "%d %-5level [%thread] %logger : %msg%n"
+    
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    password: 1234
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: develop
+  jpa:
+    database: oracle
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+
+  
+file:
+  path: C:/workspace/gitRepository/fork_repository/movie_community/imgFiles
