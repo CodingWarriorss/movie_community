@@ -30,18 +30,15 @@ public class ReviewServiceImpl implements ReviewService {
         this.imageRepository = imageRepository;
     }
 
-    @Override
-    public Image createImage(Image image) {
-        return imageRepository.save(image);
-    }
-
+    /*
+    * Naver 영화 API 통신
+    * */
     @Override
     public String searchMovie(String title) throws IOException {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", NaverApiProperties.CLIENT_ID);
         requestHeaders.put("X-Naver-Client-Secret", NaverApiProperties.CLIENT_SECRET);
-        String responseBody = get(NaverApiProperties.API_URL + title, requestHeaders);
-        return responseBody;
+        return get(NaverApiProperties.API_URL + title, requestHeaders);
     }
 
     private String get(String apiUrl, Map<String, String> requestHeaders) throws IOException {
@@ -95,6 +92,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    @Override
+    public Image createImage(Image image) {
+        return imageRepository.save(image);
+    }
 
     @Override
     public Review createReview(Review review) {
