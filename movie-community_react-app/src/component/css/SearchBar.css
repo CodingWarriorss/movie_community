@@ -1,0 +1,152 @@
+/*
+Input styles
+------------------
+*/
+.search-bar {
+    width: 400px;
+    padding: 15px 10px;
+    font-size: 23px;
+    color: dimgrey;
+    background-color: lightgray;
+    border: black;
+    font-weight: 600;
+    border-radius: 0.2rem;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+/*
+SearchBar container
+*/
+
+.auto {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    z-index: 1;
+    padding-top: 20px;
+}
+
+/*Cancel button styles*/
+
+.cancel-btn {
+    color: rgb(99, 99, 99);
+    border: none;
+    outline: none;
+    font-weight: 500;
+
+    z-index: 1;
+    transform: translate(185px, 32px) scale(1.15);
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+}
+
+.active {
+    opacity: 1;
+}
+
+.inactive {
+    opacity: 0;
+}
+
+/*
+search results container div
+*/
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: none;
+    width: 400px;
+    max-height: 400px;
+    padding: 10px;
+    overflow-y: scroll;
+    margin-top: 5px;
+    border-radius: 0.2rem;
+}
+
+/*
+SearchPreview Component
+*/
+
+.search-preview {
+    transition: 1s;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 3px;
+    padding-right: 10px;
+    border-top: 1px solid;
+    border-color: rgb(241, 241, 241);
+    align-items: baseline;
+}
+
+.search-preview :hover {
+    background-color: coral;
+}
+
+.first {
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.second {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.sub-header {
+    font-weight: 600;
+    font-size: 10px;
+    color: #c471ed;
+}
+
+.name {
+    font-size: 15px;
+    color: grey;
+    font-weight: 800;
+    margin: 0rem 0;
+}
+
+.age {
+    font-size: 15px;
+    margin: 3px 0px;
+    color: rgb(74, 74, 74);
+    font-weight: 600;
+}
+
+.start {
+    border-top: none;
+}
+
+/* 커스텀 */
+
+.selected-movie {
+    position: absolute;
+    padding-left: 10px;
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+.selected-text {
+    padding-top: 20px;
+    padding-left: 7px;
+    padding-right: 3px;
+}
+
+.selected-img{
+    display: inline-block;
+    text-align: right;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+}
