@@ -8,6 +8,7 @@ import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
+import SearchbarTest from "./component/SearchbarTest";
 
 class App extends Component {
 
@@ -27,6 +28,8 @@ class App extends Component {
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
                                     <MenuForUnauthenticated/> : <MenuForAuthenticated/>}
+
+                                <Link className="navbar-brand" to={"/search"}>Search</Link>
                             </div>
                         </div>
                     </nav>
@@ -34,6 +37,7 @@ class App extends Component {
                     <div className="outer">
                         <div className="inner">
                             <Switch>
+                                <Route path="/search" component={SearchbarTest}></Route>
                                 <Route path="/logout" component={LogoutComponent}/>
                                 <Route path="/login" component={LoginComponent}/>
                                 <Route path="/signup" component={SignupComponent}/>
