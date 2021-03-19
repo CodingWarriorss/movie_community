@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { Component } from "react";
-
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, {Component} from "react";
+import SearchbarComponent from "../searchbar/SearchbarComponent";
+import {Modal, Button, Form} from 'react-bootstrap';
 
 export default class ReviewWriteBox extends Component {
 
@@ -14,6 +14,9 @@ export default class ReviewWriteBox extends Component {
                 comment: null,
                 rating: null,
                 imgFiles: null,
+            },
+            style: {
+                backgroundColor: 'whitesmoke'
             }
         }
 
@@ -30,11 +33,11 @@ export default class ReviewWriteBox extends Component {
     }
 
     handleClose(e) {
-        this.setState({ show: false });
+        this.setState({show: false});
     }
 
     handleShow(e) {
-        this.setState({ show: true });
+        this.setState({show: true});
     }
 
     handleSummit(e) {
@@ -43,8 +46,8 @@ export default class ReviewWriteBox extends Component {
         formData.append("content", this.comment.current.value);
 
         let files = [];
-        for(var i = 0 ; i < this.fileInput.current.files.length ; i++ ){
-            files.push( this.fileInput.current.files[i]);
+        for (var i = 0; i < this.fileInput.current.files.length; i++) {
+            files.push(this.fileInput.current.files[i]);
         }
         formData.append("file", this.fileInput.current.files[0]);
         formData.append("rating", this.rating.current.value);
@@ -52,14 +55,14 @@ export default class ReviewWriteBox extends Component {
 
         const token = localStorage.getItem("token");
 
-        for( let i = 0 ; i < localStorage.length ; i++){
-            console.log( localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)) );
+        for (let i = 0; i < localStorage.length; i++) {
+            console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
         }
-        
+
         let config = {
             headers: {
-                'Content-Type' : "multipart/form-data",
-                'Authorization' : 'Bearer ' + token,
+                'Content-Type': "multipart/form-data",
+                'Authorization': 'Bearer ' + token,
             }
         }
 
@@ -69,7 +72,9 @@ export default class ReviewWriteBox extends Component {
                 this.handleClose();
                 // console.log('response', JSON.stringify(response, null, 2))
             })
-            .catch(error => { console.log('failed', error) })
+            .catch(error => {
+                console.log('failed', error)
+            })
 
     }
 
@@ -80,12 +85,14 @@ export default class ReviewWriteBox extends Component {
                     글쓰기
                 </button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
+                    <Modal.Header closeButton style={this.state.style}>
                         <Form.Group controlId="reviewTitle">
-                            <Form.Control type="text" placeholder="영화" ref={this.movieTitle} />
+                            {/*영화 서치바*/}
+                            <SearchbarComponent/>
+                            {/*<Form.Control type="text" placeholder="영화" ref={this.movieTitle} />*/}
                         </Form.Group>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body style={this.state.style}>
                         <Form>
                             <Form.Group controlId="reviewRating">
                                 <Form.Label>평점</Form.Label>
@@ -104,18 +111,18 @@ export default class ReviewWriteBox extends Component {
                             </Form.Group>
                             <Form.Group controlId="reviewContent">
                                 <Form.Label>Contents</Form.Label>
-                                <Form.Control as="textarea" rows={3} ref={this.comment} />
+                                <Form.Control as="textarea" rows={3} ref={this.comment}/>
                             </Form.Group>
                             <Form.Group controlId="reviewImgFile">
-                                <input type="file" multiple className="reviewImage" ref={this.fileInput} />
+                                <input type="file" multiple className="reviewImage" ref={this.fileInput}/>
                             </Form.Group>
 
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer style={this.state.style}>
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소
-                            </Button>
+                        </Button>
                         <Button variant="primary" onClick={this.handleSummit}>
                             등록
                         </Button>
