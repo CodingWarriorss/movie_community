@@ -28,13 +28,8 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    // (임시)
-//    Member member = new Member();
-
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
-
-//        member.setMemberName("anyeji1220"); // 임시
     }
 
     @PostMapping
@@ -70,17 +65,14 @@ public class ReviewController {
         reviewService.createImage(image);
     }
 
+    // 미완 ====================================================
     //    @PutMapping
     public void updateReview(@RequestBody Review review) {
-        // (임시) 실제로는 토큰으로 처리
-//        review.setMember(member);
         reviewService.updateReview(review);
     }
 
     //    @DeleteMapping
     public void deleteReview(@RequestBody Review review) {
-        // (임시) 실제로는 토큰으로 처리
-//        review.setMember(member);
         reviewService.deleteReview(review);
     }
 }
