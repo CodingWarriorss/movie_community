@@ -66,7 +66,6 @@ class SignupComponent extends Component {
         e.preventDefault();
 
         const that = this;
-        const {availableName, checkNameStyle, checkNameText} = that.state;
 
         const data = {
             memberName: this.state.memberName
@@ -115,8 +114,7 @@ class SignupComponent extends Component {
 
     checkPWD = () => {    // 비밀번호 일치여부
         const {
-            password, password2,
-            availablePwd, checkPwdStyle, checkPwdText
+            password, password2
         } = this.state;
 
         // 비밀번호를 입력안했거나 둘 중 하나의 값이 입력 상태가 아닐 때에

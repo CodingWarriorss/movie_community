@@ -1,33 +1,34 @@
 import axios from 'axios'
 
-class AuthenticationService{
+class AuthenticationService {
 
     // 1. 로그인 요청 : memberName, password를 서버에 전송
-    executeJwtAuthenticationService(memberName, password){
-        return axios.post('http://localhost:8080/login',{
+    executeJwtAuthenticationService(memberName, password) {
+        return axios.post('http://localhost:8080/login', {
             memberName,
             password
         });
     }
 
-    // 2. 로그인 성공 후처리
-    registerSuccessfulLoginForJwt(memberName, token){
-        console.log("====registerSuccessfulLoginJwt====");
+    // 2. 로그인 후처리
+    registerSuccessfulLoginForJwt(memberName, token) {
         // 스토리지에 로그인된 유저의 id(memberName)과 token 저장
-        localStorage.setItem('token', token);
-        localStorage.setItem('authenticatedMember', memberName);
-        // sessionStorage.setItem('authenticatedUser', username)
-        //this.setupAxiosInterceptors(this.createJWTToken(token))
+        if (token.startsWith('Bearer')) {
+            console.log('[로그인 성공]'); // 토큰 확인 완료
+            localStorage.setItem('token', token);
+            localStorage.setItem('authenticatedMember', memberName);
+            return 'success';
+        } else if (token.startsWith('failure')) {
+            console.log('[로그인 실패]'); // 토큰 확인 완료
+            return token;
+        } else {
+            console.log('[로그인 오류 발생]')
+        }
         this.setupAxiosInterceptors();
     }
 
-    // 토큰 생성 테스트
-    createJWTToken(token){
-        return 'Bearer ' + token;
-    }
-
     // 3. 요청이나 응답전 axios
-    setupAxiosInterceptors(){
+    setupAxiosInterceptors() {
         // axios.interceptors : axios에 포함된 기능으로, request/response 전에 무언가를 수행하거나 오류발생시 수행할 것을 정의한다.
         axios.interceptors.request.use(
             // 서버로 request하기 전 config 세팅
@@ -46,28 +47,11 @@ class AuthenticationService{
     }
 
     // 4. 로그아웃 : 스토리지에서 현재 유저 정보를 삭제
-    logout(){
+    logout() {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
-    }
-
-    // 5. 현재 사용자가 로그인되어 있는지 확인
-    isMemberLoggedIn(){
-        const token = localStorage.getItem('token');
-        console.log("====MemberLoggedInCheck====");
-        console.log("token:" + token);
-
-        if (token){
-            return true;
-        }
-        return false;
-    }
-
-    // 6. 로그인된 사용자의 id(memberName) 반환
-    getLoggedInMemberName(){
-        let member = localStorage.getItem("authenticatedMember");
-        if (member === null) return '';
-        return member;
+        console.log('[로그아웃 완료]');
+        window.location.replace('/');
     }
 }
 
