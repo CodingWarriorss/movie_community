@@ -5,21 +5,24 @@ import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/review")
+@RequestMapping(value = "/api/review")
 //@CrossOrigin("*")
 public class ReviewController {
 
@@ -30,6 +33,23 @@ public class ReviewController {
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
+    }
+
+    @GetMapping(produces = "text/plain; charset=UTF-8")
+    public @ResponseBody
+    String searchMovie(@RequestParam("title") String title) {
+        String result = null;
+        try {
+            String text = URLEncoder.encode(title, "UTF-8");
+            result = reviewService.searchMovie(text);
+            System.out.println("[영화 검색 결과] : " + result);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
+        } catch (IOException e) {
+            throw new RuntimeException("API 요청과 응답 실패", e);
+        }
+
+        return result;
     }
 
     @PostMapping
