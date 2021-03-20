@@ -23,7 +23,7 @@ class App extends Component {
                     <nav className="navbar-expand-lg navbar-light fixed-top">
                         <div className="container">
                             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}>Movie Community</Link>
+                                <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
                                     <MenuForUnauthenticated/> : <MenuForAuthenticated/>}
