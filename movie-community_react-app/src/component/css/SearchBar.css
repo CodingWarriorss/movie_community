@@ -3,12 +3,13 @@ Input styles
 ------------------
 */
 .search-bar {
-    width: 400px;
+    /*width: 400px;*/
+    width: 460px;
     padding: 15px 10px;
     font-size: 23px;
     color: dimgrey;
-    background-color: lightgray;
-    border: black;
+    background-color: lightgrey;
+    border: white;
     font-weight: 600;
     border-radius: 0.2rem;
 }
@@ -39,7 +40,7 @@ SearchBar container
     font-weight: 500;
 
     z-index: 1;
-    transform: translate(185px, 32px) scale(1.15);
+    transform: translate(198px, 44px) scale(1.15);
 }
 
 .search {
@@ -62,9 +63,9 @@ search results container div
 .search-results {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: whitesmoke;
     border: none;
-    width: 400px;
+    width: 455px;
     max-height: 400px;
     padding: 10px;
     overflow-y: scroll;
@@ -81,14 +82,13 @@ SearchPreview Component
     display: flex;
     justify-content: space-between;
     padding: 5px 3px;
-    padding-right: 10px;
     border-top: 1px solid;
     border-color: rgb(241, 241, 241);
     align-items: baseline;
 }
 
 .search-preview :hover {
-    background-color: coral;
+    background-color: navajowhite;
 }
 
 .first {
@@ -96,29 +96,21 @@ SearchPreview Component
     align-items: baseline;
 }
 
-.second {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-}
-
-.sub-header {
-    font-weight: 600;
-    font-size: 10px;
-    color: #c471ed;
-}
-
+/*영화 타이틀*/
 .name {
-    font-size: 15px;
-    color: grey;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 20px;
+    color: black;
     font-weight: 800;
     margin: 0rem 0;
 }
 
-.age {
-    font-size: 15px;
-    margin: 3px 0px;
-    color: rgb(74, 74, 74);
+/*영화 세부 정보*/
+.sub-header {
+    position: center;
+    font-size: 18px;
+    color: dimgray;
     font-weight: 600;
 }
 
@@ -127,7 +119,14 @@ SearchPreview Component
 }
 
 /* 커스텀 */
-
+/* 리뷰 작성 안내 텍스트 */
+.search-direction {
+    color: black;
+    padding-top: 20px;
+    padding-left: 7px;
+    padding-right: 3px;
+}
+/* 선택된 영화*/
 .selected-movie {
     position: absolute;
     padding-left: 10px;
@@ -136,17 +135,12 @@ SearchPreview Component
     font-weight: 500;
     color: black;
 }
-
+/* 선택된 영화 제목*/
 .selected-text {
-    padding-top: 20px;
-    padding-left: 7px;
-    padding-right: 3px;
+    color: orange;
 }
-
-.selected-img{
-    display: inline-block;
-    text-align: right;
-    margin-left: auto;
-    margin-right: auto;
+/* 선택된 영화 포스터*/
+.selected-img {
+    display: flex;
     float: left;
 }
