@@ -20,7 +20,9 @@ class SearchbarComponent extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
+        this.setResult = this.setResult.bind(this);
         this.clearBar = this.clearBar.bind(this);
+        this.setTitle = this.setTitle.bind(this);
     }
 
     handleChange(event) {
@@ -29,6 +31,7 @@ class SearchbarComponent extends Component {
         })
     }
 
+    // 실시간 영화검색
     update() {
         const that = this;
         SearchService
@@ -40,23 +43,71 @@ class SearchbarComponent extends Component {
                         {
                             selected: '영화',
                             detailed: '',
-                            preview: SearchService.setResult(this, data['items']) // 프리뷰 세팅
+                            preview: this.setResult(data['items']) // 프리뷰 세팅
                         }
                     )
                 }
             });
     }
 
+    // 검색결과 프리뷰창 세팅[service에 위치시키면 부모로 title 보내기 까다로움]
+    setResult(results) {// 검색 결과 배열
+        let cnt = -1; // 영화개수 카운트
+
+        return results.map(movie => {
+            const title = SearchService.replaceTxt(movie['title']);
+            const actor = SearchService.replaceTxt(movie['actor']).replaceAll('|', ', ');
+            const director = SearchService.replaceTxt(movie['director']).replaceAll('|', '');
+
+            const image = movie['image'];
+            const userRating = movie['userRating'];
+            const pubDate = movie['pubDate'];
+
+            const index = ++cnt; // div 구별을 위한 key값
+            return (
+                <div key={index} className={`search-preview ${index === 0 ? "start" : ""}`}
+                     onClick={() => {
+                         this.setTitle(title); // 타이틀 세팅, 부모로 전송
+                     }}>
+                    <article className="first">
+                        <p className="name">{title}</p>
+                        <img src={image} alt={image} className="selected-img"/>
+                        {userRating ? <p className="sub-header">[평점] {userRating}  </p> : ''}
+                        {pubDate ? <p className="sub-header">[제작연도] {pubDate}  </p> : ''}
+                        {director ? <p className="sub-header">[감독] {director}  </p> : ''}
+                        {actor ? <p className="sub-header">[출연진] <br/> {actor}</p> : ''}
+                    </article>
+                </div>
+            )
+        });
+    }
+
+    // 클릭한 영화이름 세팅 (명시적으로 호출해야 함)
+    setTitle(title) {
+        this.setState(
+            {
+                selected: title, // 영화 제목
+                input: '', // 검색창과 결과 미리보기 창은 초기화한다.
+                preview: '',
+            }
+        )
+
+        // callbackFromParent : fix된 이름
+        this.props.callbackFromParent(title);
+    }
+
+    // 검색어 지우기
     clearBar() {
         this.setState({
                 input: '',
+                preview: '',
             }
         )
     }
 
     render() {
         const {
-            input, preview, selected, detailed,
+            input, preview, selected,
         } = this.state;
 
         return (
@@ -68,19 +119,19 @@ class SearchbarComponent extends Component {
                     </button>
                     <input
                         className="search-bar"
-                        placeholder="영화 제목을 입력하세요."
+                        placeholder="영화 제목을 입력하세요"
                         name="input"
                         value={input}
                         onChange={this.handleChange}
                         onKeyUp={this.update}
                     />
-                    <div className="search-results">
-                        {preview}
-                    </div>
-                    <h3 className="selected-text">{selected ?
-                        <span style={{color: "lightcoral"}}><strong>{selected}</strong></span> : ''}에 대한 솔직한 리뷰를
-                        작성해주세요.</h3>
-                    <div>{detailed}</div>
+                    {input ?
+                        <div className="search-results">{preview}</div> : ''
+                    }
+                    <h3 className="search-direction">{selected ?
+                        <span className="selected-text">
+                            <strong>{selected}</strong></span> : ''}에 대한 솔직한 리뷰를
+                        작성해주세요</h3>
                 </div>
             </>
         )
