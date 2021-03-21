@@ -20,7 +20,13 @@
 
 .review-like{
     text-align: right;
+    margin-right: 10px;
 }
+
+.review-like-btn, .review-content{
+    margin: 10px;
+}
+
 
 .review-box{
     box-shadow: 10px 10px 1cm;
@@ -28,7 +34,11 @@
     margin-bottom: 35px;
     
 }
+/* 
+div{
+    border: #343434 1px solid;
+} */
 
-.review-content{
-    padding: 0px;
+.start-margin{
+    margin-top: 80px;
 }
