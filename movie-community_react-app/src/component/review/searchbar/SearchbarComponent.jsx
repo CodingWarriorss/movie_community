@@ -1,11 +1,6 @@
 import React, {Component} from "react";
-import '../css/SearchBar.css'
+import '../../css/SearchBar.css';
 import SearchService from "./SearchService";
-
-// 영화명 입력 후 배열로 받아옴.
-// 프리뷰 컴포넌트 div 단위로 새로 파기
-// 배열 개수 세어서 프리뷰 컴포넌트 만들기
-// 누르면 그걸로 선택되게 처리
 
 class SearchbarComponent extends Component {
 
@@ -82,7 +77,7 @@ class SearchbarComponent extends Component {
         });
     }
 
-    // 클릭한 영화이름 세팅 (명시적으로 호출해야 함)
+    // 선택된 영화 이름 세팅
     setTitle(title) {
         this.setState(
             {
@@ -92,6 +87,7 @@ class SearchbarComponent extends Component {
             }
         )
 
+        // 부모 컴포넌트에 전달 (명시적으로 호출해야 함)
         // callbackFromParent : fix된 이름
         this.props.callbackFromParent(title);
     }
