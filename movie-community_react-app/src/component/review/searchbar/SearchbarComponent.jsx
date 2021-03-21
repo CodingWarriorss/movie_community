@@ -66,7 +66,7 @@ class SearchbarComponent extends Component {
                      }}>
                     <article className="first">
                         <p className="name">{title}</p>
-                        <img src={image} alt={image} className="selected-img"/>
+                        <img src={image} alt={image} className="movie-img"/>
                         {userRating ? <p className="sub-header">[평점] {userRating}  </p> : ''}
                         {pubDate ? <p className="sub-header">[제작연도] {pubDate}  </p> : ''}
                         {director ? <p className="sub-header">[감독] {director}  </p> : ''}
