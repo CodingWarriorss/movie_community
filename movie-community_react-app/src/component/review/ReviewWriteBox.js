@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, {Component} from "react";
-import SearchbarComponent from "../searchbar/SearchbarComponent";
+import SearchbarComponent from "./searchbar/SearchbarComponent";
 import {Modal, Button, Form} from 'react-bootstrap';
+import StarBoxComponent from "./StarBoxComponent";
 
 export default class ReviewWriteBox extends Component {
 
@@ -15,7 +16,8 @@ export default class ReviewWriteBox extends Component {
                 rating: null,
                 imgFiles: null,
             },
-            title : ''
+            title: '',
+            rating: 0,
         }
 
         //Method binding
@@ -32,10 +34,18 @@ export default class ReviewWriteBox extends Component {
     }
 
     // 자식 컴포넌트로부터 영화명 수신 (확인 완료)
-    setMovieTitle = (selectedMovieTitle) =>{
+    setMovieTitle = (selectedMovieTitle) => {
         this.setState({
             title: selectedMovieTitle,
         })
+    }
+
+    setStar = (star) => {
+        this.setState(
+            {
+                rating: star
+            }
+        )
     }
 
     handleClose(e) {
@@ -49,7 +59,6 @@ export default class ReviewWriteBox extends Component {
     handleSummit(e) {
         const formData = new FormData();
         formData.append("movieTitle", this.state.title);
-        console.log('form(title)' + this.state.title);
         formData.append("content", this.comment.current.value);
 
         let files = [];
@@ -57,8 +66,7 @@ export default class ReviewWriteBox extends Component {
             files.push(this.fileInput.current.files[i]);
         }
         formData.append("file", this.fileInput.current.files[0]);
-        formData.append("rating", this.rating.current.value);
-
+        formData.append("rating", this.state.rating);
 
         const token = localStorage.getItem("token");
 
@@ -92,40 +100,31 @@ export default class ReviewWriteBox extends Component {
                     +
                 </button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
+                    {/*header*/}
                     <Modal.Header closeButton style={this.state.style}>
-                        <Form.Group controlId="reviewTitle">
-                            {/*영화 서치바*/}
-                            <SearchbarComponent callbackFromParent={this.setMovieTitle}/>
-                            {/*<Form.Control type="text" placeholder="영화" ref={this.movieTitle} />*/}
-                        </Form.Group>
+                    {/*    <Form.Group controlId="reviewTitle">*/}
+                        {/*</Form.Group>*/}
                     </Modal.Header>
+                    
+                    {/*body*/}
                     <Modal.Body style={this.state.style}>
+                        {/*검색바*/}
+                        <SearchbarComponent callbackFromParent={this.setMovieTitle}/>
                         <Form>
+                            {/*평점 라디오 버튼*/}
                             <Form.Group controlId="reviewRating">
-                                <Form.Label>평점</Form.Label>
-                                <Form.Control ref={this.rating} as="select">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                </Form.Control>
+                                <StarBoxComponent callbackFromParent={this.setStar}/>
                             </Form.Group>
                             <Form.Group controlId="reviewContent">
-                                <Form.Label>Contents</Form.Label>
-                                <Form.Control as="textarea" rows={3} ref={this.comment}/>
+                                <Form.Control as="textarea" placeholder="관람하신 영화는 어떠셨나요?" rows={3} ref={this.comment}/>
                             </Form.Group>
                             <Form.Group controlId="reviewImgFile">
                                 <input type="file" multiple className="reviewImage" ref={this.fileInput}/>
                             </Form.Group>
-
                         </Form>
                     </Modal.Body>
+
+                    {/*footer*/}
                     <Modal.Footer style={this.state.style}>
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소
