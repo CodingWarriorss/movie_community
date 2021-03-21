@@ -3,7 +3,6 @@ Input styles
 ------------------
 */
 .search-bar {
-    /*width: 400px;*/
     width: 460px;
     padding: 15px 10px;
     font-size: 23px;
@@ -28,7 +27,7 @@ SearchBar container
     width: 100%;
     align-items: center;
     z-index: 1;
-    padding-top: 20px;
+    padding-bottom: 30px;
 }
 
 /*Cancel button styles*/
@@ -130,7 +129,6 @@ SearchPreview Component
 .selected-movie {
     position: absolute;
     padding-left: 10px;
-    padding-top: 0px;
     font-size: 20px;
     font-weight: 500;
     color: black;
