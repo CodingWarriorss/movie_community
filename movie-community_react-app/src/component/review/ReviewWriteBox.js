@@ -102,7 +102,10 @@ export default class ReviewWriteBox extends Component {
                 <button className="btn btn-primary" onClick={this.handleShow}>
                     +
                 </button>
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal
+                    size="lg"
+                    show={this.state.show}
+                    onHide={this.handleClose}>
                     {/*header*/}
                     <Modal.Header closeButton style={this.state.style}/>
 

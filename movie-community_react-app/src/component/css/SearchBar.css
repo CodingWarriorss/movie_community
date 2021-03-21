@@ -3,7 +3,7 @@ Input styles
 ------------------
 */
 .search-bar {
-    width: 460px;
+    width: 760px;
     padding: 15px 10px;
     font-size: 23px;
     color: dimgrey;
@@ -141,4 +141,11 @@ SearchPreview Component
 .selected-img {
     display: flex;
     float: left;
+}
+
+/* 반응형 조절 기능 추가*/
+@media (max-width: 1080px) {
+    .search-bar{
+        width: 450px;
+    }
 }
