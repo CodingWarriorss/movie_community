@@ -79,7 +79,7 @@ export default class ReviewWriteBox extends Component {
     }
 
     handleSummit(e) {
-        if (! this.isSummitPossible()){
+        if (!this.isSummitPossible()) {
             return;
         }
 
@@ -87,8 +87,14 @@ export default class ReviewWriteBox extends Component {
         const formData = new FormData();
         formData.append("movieTitle", this.state.title); // 영화 제목
         formData.append("content", this.comment.current.value); // 작성글
-        formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
         formData.append("rating", this.state.rating); // 별점
+
+        // 이미지 존재여부 확인
+        let url = 'http://localhost:8080/api/review';
+        if (this.state.pictures.length > 0) {
+            formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
+            url += '/img';
+        }
 
         // cofig 세팅
         const token = localStorage.getItem("token");
@@ -100,7 +106,7 @@ export default class ReviewWriteBox extends Component {
         }
 
         // 전송
-        axios.post(`http://localhost:8080/api/review`, formData, config)
+        axios.post(url, formData, config)
             .then(response => {
                 alert("게시물이 성공적으로 등록되었습니다.");
                 this.handleClose();
