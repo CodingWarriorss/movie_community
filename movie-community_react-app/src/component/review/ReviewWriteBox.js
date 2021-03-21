@@ -18,6 +18,7 @@ export default class ReviewWriteBox extends Component {
             },
             title: '',
             rating: 0,
+            memberName: localStorage.getItem('authenticatedMember'),
         }
 
         //Method binding
@@ -102,10 +103,10 @@ export default class ReviewWriteBox extends Component {
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     {/*header*/}
                     <Modal.Header closeButton style={this.state.style}>
-                    {/*    <Form.Group controlId="reviewTitle">*/}
+                        {/*    <Form.Group controlId="reviewTitle">*/}
                         {/*</Form.Group>*/}
                     </Modal.Header>
-                    
+
                     {/*body*/}
                     <Modal.Body style={this.state.style}>
                         {/*검색바*/}
@@ -116,7 +117,8 @@ export default class ReviewWriteBox extends Component {
                                 <StarBoxComponent callbackFromParent={this.setStar}/>
                             </Form.Group>
                             <Form.Group controlId="reviewContent">
-                                <Form.Control as="textarea" placeholder="관람하신 영화는 어떠셨나요?" rows={3} ref={this.comment}/>
+                                <Form.Control as="textarea" placeholder={this.state.memberName + "님 관람하신 영화는 어떠셨나요?"}
+                                              rows={8} ref={this.comment}/>
                             </Form.Group>
                             <Form.Group controlId="reviewImgFile">
                                 <input type="file" multiple className="reviewImage" ref={this.fileInput}/>
