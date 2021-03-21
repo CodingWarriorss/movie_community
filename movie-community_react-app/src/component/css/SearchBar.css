@@ -3,8 +3,7 @@ Input styles
 ------------------
 */
 .search-bar {
-    /*width: 400px;*/
-    width: 460px;
+    width: 760px;
     padding: 15px 10px;
     font-size: 23px;
     color: dimgrey;
@@ -28,7 +27,7 @@ SearchBar container
     width: 100%;
     align-items: center;
     z-index: 1;
-    padding-top: 20px;
+    padding-bottom: 30px;
 }
 
 /*Cancel button styles*/
@@ -40,7 +39,7 @@ SearchBar container
     font-weight: 500;
 
     z-index: 1;
-    transform: translate(198px, 44px) scale(1.15);
+    transform: translate(335px, 44px) scale(1.5);
 }
 
 .search {
@@ -65,8 +64,8 @@ search results container div
     flex-direction: column;
     background-color: whitesmoke;
     border: none;
-    width: 455px;
-    max-height: 400px;
+    width: 757px;
+    max-height: 300px;
     padding: 10px;
     overflow-y: scroll;
     margin-top: 5px;
@@ -126,21 +125,80 @@ SearchPreview Component
     padding-left: 7px;
     padding-right: 3px;
 }
+
+/* 영화 포스터*/
+.movie-img {
+    display: flex;
+    float: left;
+}
+
 /* 선택된 영화*/
 .selected-movie {
     position: absolute;
     padding-left: 10px;
-    padding-top: 0px;
     font-size: 20px;
     font-weight: 500;
     color: black;
 }
+
 /* 선택된 영화 제목*/
 .selected-text {
     color: orange;
 }
-/* 선택된 영화 포스터*/
-.selected-img {
-    display: flex;
-    float: left;
+
+/* 반응형 조절 기능 추가*/
+@media (max-width: 1080px) {
+    .search-bar {
+        width: 450px;
+    }
+
+    .cancel-btn {
+        color: rgb(99, 99, 99);
+        border: none;
+        outline: none;
+        font-weight: 500;
+
+        z-index: 1;
+        transform: translate(198px, 44px) scale(1.15);
+    }
+
+    /*검색결과창*/
+    .search-results {
+        display: flex;
+        flex-direction: column;
+        background-color: whitesmoke;
+        border: none;
+        width: 455px;
+        max-height: 200px;
+        padding: 10px;
+        overflow-y: scroll;
+        margin-top: 5px;
+        border-radius: 0.2rem;
+    }
+
+    /*영화 타이틀*/
+    .name {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 17px;
+        color: black;
+        font-weight: 800;
+        margin: 0rem 0;
+    }
+
+    /*영화 세부 정보*/
+    .sub-header {
+        position: center;
+        font-size: 15px;
+        color: dimgray;
+        font-weight: 600;
+    }
+
+    /* 영화 포스터*/
+    .movie-img {
+        display: flex;
+        float: left;
+        width: 15vh;
+        height: 20vh;
+    }
 }
