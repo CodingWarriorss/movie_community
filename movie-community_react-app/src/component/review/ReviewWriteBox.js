@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import SearchbarComponent from "./searchbar/SearchbarComponent";
 import {Modal, Button, Form} from 'react-bootstrap';
 import StarBoxComponent from "./StarBoxComponent";
+import ImageUploader from "react-images-upload";
 
 export default class ReviewWriteBox extends Component {
 
@@ -19,6 +20,7 @@ export default class ReviewWriteBox extends Component {
             title: '',
             rating: 0,
             memberName: localStorage.getItem('authenticatedMember'),
+            pictures: [],
         }
 
         //Method binding
@@ -26,6 +28,7 @@ export default class ReviewWriteBox extends Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleSummit = this.handleSummit.bind(this);
         this.setMovieTitle = this.setMovieTitle.bind(this);
+        this.onDrop = this.onDrop.bind(this);
 
         //Input Value
         this.movieTitle = React.createRef();
@@ -34,13 +37,21 @@ export default class ReviewWriteBox extends Component {
         this.fileInput = React.createRef();
     }
 
-    // 자식 컴포넌트로부터 영화명 수신 (확인 완료)
+    // 업로드 이미지 세팅
+    onDrop(pictureFiles) {
+        this.setState({
+            pictures: this.state.pictures.concat(pictureFiles)
+        });
+    }
+
+    // 자식 컴포넌트로부터 영화명 수신
     setMovieTitle = (selectedMovieTitle) => {
         this.setState({
             title: selectedMovieTitle,
         })
     }
 
+    // 평점 세팅
     setStar = (star) => {
         this.setState(
             {
@@ -58,23 +69,15 @@ export default class ReviewWriteBox extends Component {
     }
 
     handleSummit(e) {
+        // formdata 세팅
         const formData = new FormData();
-        formData.append("movieTitle", this.state.title);
-        formData.append("content", this.comment.current.value);
+        formData.append("movieTitle", this.state.title); // 영화 제목
+        formData.append("content", this.comment.current.value); // 작성글
+        formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
+        formData.append("rating", this.state.rating); // 별점
 
-        let files = [];
-        for (let i = 0; i < this.fileInput.current.files.length; i++) {
-            files.push(this.fileInput.current.files[i]);
-        }
-        formData.append("file", this.fileInput.current.files[0]);
-        formData.append("rating", this.state.rating);
-
+        // cofig 세팅
         const token = localStorage.getItem("token");
-
-        for (let i = 0; i < localStorage.length; i++) {
-            console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
-        }
-
         let config = {
             headers: {
                 'Content-Type': "multipart/form-data",
@@ -82,16 +85,15 @@ export default class ReviewWriteBox extends Component {
             }
         }
 
+        // 전송
         axios.post(`http://localhost:8080/api/review`, formData, config)
             .then(response => {
-                alert("리뷰등록 성공(Demo)");
+                alert("게시물이 성공적으로 등록되었습니다.");
                 this.handleClose();
-                // console.log('response', JSON.stringify(response, null, 2))
             })
             .catch(error => {
-                console.log('failed', error)
+                console.log('게시물 등록에 실패하였습니다.', error)
             })
-
     }
 
     render() {
@@ -102,10 +104,7 @@ export default class ReviewWriteBox extends Component {
                 </button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     {/*header*/}
-                    <Modal.Header closeButton style={this.state.style}>
-                        {/*    <Form.Group controlId="reviewTitle">*/}
-                        {/*</Form.Group>*/}
-                    </Modal.Header>
+                    <Modal.Header closeButton style={this.state.style}/>
 
                     {/*body*/}
                     <Modal.Body style={this.state.style}>
@@ -120,9 +119,15 @@ export default class ReviewWriteBox extends Component {
                                 <Form.Control as="textarea" placeholder={this.state.memberName + "님 관람하신 영화는 어떠셨나요?"}
                                               rows={8} ref={this.comment}/>
                             </Form.Group>
-                            <Form.Group controlId="reviewImgFile">
-                                <input type="file" multiple className="reviewImage" ref={this.fileInput}/>
-                            </Form.Group>
+                            {/*이미지 업로드*/}
+                            <ImageUploader
+                                withIcon={true}
+                                withPreview={true}
+                                buttonText="사진 추가"
+                                onChange={this.onDrop}
+                                imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                                maxFileSize={5242880}
+                            />
                         </Form>
                     </Modal.Body>
 
