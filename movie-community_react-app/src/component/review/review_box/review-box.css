@@ -1,0 +1,24 @@
+.col{
+    margin: auto;
+}
+
+.contents-center{
+    margin: auto;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.member-thumnail{
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.review-like{
+    text-align: right;
+}
+
+.review-box{
+    box-shadow: 10px 10px 1cm;
+    margin-bottom: 25px;
+}
