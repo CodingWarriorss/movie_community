@@ -11,6 +11,8 @@ import './review-box.css';
     그렇다고 파일로 나누어서 각 컴포넌트로 나누어 관리자하자니 파일이 많아져서
     어떻게 하는게 답을지 고민을 해봅시다...;;;
 */
+
+//Review 게시물 상단
 function ReviewHeader(props) {
 
     return (
@@ -37,7 +39,7 @@ function ReviewHeader(props) {
     )
 }
 
-
+//Review 게시물 중앙
 function ReviewBody(props) {
 
     const imageList = [
@@ -54,7 +56,7 @@ function ReviewBody(props) {
                 <p>감상문이 적혀져있습니다.</p>
             </div>
             <div className="review-images">
-                <SimpleImageSlider width={"90%"}
+                <SimpleImageSlider width={"100%"}
                     height={300} images={imageList} showNavs={true} showBullets={true} />
             </div>
             <div className="row">
@@ -69,7 +71,7 @@ function ReviewBody(props) {
     )
 }
 
-
+//Review 하단
 function ReviewFooter(props) {
     return (
         <div className="card-footer">
@@ -78,7 +80,7 @@ function ReviewFooter(props) {
                     댓글보기
                         </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
-                    <Card.Body>아직 미구현</Card.Body>
+                    <div className="reply-area">아직 미구현</div>
                 </Accordion.Collapse>
             </Accordion>
         </div>
@@ -87,12 +89,15 @@ function ReviewFooter(props) {
 
 
 export default class ReviewBox extends Component {
+    constructor(props){
+        super(props);
+    }
 
     render() {
         const writerName = "강현명";
         const createDate = "2001.2.2 13:43:23";
         return (
-            <div className="container review-box">
+            <div className=" review-box">
                 <div className="card">
                     <ReviewHeader writerName={writerName} createDate={createDate}></ReviewHeader>
                     <ReviewBody></ReviewBody>

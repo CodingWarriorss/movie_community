@@ -79,6 +79,8 @@ class LoginComponent extends Component {
     */
     render() {
         return (
+            <div className="outer">
+                        <div className="inner">
             <div>
                 <h3>로그인</h3>
 
@@ -107,6 +109,9 @@ class LoginComponent extends Component {
                 {/*<p className="forgot-password text-right">Forgot*/}
                 {/*    <a href="#"> password?</a>*/}
                 {/*</p>*/}
+            </div>
+
+            </div>
             </div>
         )
     }
