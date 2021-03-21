@@ -20,7 +20,6 @@ class SearchService {
             .replaceAll('&gt;', '>')
             .replaceAll('&apos;', '`')
             .replaceAll('&quot', '`')
-            .replaceAll('*js*', 'javascript:')
             .replaceAll('<b>', '')
             .replaceAll('</b>', '')
             .replaceAll('<p>', '')

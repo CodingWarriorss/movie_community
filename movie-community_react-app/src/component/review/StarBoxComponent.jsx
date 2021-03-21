@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import '../css/StarBox.css';
-import {Form} from "react-bootstrap";
 
 class StarBoxComponent extends Component {
 
@@ -30,61 +29,61 @@ class StarBoxComponent extends Component {
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={0.5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">0.5</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={1} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">1</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={1.5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">1.5</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={2} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">2</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={2.5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">2.5</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={3} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">3</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={3.5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind"></span>
+                            <span className="blind">3.5</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={4} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind">별 4.5개</span>
+                            <span className="blind">4</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={4.5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind">별 5개</span>
+                            <span className="blind">4.5</span>
                         </span>
                     </label>
                     <label className="startRadio__box">
                         <input type="radio" name="star" value={5} onChange={this.changeHandler}/>
                         <span className="startRadio__img">
-                            <span className="blind">별 5.5개</span>
+                            <span className="blind">5</span>
                         </span>
                     </label>
                 </div>
