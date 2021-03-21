@@ -12,13 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.*;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -43,6 +40,7 @@ public class ReviewController {
             String text = URLEncoder.encode(title, "UTF-8");
             result = reviewService.searchMovie(text);
             System.out.println("[영화 검색 결과] : " + result);
+
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패", e);
         } catch (IOException e) {
@@ -54,6 +52,24 @@ public class ReviewController {
 
     @PostMapping
     public void uploadReview
+            (@AuthenticationPrincipal PrincipalDetails userDetail,
+             @RequestParam("movieTitle") String movieTitle,
+             @RequestParam("content") String content) throws IOException {
+        // id 세팅
+        Member member = userDetail.getMember();
+        System.out.println(member);
+
+        // DB 저장 [ Review(fk: member) < Member ]
+        Review review = new Review();
+
+        review.setMovieTitle(movieTitle);
+        review.setContent(content);
+        review.setMember(member);// Review(주인)에 member를 세팅
+        reviewService.createReview(review);
+    }
+
+    @PostMapping("/img")
+    public void uploadReviewWithImg
             (@AuthenticationPrincipal PrincipalDetails userDetail,
              @RequestParam("movieTitle") String movieTitle,
              @RequestParam("content") String content,
