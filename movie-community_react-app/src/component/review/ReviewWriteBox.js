@@ -11,16 +11,10 @@ export default class ReviewWriteBox extends Component {
         super(props);
         this.state = {
             show: false,
-            reviewData: {
-                movieTitle: null,
-                comment: null,
-                rating: null,
-                imgFiles: null,
-            },
-            title: '',
-            rating: 0,
-            memberName: localStorage.getItem('authenticatedMember'),
-            pictures: [],
+            title: '', // 영화 제목
+            rating: 0, // 별점
+            pictures: [], // 업로드한 이미지
+            memberName: localStorage.getItem('authenticatedMember'), // 유저 아이디
         }
 
         //Method binding
@@ -29,12 +23,12 @@ export default class ReviewWriteBox extends Component {
         this.handleSummit = this.handleSummit.bind(this);
         this.setMovieTitle = this.setMovieTitle.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.isSummitPossible = this.isSummitPossible.bind(this);
 
         //Input Value
-        this.movieTitle = React.createRef();
-        this.rating = React.createRef();
+        // this.movieTitle = React.createRef();
+        // this.rating = React.createRef();
         this.comment = React.createRef();
-        this.fileInput = React.createRef();
     }
 
     // 업로드 이미지 세팅
@@ -60,6 +54,22 @@ export default class ReviewWriteBox extends Component {
         )
     }
 
+    isSummitPossible() {
+        if (!this.state.title) {
+            alert('리뷰할 영화를 선택해주세요.');
+            return false;
+        }
+        if (!this.comment.current.value) {
+            alert('리뷰 내용을 입력해주세요.');
+            return false;
+        }
+        if (this.state.rating === 0) {
+            alert('영화 평점을 선택해주세요.');
+            return false;
+        }
+        return true;
+    }
+
     handleClose(e) {
         this.setState({show: false});
     }
@@ -69,6 +79,10 @@ export default class ReviewWriteBox extends Component {
     }
 
     handleSummit(e) {
+        if (! this.isSummitPossible()){
+            return;
+        }
+
         // formdata 세팅
         const formData = new FormData();
         formData.append("movieTitle", this.state.title); // 영화 제목
@@ -144,7 +158,6 @@ export default class ReviewWriteBox extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-
             </>
         )
     }
