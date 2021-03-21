@@ -20,6 +20,7 @@ public class Review { // 리뷰 게시물
     private int id;
     private String movieTitle;
     private String content;
+    private int rating;
     @CreationTimestamp
     private Timestamp createDate;   // 작성일
 

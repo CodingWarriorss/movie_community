@@ -54,9 +54,10 @@ public class ReviewController {
     // 이미지 없는 리뷰 업로드
     @PostMapping
     public void uploadReview
-            (@AuthenticationPrincipal PrincipalDetails userDetail,
-             @RequestParam("movieTitle") String movieTitle,
-             @RequestParam("content") String content) throws IOException {
+    (@AuthenticationPrincipal PrincipalDetails userDetail,
+     @RequestParam("movieTitle") String movieTitle,
+     @RequestParam("content") String content,
+     @RequestParam("rating") int rating) throws IOException {
         // id 세팅
         Member member = userDetail.getMember();
         System.out.println(member);
@@ -66,6 +67,7 @@ public class ReviewController {
 
         review.setMovieTitle(movieTitle);
         review.setContent(content);
+        review.setRating(rating);
         review.setMember(member);// Review(주인)에 member를 세팅
         reviewService.createReview(review);
     }
@@ -73,14 +75,15 @@ public class ReviewController {
     // 이미지 있는 리뷰 업로드
     @PostMapping("/img")
     public void uploadReviewWithImg
-            (@AuthenticationPrincipal PrincipalDetails userDetail,
-             @RequestParam("movieTitle") String movieTitle,
-             @RequestParam("content") String content,
-             @RequestParam("file") List<MultipartFile> files){
+    (@AuthenticationPrincipal PrincipalDetails userDetail,
+     @RequestParam("movieTitle") String movieTitle,
+     @RequestParam("content") String content,
+     @RequestParam("rating") int rating,
+     @RequestParam("file") List<MultipartFile> files) {
 
         System.out.println("진입");
-        files.forEach(file->{
-            System.out.print(file +",");
+        files.forEach(file -> {
+            System.out.print(file + ",");
         });
 
         // id 세팅
@@ -89,7 +92,7 @@ public class ReviewController {
 
         // 이미지 업로드
         ArrayList<String> uuidFilenames = new ArrayList<>();
-        files.forEach(file ->{
+        files.forEach(file -> {
             UUID uuid = UUID.randomUUID(); // 식별자 생성
             String uuidFilename = uuid + "_" + file.getOriginalFilename();
             uuidFilenames.add(uuidFilename);
@@ -105,6 +108,7 @@ public class ReviewController {
         Review review = new Review();
         review.setMovieTitle(movieTitle);
         review.setContent(content);
+        review.setRating(rating);
         review.setMember(member);// Review(주인)에 member를 세팅
         ArrayList<Image> images = new ArrayList<>();
         review.setImageList(images); // review에서도 Image를 참조
