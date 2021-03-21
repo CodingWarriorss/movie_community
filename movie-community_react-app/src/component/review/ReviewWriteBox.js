@@ -91,8 +91,12 @@ export default class ReviewWriteBox extends Component {
 
         // 이미지 존재여부 확인
         let url = 'http://localhost:8080/api/review';
-        if (this.state.pictures.length > 0) {
-            formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
+        const pictures = this.state.pictures;
+        if (pictures.length > 0) {
+            pictures.forEach(picture => {
+                formData.append("file", picture);
+            })
+            // formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
             url += '/img';
         }
 
