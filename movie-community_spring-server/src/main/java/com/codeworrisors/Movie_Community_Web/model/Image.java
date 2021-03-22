@@ -17,9 +17,10 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IMAGE_ID_SEQ")
+    @Column(name = "id")
     private int id;
     private String fileName;
 
-    @ManyToOne(cascade = CascadeType.ALL) // 여러개의 이미지 - 하나의 리뷰 게시물
+    @ManyToOne // 여러개의 이미지 - 하나의 리뷰 게시물
     private Review review;
 }

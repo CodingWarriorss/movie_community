@@ -111,7 +111,7 @@ public class ReviewController {
         review.setRating(rating);
         review.setMember(member);// Review(주인)에 member를 세팅
         ArrayList<Image> images = new ArrayList<>();
-        review.setImageList(images); // review에서도 Image를 참조
+        review.setImages(images); // review에서도 Image를 참조
         reviewService.createReview(review);
 
         // 이미지 테이블 세팅

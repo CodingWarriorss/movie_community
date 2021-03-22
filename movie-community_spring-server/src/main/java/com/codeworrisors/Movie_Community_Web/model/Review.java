@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,11 +35,11 @@ public class Review { // 리뷰 게시물
     private Member member;
     // 이미지
 //    @OneToMany(cascade = CascadeType.MERGE) // [wrong] (여기서 2차 오류 -> transient....)
-    @OneToMany(cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
-    private List<Image> imageList;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
+    private List<Image> images;
 
     //좋아요
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Likes> likes;
 
     // 댓글
