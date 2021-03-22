@@ -8,10 +8,15 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "image")
+@SequenceGenerator(
+        name = "IMAGE_ID_GEN",
+        sequenceName = "IMAGE_ID_SEQ",
+        allocationSize = 1)
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IMAGE_ID_SEQ")
     private int id;
     private String fileName;
 

@@ -1,9 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,10 +11,16 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Table(name = "review")
+@SequenceGenerator(
+        name = "REVIEW_ID_GEN",
+        sequenceName = "REVIEW_ID_SEQ",
+        allocationSize = 1)
 public class Review { // 리뷰 게시물
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_ID_GEN")
     private int id;
     private String movieTitle;
     private String content;
@@ -33,6 +37,9 @@ public class Review { // 리뷰 게시물
     @OneToMany(cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
     private List<Image> imageList;
 
-    // 좋아요
+    //좋아요
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Likes> likes;
+
     // 댓글
 }

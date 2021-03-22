@@ -7,11 +7,17 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter @ToString
+@Table(name = "member")
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GEN",
+        sequenceName = "MEMBER_ID_SEQ",
+        allocationSize = 1)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_ID_SEQ")
+    private long id;
     private String memberName;
     private String password;
     private String name;
