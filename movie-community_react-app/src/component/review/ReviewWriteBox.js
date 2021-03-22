@@ -95,6 +95,8 @@ export default class ReviewWriteBox extends Component {
                 formData.append("file", picture);
             })
             url += '/img';
+
+            // 이미지 파일 초기화. (모달창을 띄울 때마다 해당 컴포넌트를 새로 생성하는 것이 아니기 때문에. pictures 배열을 강제로 초기화 하여 사용해야 한다.)
             this.setState({
                 pictures : []
             })
