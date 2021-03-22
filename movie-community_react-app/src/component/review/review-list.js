@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { Component } from "react";
-import SearchbarComponent from "../searchbar/SearchbarComponent";
-import { Modal, Button, Form } from 'react-bootstrap';
 
 import ReviewBox from './review_box/review-box';
 import dumyData from '../../test_data/review_test_data.json';

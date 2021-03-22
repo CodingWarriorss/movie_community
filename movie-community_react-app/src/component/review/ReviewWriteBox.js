@@ -87,7 +87,7 @@ export default class ReviewWriteBox extends Component {
         const formData = new FormData();
         formData.append("movieTitle", this.state.title); // 영화 제목
         formData.append("content", this.comment.current.value); // 작성글
-        formData.append("rating", this.state.rating); // 별점
+        formData.append("rating", parseInt( this.state.rating ) ); // 별점
 
         // 이미지 존재여부 확인
         let url = 'http://localhost:8080/api/review';
@@ -96,8 +96,6 @@ export default class ReviewWriteBox extends Component {
             pictures.forEach(picture => {
                 formData.append("file", picture);
             })
-            // formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
-            url += '/img';
         }
 
         // cofig 세팅
