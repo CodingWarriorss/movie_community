@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
-import { Accordion, Button, Card } from "react-bootstrap";
+import { Accordion, Button } from "react-bootstrap";
 
 
 import './review-box.css';
@@ -49,7 +49,7 @@ function ReviewBody(props) {
     const imageUrlList = [];
 
     props.data.images.forEach(image => {
-        imageUrlList.push( { url : image.imageUri })
+        imageUrlList.push({ url: image.imageUri })
     })
 
 
@@ -70,7 +70,7 @@ function ReviewBody(props) {
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    <button className="btn btn-primary" onClick={ () => { alert("아직 좋아요가 안돼요.")}}>Like</button>
+                    <button className="btn btn-primary" onClick={() => { alert("아직 좋아요가 안돼요.") }}>Like</button>
                 </div>
                 <div className="col">
                     <div className="review-like">{props.data.like}명이 좋아합니다</div>
@@ -82,6 +82,34 @@ function ReviewBody(props) {
 
 //Review 하단
 function ReviewFooter(props) {
+    console.log("??? im render!!")
+    const [ inputValue , setValue ] = useState("");
+    const [ reviewComments, setReviewComments ] = useState({
+        reviewCommentList : [...props.data.comments]
+    });
+    
+    const setComment = (event) =>{
+        const { value } = event.target
+        setValue( value )
+    }
+    const writeComment = () =>{
+        const newComment = {
+            commenterName : "여기에 사용자 찾아넣기",
+            content : inputValue
+        }
+
+        setReviewComments( {
+            reviewCommentList : [...reviewComments.reviewCommentList , newComment]
+        })
+        setValue( "" )
+
+    }
+
+    const handleKeyPress = (event) => {
+        if(event.key === "Enter") {
+            writeComment();
+        }
+    }
     return (
         <div className="card-footer">
             <Accordion>
@@ -89,9 +117,22 @@ function ReviewFooter(props) {
                     댓글보기
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
-                    <div className="input-group mt-3">
-                        <input className="form-control" ></input>
-                        <button className="btn btn-outline-secondary" type="button" onClick={ () => { alert("아직안됨")}} >작성</button>
+                    <div>
+                        <div className="comment-area">
+                            {reviewComments.reviewCommentList.map(comment => {
+                                    return (
+                                        <div className="bg-white comment">
+                                            <p className="comment-name">{comment.commenterName}</p>
+                                            <p className="comment-content">{comment.content}</p>
+                                        </div>
+                                    )
+                                })}
+                        </div>
+
+                        <div className="input-group mt-3">
+                            <input className="form-control" value={inputValue} onChange={setComment} onKeyPress={handleKeyPress}></input>
+                            <button className="btn btn-outline-secondary" type="button" onClick={writeComment} >작성</button>
+                        </div>
                     </div>
                 </Accordion.Collapse>
             </Accordion>
@@ -103,23 +144,25 @@ function ReviewFooter(props) {
 
 //ReviewBox Component
 export default class ReviewBox extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         //좀더 보기좋은 코드를 위함 구조는 어떻게 해야할것인가...
         this.state = {
-            headerInfo : {
+            headerInfo: {
                 movieTitle: this.props.reviewData.movieTitle,
-                writerName : this.props.reviewData.writerName,
-                createDate : this.props.reviewData.createData,
-                thumnailUri : this.props.reviewData.thumnailUri
+                writerName: this.props.reviewData.writerName,
+                createDate: this.props.reviewData.createData,
+                thumnailUri: this.props.reviewData.thumnailUri
             },
-            bodyData : {
-                content : this.props.reviewData.content,
-                images : this.props.reviewData.images,
-                like : this.props.reviewData.like
+            bodyData: {
+                content: this.props.reviewData.content,
+                images: this.props.reviewData.images,
+                like: this.props.reviewData.like
             },
-            footerData: {}
+            footerData: {
+                comments : this.props.reviewData.comments
+            }
         }
     }
 

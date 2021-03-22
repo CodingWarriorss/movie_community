@@ -42,3 +42,35 @@ div{
 .start-margin{
     margin-top: 80px;
 }
+
+/* div{
+    border: 1px solid black;
+} */
+.comment-area{
+    margin-top: 10px;
+    text-align: left;
+}
+
+.comment{
+    vertical-align: middle;
+    padding: 5px;
+    border-radius: 0.5cm ;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+.comment-name{
+    font-size: small;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.comment-content{
+    font-size: small;
+    margin-left: 14px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}

@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { Component } from "react";
-import SearchbarComponent from "../searchbar/SearchbarComponent";
-import { Modal, Button, Form } from 'react-bootstrap';
 
 import ReviewBox from './review_box/review-box';
 import dumyData from '../../test_data/review_test_data.json';
@@ -11,7 +9,8 @@ export default class ReviewList extends Component {
         super(props);
 
         this.state = {
-            reviewList: dumyData
+            reviewList: dumyData,
+            page : 0
         }
 
         this.loadReview = this.loadReview.bind(this);
@@ -27,6 +26,22 @@ export default class ReviewList extends Component {
         this.setState({
             reviewList: [...this.state.reviewList, ...dumyData]
         })
+
+        const requestUrl = 'http://localhost:8080/api/review';
+        const params = {
+            page : this.state.page
+        };
+
+        //요청 형태 프레임만 작성해둠.
+        // axios.get( requestUrl , params)
+        // .then( (response) => {
+        //     this.setState({
+        //         reviewList: [...this.state.reviewList, ...response.data],
+        //         page : params.page
+        //     })
+        // }).catch( (error) => {
+
+        // })
     }
 
     //스크롤이 마지막에 있는지 체크
