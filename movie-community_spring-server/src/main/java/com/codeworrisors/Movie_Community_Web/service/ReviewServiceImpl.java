@@ -117,4 +117,8 @@ public class ReviewServiceImpl implements ReviewService {
     public void clear() {
         reviewRepository.deleteAll();
     }
+
+    public Review getReviewById(long reviewId) {
+        return reviewRepository.findById(reviewId).get();
+    }
 }

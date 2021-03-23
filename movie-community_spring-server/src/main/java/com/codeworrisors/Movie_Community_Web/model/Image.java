@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Table(name = "image")
 @SequenceGenerator(
         name = "IMAGE_ID_GEN",
-        sequenceName = "IMAGE_ID_SEQ",
-        allocationSize = 1)
+        sequenceName = "IMAGE_ID_SEQ")
 public class Image {
 
     @Id
