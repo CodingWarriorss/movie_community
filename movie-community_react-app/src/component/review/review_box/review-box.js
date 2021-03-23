@@ -4,6 +4,7 @@ import { Accordion, Button } from "react-bootstrap";
 
 
 import './review-box.css';
+import ReviewWriteBox from "../ReviewWriteBox";
 
 /*
     한곳에 구성을 다 넣자니 코드가 너무 길어지는거 같고
@@ -13,6 +14,11 @@ import './review-box.css';
 
 //Review 게시물 상단
 function ReviewHeader(props) {
+
+    const [ isShow , setShow ] = useState(false);
+    const handleShow = () =>{
+        setShow(!isShow);
+    }
 
     return (
         <div className="card-header">
@@ -34,7 +40,8 @@ function ReviewHeader(props) {
                     </div>
                 </div>
                 <div className="col-1 contents-center">
-                    <button className="btn-col" onClick={() => { alert("이 기능은 어떻게 만들지?...") }}>edit</button>
+                    <button className="btn-col" onClick={handleShow}>edit</button>
+                    <ReviewWriteBox handleShow={handleShow} isShow={isShow} isModify={true} ></ReviewWriteBox>
                 </div>
             </div>
 
