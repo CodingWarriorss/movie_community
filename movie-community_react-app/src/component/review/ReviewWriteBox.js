@@ -85,7 +85,7 @@ export default class ReviewWriteBox extends Component {
         const formData = new FormData();
         formData.append("movieTitle", this.state.title); // 영화 제목
         formData.append("content", this.comment.current.value); // 작성글
-        formData.append("rating", this.state.rating); // 별점
+        formData.append("rating", parseInt( this.state.rating ) ); // 별점
 
         // 이미지 존재여부 확인
         let url = 'http://localhost:8080/api/review';
@@ -93,12 +93,6 @@ export default class ReviewWriteBox extends Component {
         if (pictures.length > 0) {
             pictures.forEach(picture => {
                 formData.append("file", picture);
-            })
-            url += '/img';
-
-            // 이미지 파일 초기화. (모달창을 띄울 때마다 해당 컴포넌트를 새로 생성하는 것이 아니기 때문에. pictures 배열을 강제로 초기화 하여 사용해야 한다.)
-            this.setState({
-                pictures : []
             })
         }
 
