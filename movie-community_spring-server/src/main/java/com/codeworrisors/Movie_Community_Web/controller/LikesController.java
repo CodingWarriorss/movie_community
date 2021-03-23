@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/like")
 public class LikesController {
+    public static final int SUCCESS = 1;
+    public static final int FAILED = 0;
+    public static final int NOT_EXIST = -1;
+
     private final LikesService likeService;
     private final ReviewService reviewService;
 
@@ -25,31 +29,43 @@ public class LikesController {
         return "test";
     }
 
+    /*
+    return value : SUCCESS : 1, FAILED : 0
+    * */
     @PostMapping("/add")
-    public void addLike(
+    public int addLike(
             @AuthenticationPrincipal PrincipalDetails userDetail,
             @RequestBody Review review
         ) {
-
-        System.out.println("Add Like Method");
         Member currentMember = userDetail.getMember();
 
         Review reviewEntity = reviewService.getReviewById(review.getId());
         Likes likes = new Likes(currentMember, reviewEntity);
-        reviewEntity.getLikes().add(likes);
 
-        likeService.addLike(likes);
+        if (likeService.getLikeIdByMemberAndReview(likes) == NOT_EXIST) {
+            likeService.addLike(likes);
+            reviewEntity.getLikes().add(likes);
+            return SUCCESS;
+        }
+
+        return FAILED;
     }
 
-//    @PostMapping("/cancel")
-//    public void deleteLike(
-//            @AuthenticationPrincipal PrincipalDetails userDetail,
-//            @RequestBody Review review
-//        ) {
-//
-//        System.out.println("Cancel Like");
-//        Member currentMember = userDetail.getMember();
-//
-//        Review reviewEntity = reviewService.getReviewById(review.getId());
-//    }
+    @PostMapping("/cancel")
+    public int deleteLike(
+            @AuthenticationPrincipal PrincipalDetails userDetail,
+            @RequestBody Review review
+        ) {
+        Member currentMember = userDetail.getMember();
+
+        Likes likes = new Likes(currentMember, review);
+        long res = likeService.getLikeIdByMemberAndReview(likes);
+
+        if (res > 0) {
+            likeService.deleteById(res);
+            return SUCCESS;
+        }
+
+        return FAILED;
+    }
 }

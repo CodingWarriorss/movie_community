@@ -24,14 +24,14 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member memeber;
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
 
     public Likes(Member member, Review review) {
-        this.memeber = member;
+        this.member = member;
         this.review = review;
     }
 }
