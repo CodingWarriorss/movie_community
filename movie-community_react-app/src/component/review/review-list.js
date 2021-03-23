@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import axios from "axios";
 import React, { Component } from "react";
 
 import ReviewBox from './review_box/review-box';
+=======
+import React, {Component} from "react";
+>>>>>>> 0714367e40c0dc18aa74d341a4e16eeb35b0618d
 import dumyData from '../../test_data/review_test_data.json';
+import ReviewBox from "./review_box/review-box";
 
 export default class ReviewList extends Component {
     constructor(props) {
@@ -17,7 +22,7 @@ export default class ReviewList extends Component {
         this.scrollCheck = this.scrollCheck.bind(this);
     }
 
-    /*  
+    /*
         Review Data를 갱신하는 Method
         현재 Demo
         API와 연동하여 Review 데이터 로드로 수정
@@ -50,7 +55,7 @@ export default class ReviewList extends Component {
         /*
             document요소에 접근하여 스크롤의 위치를 체크
             body와 documentElement의 스크롤이 다를때도 있어서
-            두개중 비교해서 사용한다고 합니다. 
+            두개중 비교해서 사용한다고 합니다.
         */
         let scrollHeight = Math.max(
             document.documentElement.scrollHeight,
@@ -78,11 +83,9 @@ export default class ReviewList extends Component {
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId}></ReviewBox>;
+                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId}/>;
                     }
-
                 )}
-
             </div>
         )
     }

@@ -65,7 +65,6 @@ function ReviewBody(props) {
         Fix가 안되면 다른 것을 찾아보겠습다.
     */
     return (
-
         <div className="card-body">
             <div className="review-content">
                 <p>{props.data.content}</p>
@@ -175,9 +174,9 @@ export default class ReviewBox extends Component {
         return (
             <div className=" review-box">
                 <div className="card">
-                    <ReviewHeader data={this.state.headerInfo} ></ReviewHeader>
-                    <ReviewBody data={this.state.bodyData}></ReviewBody>
-                    <ReviewFooter data={this.state.footerData}></ReviewFooter>
+                    <ReviewHeader data={this.state.headerInfo}/>
+                    <ReviewBody data={this.state.bodyData}/>
+                    <ReviewFooter data={this.state.footerData}/>
                 </div>
             </div>
         )

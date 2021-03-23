@@ -45,13 +45,11 @@ export default class ReviewWriteBox extends Component {
         })
     }
 
-    // 평점 세팅
+    // 평점 세팅 (자식에서 number로 변환해도 string으로 세팅되기 때문에 여기서 number로 변환하여 저장.)
     setStar = (star) => {
-        this.setState(
-            {
-                rating: star
-            }
-        )
+        this.setState({
+                rating: parseInt(star)
+            })
     }
 
     isSummitPossible() {
@@ -96,8 +94,12 @@ export default class ReviewWriteBox extends Component {
             pictures.forEach(picture => {
                 formData.append("file", picture);
             })
-            // formData.append("file", this.state.pictures[0]); // 이미지 (현재 1개만 가능)
             url += '/img';
+
+            // 이미지 파일 초기화. (모달창을 띄울 때마다 해당 컴포넌트를 새로 생성하는 것이 아니기 때문에. pictures 배열을 강제로 초기화 하여 사용해야 한다.)
+            this.setState({
+                pictures : []
+            })
         }
 
         // cofig 세팅
