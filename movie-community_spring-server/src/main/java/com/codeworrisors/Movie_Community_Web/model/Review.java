@@ -22,7 +22,7 @@ public class Review { // 리뷰 게시물
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_ID_GEN")
-    private int id;
+    private long id;
     private String movieTitle;
     private String content;
     private int rating;
