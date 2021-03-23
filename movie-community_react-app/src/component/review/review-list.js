@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import axios from "axios";
-import React, { Component } from "react";
-
-import ReviewBox from './review_box/review-box';
-=======
 import React, {Component} from "react";
->>>>>>> 0714367e40c0dc18aa74d341a4e16eeb35b0618d
 import dumyData from '../../test_data/review_test_data.json';
 import ReviewBox from "./review_box/review-box";
 

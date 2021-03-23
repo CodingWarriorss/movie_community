@@ -134,7 +134,7 @@ function ReviewFooter(props) {
                         </div>
 
                         <div className="input-group mt-3">
-                            <input className="form-control" value={inputValue} onChange={setComment} onKeyPress={handleKeyPress}></input>
+                            <input className="form-control" maxLength={100} value={inputValue} onChange={setComment} onKeyPress={handleKeyPress}></input>
                             <button className="btn btn-outline-secondary" type="button" onClick={writeComment} >작성</button>
                         </div>
                     </div>
