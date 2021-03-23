@@ -1,54 +1,43 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import LoginComponent from "./component/jwtlogin/LoginComponent";
-import SignupComponent from "./component/SignupComponent";
-import ReviewWriteBox from './component/review/ReviewWriteBox';
-
-/*
-Link 컴포넌트 : 화면전환 컴포넌트. SPA에서 다른 라우트로 이동할 때, <a/>대신 사용한다.
-*/
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import LoginComponent from "./component/login/LoginComponent";
+import LogoutComponent from "./component/login/LogoutComponent";
+import SignupComponent from "./component/signup/SignupComponent";
+import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
+import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
+import MainTest from "./component/MainTest";
 
 class App extends Component {
 
     render() {
-        var access = localStorage.getItem("token");
+        // 로그인 세션
+        const access = localStorage.getItem('token');
+        (access === null) ? console.log('[로그인 안됨]') : console.log('[로그인 상태]' + access);
+
         return (
             <Router>
                 <div className="App">
                     { /*네비게이션 바*/}
                     <nav className="navbar-expand-lg navbar-light fixed-top">
                         <div className="container">
-                            <Link className="navbar-brand">Movie Community</Link>
                             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                                <ul className="navbar-nav ml-auto">
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to={"/login"}>로그인</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to={"/signup"}>회원가입</Link>
-                                    </li>
-                                    <li>
-                                        <ReviewWriteBox></ReviewWriteBox>
-                                    </li>
-
-                                </ul>
+                                <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
+                                {/*로그인 상태별 네비게이션 메뉴 분리*/}
+                                {access === null ?
+                                    <MenuForUnauthenticated/> : <MenuForAuthenticated/>}
                             </div>
                         </div>
                     </nav>
 
-                    <div className="outer">
-                        <div className="inner">
                             <Switch>
-                                <Route path="/login" component={LoginComponent} />
-                                <Route path="/signup" component={SignupComponent} />
+                                <Route path="/logout" component={LogoutComponent}/>
+                                <Route path="/login" component={LoginComponent}/>
+                                <Route path="/signup" component={SignupComponent}/>
+                                <Route path="/" component={MainTest}/>
+                                {/*    새로고침해야지 렌더링 되는 문제.. 아마 자식 부모 관계 설정때문에 그런거 같음*/}
                             </Switch>
-                        </div>
-                    </div>
-
-                    {/**/}
-                    {/*<LoginApp/>*/}
                 </div>
             </Router>
         );

@@ -28,4 +28,4 @@ spring:
 
   
 file:
-  path: C:/workspace/gitRepository/fork_repository/movie_community/imgFiles
+  path: /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/src/main/resources/image/

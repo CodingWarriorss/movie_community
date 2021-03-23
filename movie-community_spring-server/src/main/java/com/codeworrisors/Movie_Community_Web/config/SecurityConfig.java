@@ -17,7 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration //IoC
 @EnableWebSecurity // 시큐리티 활성화 => 기본 스프링 필터체인에 등록
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -30,11 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         System.out.println("WebSecurityConfigurerAdapter의 configure() 호출");
-        
+
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 쿠키와 세션 사용 안함

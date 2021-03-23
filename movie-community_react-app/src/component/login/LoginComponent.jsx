@@ -52,8 +52,17 @@ class LoginComponent extends Component {
         AuthenticationService
             .executeJwtAuthenticationService(this.state.memberName, this.state.password)
             .then((response) => {
-                AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response.headers['authorization']);
-                this.props.history.push(`/welcome/${this.state.memberName}`);
+                // 토큰저장
+                const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response.headers['authorization']);
+                if (res.startsWith('success')){ // 로그인 성공
+                    // this.props.history.push(`/`);
+                    window.location.replace('/'); // SPA의 페이지 이동방식
+                } else if (res.startsWith('failure')){ // 로그인 실패 (아이디 오류, 비밀번호 오류)
+                    const msg = res.split('/')[1] === 'memberName'?
+                        '존재하지 않는 아이디입니다.' : '비밀번호가 틀렸습니다.';
+                    alert(msg);
+                    return;
+                }
             }).catch(() => {
             this.setState({showSuccessMessage: false});
             this.setState({hasLoginFailed: true});
@@ -70,7 +79,9 @@ class LoginComponent extends Component {
     */
     render() {
         return (
-                <div>
+            <div className="outer">
+                        <div className="inner">
+            <div>
                 <h3>로그인</h3>
 
                 <div className="form-group">
@@ -98,24 +109,10 @@ class LoginComponent extends Component {
                 {/*<p className="forgot-password text-right">Forgot*/}
                 {/*    <a href="#"> password?</a>*/}
                 {/*</p>*/}
+            </div>
 
-
-                {/*-------------------------------------------------------------------------------------------*/}
-                {/*<div>*/}
-                {/*    <h1>Login</h1>*/}
-                {/*    <div className="container">*/}
-                {/*        {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}*/}
-                {/*        {this.state.showSuccessMessage && <div>Login Success</div>}*/}
-                {/*        memberName : <input type="text" name="memberName" value={this.state.memberName}*/}
-                {/*                            onChange={this.handleChange}/>*/}
-                {/*        password: <input type="password" name="password" value={this.state.password}*/}
-                {/*                         onChange={this.handleChange}/>*/}
-                {/*        <button className="btn btn-success" onClick={this.loginClicked}>로그인</button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-
-                </div>
+            </div>
+            </div>
         )
     }
 }
