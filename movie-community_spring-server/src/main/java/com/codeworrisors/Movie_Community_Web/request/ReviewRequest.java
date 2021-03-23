@@ -15,9 +15,4 @@ public class ReviewRequest {
     private String content;
     private int rating;
     private List<MultipartFile> files;
-
-    //파일 리스트 null check
-    public boolean isFilesNotNull(){
-        return ( files != null );
-    }
 }

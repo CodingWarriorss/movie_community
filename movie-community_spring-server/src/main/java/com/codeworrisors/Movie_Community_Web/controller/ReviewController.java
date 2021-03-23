@@ -64,7 +64,7 @@ public class ReviewController {
         ArrayList<Image> images = new ArrayList<>();
 
 
-        if (reviewRequest.isFilesNotNull()) {
+        if (reviewRequest.getFiles() != null) {
             reviewRequest.getFiles().forEach(file -> {
                 UUID uuid = UUID.randomUUID(); // 식별자 생성
                 String uuidFilename = uuid + "_" + file.getOriginalFilename();
@@ -87,13 +87,13 @@ public class ReviewController {
         review.setRating(reviewRequest.getRating());
         review.setMember(member); // Review(주인)에 member를 세팅
 
-        if( reviewRequest.isFilesNotNull() ){
+        if( reviewRequest.getFiles() != null ){
             review.setImageList(images);    // review에서도 Image를 참조
         }
         reviewService.createReview(review);
 
         //image table setting
-        if( reviewRequest.isFilesNotNull() ){
+        if( reviewRequest.getFiles() != null ){
             for (String uuidFilename : uuidFilenames) {
                 Image image = new Image();
                 image.setFileName(uuidFilename);
