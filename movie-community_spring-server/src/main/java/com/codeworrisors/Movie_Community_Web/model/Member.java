@@ -27,4 +27,5 @@ public class Member {
     private String birth;
     private String phone;
     private String role; // ROLE_USER
+
 }

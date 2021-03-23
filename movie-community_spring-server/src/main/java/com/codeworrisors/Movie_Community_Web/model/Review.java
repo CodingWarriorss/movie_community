@@ -44,4 +44,6 @@ public class Review { // 리뷰 게시물
     private List<Likes> likes;
 
     // 댓글
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }
