@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class MemberController {
 
-	Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MemberService memberService;
@@ -28,7 +27,6 @@ public class MemberController {
     */
     @PostMapping("checkid")
     public int checkId(@RequestBody Member member) {
-        logger.info("내가 지금 하고 있는거 콜 했습니다.");
         return memberService.checkId(member.getMemberName());
     }
 
