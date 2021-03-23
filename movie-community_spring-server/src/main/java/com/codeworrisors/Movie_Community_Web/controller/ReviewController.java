@@ -25,6 +25,7 @@ import java.util.UUID;
 // @CrossOrigin("*")
 public class ReviewController {
 
+
     @Value("${file.path}")
     private String fileRealPath; // 이미지 저장 경로
 
