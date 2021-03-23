@@ -15,6 +15,7 @@ public class CommentsServiceImpl implements CommentsService {
         this.commentsRepository = commentsRepository;
     }
 
+    @Override
     public void postComment(Comments comments) {
         commentsRepository.save(comments);
     }
