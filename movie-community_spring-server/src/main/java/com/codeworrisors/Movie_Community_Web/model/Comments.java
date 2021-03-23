@@ -13,11 +13,11 @@ import java.sql.Timestamp;
 @Getter @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "comment")
+@Table(name = "comments")
 @SequenceGenerator(name = "COMMENT_ID_GEN",
                     sequenceName = "COMMENT_ID_SEQ",
                     allocationSize = 1)
-public class Comment {
+public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_ID_GEN")
     private long id;
