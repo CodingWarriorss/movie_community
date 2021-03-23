@@ -48,9 +48,15 @@ function ReviewBody(props) {
 
     const imageUrlList = [];
 
+    const [ like, setLike ] = useState(false);
+
     props.data.images.forEach(image => {
         imageUrlList.push({ url: image.imageUri })
     })
+
+    const handleLike = ( event ) => {
+        setLike( !like );
+    }
 
 
     /*
@@ -70,7 +76,7 @@ function ReviewBody(props) {
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    <button className="btn btn-primary" onClick={() => { alert("아직 좋아요가 안돼요.") }}>Like</button>
+                    <button className={"btn "+ ((like) ? "btn-primary":"btn-outline-primary") } like={false} onClick={handleLike}>Like</button>
                 </div>
                 <div className="col">
                     <div className="review-like">{props.data.like}명이 좋아합니다</div>
@@ -82,7 +88,6 @@ function ReviewBody(props) {
 
 //Review 하단
 function ReviewFooter(props) {
-    console.log("??? im render!!")
     const [ inputValue , setValue ] = useState("");
     const [ reviewComments, setReviewComments ] = useState({
         reviewCommentList : [...props.data.comments]
