@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {REST_API_SERVER_URL} from 'component/constants/APIConstants';
+import {REST_API_SERVER_URL} from '../constants/APIConstants';
 
 class AuthenticationService {
 

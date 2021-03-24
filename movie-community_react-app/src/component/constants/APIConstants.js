@@ -1,2 +1,2 @@
 
-export const REST_API_SERVER_URL = "localhost:8080";
+export const REST_API_SERVER_URL = "http://localhost:8080";

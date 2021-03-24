@@ -6,7 +6,7 @@ import { Accordion, Button } from "react-bootstrap";
 import './review-box.css';
 import ReviewWriteBox from "../ReviewWriteBox";
 import axios from "axios";
-import { REST_API_SERVER_URL } from "component/constants/APIConstants";
+import { REST_API_SERVER_URL } from "../../constants/APIConstants";
 
 /*
     한곳에 구성을 다 넣자니 코드가 너무 길어지는거 같고

@@ -29,12 +29,11 @@ public class LikesController {
     * */
     @PostMapping("/add")
     public int addLike(
-//            @AuthenticationPrincipal PrincipalDetails userDetail,
+            @AuthenticationPrincipal PrincipalDetails userDetail,
             @RequestBody Review review
         ) {
-//        Member currentMember = userDetail.getMember();
-        Member currentMember = new Member();
-        currentMember.setId(1L);
+        Member currentMember = userDetail.getMember();
+
         Review reviewEntity = reviewService.getReviewById(review.getId());
         Likes likes = new Likes(currentMember, reviewEntity);
 
