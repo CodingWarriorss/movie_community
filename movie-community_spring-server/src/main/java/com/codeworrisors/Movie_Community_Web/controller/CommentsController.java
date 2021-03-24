@@ -6,14 +6,9 @@ import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.CommentsService;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -30,30 +25,26 @@ public class CommentsController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping
-    public Map<String, String> addComment(
+    @PostMapping(value = "/add")
+    public int addComment(
             @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Map<String, String> params
-            ) {
-        Map<String, String> map = new HashMap<>();
-        System.out.println(params.get("reviewId"));
-        System.out.println(params.get("content"));
-        Review reviewEntity = reviewService.getReviewById(Long.parseLong(params.get("reviewId")));
+            @RequestBody Review review,
+            @ModelAttribute(value = "comment") String comment) {
+
+        Review reviewEntity = reviewService.getReviewById(review.getId());
         Member currentMember = userDetail.getMember();
 
         Comments comments = new Comments();
         comments.setMember(currentMember);
         comments.setReview(reviewEntity);
-        comments.setContent(params.get("content"));
+        comments.setContent(comment);
 
         reviewEntity.getComments().add(comments);
         commentsService.postComment(comments);
-        map.put("id", currentMember.getMemberName());
-
-        return map;
+        return SUCCESS;
     }
 
-    @DeleteMapping
+    @PostMapping("/delete")
     public int deleteComment(@RequestParam long commentsId) {
         Comments comments = commentsService.findCommentsById(commentsId);
         if (comments == null) {

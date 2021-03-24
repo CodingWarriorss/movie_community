@@ -9,8 +9,6 @@ import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping(value = "/api/like")
 public class LikesController {
@@ -29,15 +27,15 @@ public class LikesController {
     /*
     return value : SUCCESS : 1, FAILED : 0
     * */
-    @PostMapping
+    @PostMapping("/add")
     public int addLike(
-            @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Map<String, Long> params
-            ) {
-        Member currentMember = userDetail.getMember();
-        long reviewId = params.get("reviewId");
-        Review reviewEntity = reviewService.getReviewById(reviewId);
-
+//            @AuthenticationPrincipal PrincipalDetails userDetail,
+            @RequestBody Review review
+        ) {
+//        Member currentMember = userDetail.getMember();
+        Member currentMember = new Member();
+        currentMember.setId(1L);
+        Review reviewEntity = reviewService.getReviewById(review.getId());
         Likes likes = new Likes(currentMember, reviewEntity);
 
         if (likeService.getLikeIdByMemberAndReview(likes) == NOT_EXIST) {
@@ -49,16 +47,12 @@ public class LikesController {
         return FAILED;
     }
 
-    @DeleteMapping
+    @PostMapping("/cancel")
     public int deleteLike(
             @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestParam Long reviewId
+            @RequestBody Review review
         ) {
-        System.out.println("Delete Method");
         Member currentMember = userDetail.getMember();
-        System.out.println(reviewId);
-        Review review = new Review();
-        review.setId(reviewId);
 
         Likes likes = new Likes(currentMember, review);
         long res = likeService.getLikeIdByMemberAndReview(likes);
