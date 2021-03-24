@@ -8,7 +8,9 @@ import com.codeworrisors.Movie_Community_Web.service.CommentsService;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -16,6 +18,10 @@ public class CommentsController {
     public static final int EXIST = 1;
     public static final int NOT_EXIST = 0;
     public static final int SUCCESS = 1;
+
+    private static final String REVIEW_ID = "reviewId";
+    private static final String CONTENT = "content";
+    private static final String ID = "id";
 
     private final CommentsService commentsService;
     private final ReviewService reviewService;
@@ -25,26 +31,27 @@ public class CommentsController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(value = "/add")
-    public int addComment(
+    @PostMapping
+    public Map<String, String> addComment(
             @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Review review,
-            @ModelAttribute(value = "comment") String comment) {
-
-        Review reviewEntity = reviewService.getReviewById(review.getId());
+            @RequestBody Map<String, String> params) {
+        Review reviewEntity = reviewService.getReviewById(Long.parseLong(params.get(REVIEW_ID)));
         Member currentMember = userDetail.getMember();
 
         Comments comments = new Comments();
         comments.setMember(currentMember);
         comments.setReview(reviewEntity);
-        comments.setContent(comment);
+        comments.setContent(params.get(CONTENT));
 
         reviewEntity.getComments().add(comments);
         commentsService.postComment(comments);
-        return SUCCESS;
+
+        Map<String, String> result = new HashMap<>();
+        result.put(ID, currentMember.getMemberName());
+        return result;
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping
     public int deleteComment(@RequestParam long commentsId) {
         Comments comments = commentsService.findCommentsById(commentsId);
         if (comments == null) {
