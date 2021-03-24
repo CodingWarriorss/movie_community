@@ -9,6 +9,8 @@ import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/api/like")
 public class LikesController {
@@ -27,14 +29,14 @@ public class LikesController {
     /*
     return value : SUCCESS : 1, FAILED : 0
     * */
-    @PostMapping("/add")
+    @PostMapping
     public int addLike(
             @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Review review
-        ) {
+            @RequestBody Map<String, Long> params
+            ) {
         Member currentMember = userDetail.getMember();
+        Review reviewEntity = reviewService.getReviewById(params.get("reviewId"));
 
-        Review reviewEntity = reviewService.getReviewById(review.getId());
         Likes likes = new Likes(currentMember, reviewEntity);
 
         if (likeService.getLikeIdByMemberAndReview(likes) == NOT_EXIST) {
@@ -46,12 +48,14 @@ public class LikesController {
         return FAILED;
     }
 
-    @PostMapping("/cancel")
+    @DeleteMapping
     public int deleteLike(
             @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Review review
+            @RequestParam long reviewId
         ) {
         Member currentMember = userDetail.getMember();
+        Review review = new Review();
+        review.setId(reviewId);
 
         Likes likes = new Likes(currentMember, review);
         long res = likeService.getLikeIdByMemberAndReview(likes);
