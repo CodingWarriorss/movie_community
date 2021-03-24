@@ -1,8 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,7 +32,6 @@ public class Review { // 리뷰 게시물
     // 작성자
 //    @ManyToOne(cascade = CascadeType.ALL) // [wrong] (여기서 1차 오류 ->  detached entity passed to persist... )
     @ManyToOne(cascade = CascadeType.MERGE) // 여러개의 게시물 - 한명의 작성자
-    @JsonManagedReference
     private Member member;
     // 이미지
 //    @OneToMany(cascade = CascadeType.MERGE) // [wrong] (여기서 2차 오류 -> transient....)
@@ -48,9 +45,4 @@ public class Review { // 리뷰 게시물
     // 댓글
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Comments> comments;
-
-    @Override
-    public String toString() {
-        return id + ":" + content;
-    }
 }

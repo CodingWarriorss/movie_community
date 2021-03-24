@@ -1,5 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +30,7 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "review_id")
+    @JsonBackReference
     private Review review;
 
     public Likes(Member member, Review review) {
