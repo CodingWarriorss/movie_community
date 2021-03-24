@@ -5,6 +5,7 @@ import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
+import com.codeworrisors.Movie_Community_Web.request.ReviewRequest;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -60,35 +61,6 @@ public class ReviewController {
             throws IOException {
         // id 세팅
         Member member = userDetail.getMember();
-        System.out.println(member);
-
-        // DB 저장 [ Review(fk: member) < Member ]
-        Review review = new Review();
-
-        review.setMovieTitle(movieTitle);
-        review.setContent(content);
-        review.setRating(rating);
-        review.setMember(member);// Review(주인)에 member를 세팅
-        reviewService.createReview(review);
-    }
-
-    // 이미지 있는 리뷰 업로드
-    @PostMapping("/img")
-    public void uploadReviewWithImg
-    (@AuthenticationPrincipal PrincipalDetails userDetail,
-     @RequestParam("movieTitle") String movieTitle,
-     @RequestParam("content") String content,
-     @RequestParam("rating") int rating,
-     @RequestParam("file") List<MultipartFile> files) {
-
-        System.out.println("진입");
-        files.forEach(file -> {
-            System.out.print(file + ",");
-        });
-
-        // id 세팅
-        Member member = userDetail.getMember();
-        System.out.println(member);
 
         // 이미지 업로드
         ArrayList<String> uuidFilenames = new ArrayList<>();
@@ -120,7 +92,7 @@ public class ReviewController {
         review.setMember(member); // Review(주인)에 member를 세팅
 
         if( reviewRequest.getFiles() != null ){
-            review.setImageList(images);    // review에서도 Image를 참조
+            review.setImages(images);    // review에서도 Image를 참조
         }
         reviewService.createReview(review);
 
