@@ -6,10 +6,12 @@ import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @RequestMapping(value = "/api/review")
 //@CrossOrigin("*")
 public class ReviewController {
+    private final static int PAGE_SIZE = 5;
 
     @Value("${file.path}")
     private String fileRealPath; // 이미지 저장 경로
@@ -134,5 +137,12 @@ public class ReviewController {
     //    @DeleteMapping
     public void deleteReview(@RequestBody Review review) {
         reviewService.deleteReview(review);
+    }
+
+    @GetMapping
+    public Page<Review> getAllReview(@RequestParam int pageIndex) {
+        Page<Review> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE);
+
+        return reviews;
     }
 }

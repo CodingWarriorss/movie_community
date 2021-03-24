@@ -25,21 +25,20 @@ public class CommentsController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add")
     public int addComment(
-//            @AuthenticationPrincipal PrincipalDetails userDetail,
+            @AuthenticationPrincipal PrincipalDetails userDetail,
             @RequestBody Review review,
             @ModelAttribute(value = "comment") String comment) {
 
         Review reviewEntity = reviewService.getReviewById(review.getId());
-//        Member currentMember = userDetail.getMember();
-        Member currentMember = new Member();
-        currentMember.setId(1L);
+        Member currentMember = userDetail.getMember();
+
         Comments comments = new Comments();
         comments.setMember(currentMember);
         comments.setReview(reviewEntity);
         comments.setContent(comment);
-//
+
         reviewEntity.getComments().add(comments);
         commentsService.postComment(comments);
         return SUCCESS;
@@ -53,11 +52,5 @@ public class CommentsController {
         }
         commentsService.deleteComment(comments);
         return EXIST;
-    }
-
-    @PostMapping("/get")
-    public List<Comments> getCommentByReviewId(@RequestBody Review review) {
-        List<Comments> comments = commentsService.findCommentsByReviewId(review);
-        return comments;
     }
 }

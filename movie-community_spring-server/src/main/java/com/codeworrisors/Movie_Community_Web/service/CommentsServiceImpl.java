@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.List;
 
 
@@ -22,7 +21,6 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public void postComment(Comments comments) {
-        System.out.println("service post comment");
         commentsRepository.save(comments);
     }
 

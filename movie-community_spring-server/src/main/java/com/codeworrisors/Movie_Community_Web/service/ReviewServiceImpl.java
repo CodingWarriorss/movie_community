@@ -1,22 +1,31 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.controller.NaverApiProperties;
+import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
+import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Convert;
 import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @Service
 @Transactional
@@ -120,5 +129,31 @@ public class ReviewServiceImpl implements ReviewService {
 
     public Review getReviewById(long reviewId) {
         return reviewRepository.findById(reviewId).get();
+    }
+
+
+    @Override
+    public Page<Review> getReviewData(int page, int size) {
+        Page<Review> ReviewEntity = reviewRepository
+                .findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")));
+
+
+    }
+
+    private ReviewDTO convertToReviewDTO(final Review review, Member currentMember) {
+        final ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setReviewId(review.getId());
+        reviewDTO.setWriterName(review.getMember().getMemberName());
+        reviewDTO.setCreateDate(review.getCreateDate());
+        reviewDTO.setMovieTitle(review.getMovieTitle());
+        reviewDTO.setContent(review.getContent());
+        reviewDTO.setImages(review.getImages());
+        reviewDTO.setRating(review.getRating());
+        reviewDTO.setLikes(review.getLikes().size());
+        if (review.getLikes().contains(currentMember)) {
+            reviewDTO.setLikePressed(true);
+        }
+        reviewDTO.setComments(review.getComments());
+        return reviewDTO;
     }
 }
