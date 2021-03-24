@@ -1,12 +1,15 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
-@Setter @ToString
+@Setter
 @Table(name = "member")
 @SequenceGenerator(
         name = "MEMBER_SEQ_GEN",
@@ -28,4 +31,7 @@ public class Member {
     private String phone;
     private String role; // ROLE_USER
 
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Review> uploadedReviews;
 }

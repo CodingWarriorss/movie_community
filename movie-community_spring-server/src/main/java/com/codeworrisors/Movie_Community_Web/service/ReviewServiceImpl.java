@@ -33,6 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ImageRepository imageRepository;
+    private Member currentMember;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository, ImageRepository imageRepository) {
         this.reviewRepository = reviewRepository;
@@ -133,14 +134,15 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public Page<Review> getReviewData(int page, int size) {
-        Page<Review> ReviewEntity = reviewRepository
+    public Page<ReviewDTO> getReviewData(int page, int size, Member currentMember) {
+        this.currentMember = currentMember;
+        final Page<Review> reviewEntity = reviewRepository
                 .findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")));
-
-
+        final Page<ReviewDTO> reviewDTOs = (Page<ReviewDTO>) reviewEntity.map(this::convertReviewEntityToReviewDTO);
+        return reviewDTOs;
     }
 
-    private ReviewDTO convertToReviewDTO(final Review review, Member currentMember) {
+    private ReviewDTO convertReviewEntityToReviewDTO(final Review review) {
         final ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setReviewId(review.getId());
         reviewDTO.setWriterName(review.getMember().getMemberName());
@@ -150,10 +152,10 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDTO.setImages(review.getImages());
         reviewDTO.setRating(review.getRating());
         reviewDTO.setLikes(review.getLikes().size());
+        reviewDTO.setComments(review.getComments());
         if (review.getLikes().contains(currentMember)) {
             reviewDTO.setLikePressed(true);
         }
-        reviewDTO.setComments(review.getComments());
         return reviewDTO;
     }
 }

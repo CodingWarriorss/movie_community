@@ -24,21 +24,17 @@ public class LikesController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
-
     /*
     return value : SUCCESS : 1, FAILED : 0
     * */
     @PostMapping("/add")
     public int addLike(
-            @AuthenticationPrincipal PrincipalDetails userDetail,
+//            @AuthenticationPrincipal PrincipalDetails userDetail,
             @RequestBody Review review
         ) {
-        Member currentMember = userDetail.getMember();
-
+//        Member currentMember = userDetail.getMember();
+        Member currentMember = new Member();
+        currentMember.setId(1L);
         Review reviewEntity = reviewService.getReviewById(review.getId());
         Likes likes = new Likes(currentMember, reviewEntity);
 

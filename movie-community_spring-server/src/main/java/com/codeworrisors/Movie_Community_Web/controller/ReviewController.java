@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
@@ -11,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
@@ -140,8 +140,11 @@ public class ReviewController {
     }
 
     @GetMapping
-    public Page<Review> getAllReview(@RequestParam int pageIndex) {
-        Page<Review> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE);
+    public Page<ReviewDTO> getAllReview(@RequestParam int pageIndex/*, @AuthenticationPrincipal PrincipalDetails userDetail*/) {
+        Member currentMember = new Member();
+        currentMember.setId(1L);
+
+        Page<ReviewDTO> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE, currentMember);
 
         return reviews;
     }
