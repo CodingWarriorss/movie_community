@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReviewWriteBox from "../review/ReviewWriteBox";
 import LogoutComponent from "../login/LogoutComponent";
 
 const Menu = () => {
+
+    const [ isShow , setShow ] = useState(false);
+    const handleShow = () =>{
+        setShow(!isShow);
+    }
     return (
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
                 <LogoutComponent/>
             </li>
             <li className="nav-item">
-                <ReviewWriteBox/>
+                <button className="btn btn-primary" onClick={handleShow}>
+                    +
+                </button>
+                <ReviewWriteBox handleShow={handleShow} isShow={isShow} isModify={false} />
             </li>
             {/*테스트용 프로필 버튼*/}
             <li className="nav-item">

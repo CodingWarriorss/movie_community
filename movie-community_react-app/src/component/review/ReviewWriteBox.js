@@ -7,6 +7,8 @@ import ImageUploader from "react-images-upload";
 
 export default class ReviewWriteBox extends Component {
 
+    //boolean -> props.isModify로 수정작업인지 체크
+
     constructor(props) {
         super(props);
         this.state = {
@@ -85,7 +87,7 @@ export default class ReviewWriteBox extends Component {
         const formData = new FormData();
         formData.append("movieTitle", this.state.title); // 영화 제목
         formData.append("content", this.comment.current.value); // 작성글
-        formData.append("rating", this.state.rating); // 별점
+        formData.append("rating", parseInt( this.state.rating ) ); // 별점
 
         // 이미지 존재여부 확인
         let url = 'http://localhost:8080/api/review';
@@ -93,12 +95,6 @@ export default class ReviewWriteBox extends Component {
         if (pictures.length > 0) {
             pictures.forEach(picture => {
                 formData.append("file", picture);
-            })
-            url += '/img';
-
-            // 이미지 파일 초기화. (모달창을 띄울 때마다 해당 컴포넌트를 새로 생성하는 것이 아니기 때문에. pictures 배열을 강제로 초기화 하여 사용해야 한다.)
-            this.setState({
-                pictures : []
             })
         }
 
@@ -123,17 +119,21 @@ export default class ReviewWriteBox extends Component {
     }
 
     render() {
+
+        if( this.props.isModify ) console.log("수정모드");
+        else console.log("등록모드");
+
+        const testText = ( this.props.isModify ) ? "수정모드" : "등록모드";
+        
         return (
-            <>
-                <button className="btn btn-primary" onClick={this.handleShow}>
-                    +
-                </button>
                 <Modal
                     size="lg"
-                    show={this.state.show}
-                    onHide={this.handleClose}>
+                    show={this.props.isShow}
+                    onHide={this.props.handleShow}>
                     {/*header*/}
-                    <Modal.Header closeButton style={this.state.style}/>
+                    <Modal.Header closeButton style={this.state.style}>
+                            <div>{testText}</div>
+                        </Modal.Header>
 
                     {/*body*/}
                     <Modal.Body style={this.state.style}>
@@ -162,7 +162,7 @@ export default class ReviewWriteBox extends Component {
 
                     {/*footer*/}
                     <Modal.Footer style={this.state.style}>
-                        <Button variant="secondary" onClick={this.handleClose}>
+                        <Button variant="secondary" onClick={this.props.handleShow}>
                             취소
                         </Button>
                         <Button variant="primary" onClick={this.handleSummit}>
@@ -170,7 +170,6 @@ export default class ReviewWriteBox extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </>
         )
     }
 

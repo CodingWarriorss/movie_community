@@ -1,10 +1,11 @@
 import axios from 'axios'
+import {REST_API_SERVER_URL} from 'component/constants/APIConstants';
 
 class AuthenticationService {
 
     // 1. 로그인 요청 : memberName, password를 서버에 전송
     executeJwtAuthenticationService(memberName, password) {
-        return axios.post('http://localhost:8080/login', {
+        return axios.post(REST_API_SERVER_URL+ '/login', {
             memberName,
             password
         });
