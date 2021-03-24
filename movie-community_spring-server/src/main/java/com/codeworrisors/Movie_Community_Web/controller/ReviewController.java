@@ -139,10 +139,9 @@ public class ReviewController {
         reviewService.deleteReview(review);
     }
 
-    @GetMapping
-    public Page<ReviewDTO> getAllReview(@RequestParam int pageIndex/*, @AuthenticationPrincipal PrincipalDetails userDetail*/) {
-        Member currentMember = new Member();
-        currentMember.setId(1L);
+    @GetMapping("/main")
+    public Page<ReviewDTO> getAllReview(@RequestParam int pageIndex, @AuthenticationPrincipal PrincipalDetails userDetail) {
+        Member currentMember = userDetail.getMember();
 
         Page<ReviewDTO> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE, currentMember);
 

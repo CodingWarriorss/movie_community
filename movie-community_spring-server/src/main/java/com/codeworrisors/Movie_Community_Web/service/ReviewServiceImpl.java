@@ -3,6 +3,7 @@ package com.codeworrisors.Movie_Community_Web.service;
 import com.codeworrisors.Movie_Community_Web.controller.NaverApiProperties;
 import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
+import com.codeworrisors.Movie_Community_Web.model.Likes;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
@@ -153,9 +154,15 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDTO.setRating(review.getRating());
         reviewDTO.setLikes(review.getLikes().size());
         reviewDTO.setComments(review.getComments());
-        if (review.getLikes().contains(currentMember)) {
-            reviewDTO.setLikePressed(true);
+        List<Likes> likes = review.getLikes();
+
+        for (Likes like : likes) {
+            if(like.getMember().getId() == currentMember.getId()) {
+                reviewDTO.setLikePressed(true);
+                return reviewDTO;
+            }
         }
+
         return reviewDTO;
     }
 }
