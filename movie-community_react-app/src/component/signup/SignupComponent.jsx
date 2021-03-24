@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import {REST_API_SERVER_URL} from 'component/constants/APIConstants';
 
 class SignupComponent extends Component {
 
+    
+
     constructor(props) {
         super(props);
+
+        console.log( REST_API_SERVER_URL )
 
         this.state = {
             memberName: '',
@@ -71,7 +76,7 @@ class SignupComponent extends Component {
             memberName: this.state.memberName
         }
 
-        fetch('http://localhost:8080/checkid', {
+        fetch( REST_API_SERVER_URL + '/checkid', {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -183,7 +188,7 @@ class SignupComponent extends Component {
         } = this.state;
 
         axios.post(
-            'http://localhost:8080/join',
+            REST_API_SERVER_URL + '/join',
             {
                 memberName: memberName,
                 password: password,

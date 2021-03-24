@@ -5,6 +5,8 @@ import { Accordion, Button } from "react-bootstrap";
 
 import './review-box.css';
 import ReviewWriteBox from "../ReviewWriteBox";
+import axios from "axios";
+import { REST_API_SERVER_URL } from "component/constants/APIConstants";
 
 /*
     한곳에 구성을 다 넣자니 코드가 너무 길어지는거 같고
@@ -55,14 +57,48 @@ function ReviewBody(props) {
 
     const imageUrlList = [];
 
-    const [ like, setLike ] = useState(false);
+    const [ like, setLike ] = useState(props.data.likePressed);
+    const [ likeCount , setCount ] = useState(props.data.likes);
 
     props.data.images.forEach(image => {
         imageUrlList.push({ url: image.imageUri })
     })
 
     const handleLike = ( event ) => {
-        setLike( !like );
+        const param = {
+            reviewId : props.data.reviewId
+        }
+
+        const token = localStorage.getItem("token");
+
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+
+        if( !like ){
+            axios.post( REST_API_SERVER_URL + "/api/like" , param , config ).then( response => {
+                setLike( !like );
+                setCount( likeCount + 1);
+            });
+        }else{
+
+            config ={
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                params : {
+                    reviewId : props.data.reviewId
+                }
+            }
+            axios.delete( REST_API_SERVER_URL + "/api/like" , config ).then( response => {
+                setLike( !like );
+                setCount( likeCount - 1);
+            });
+
+        }
+       
     }
 
 
@@ -77,15 +113,18 @@ function ReviewBody(props) {
                 <p>{props.data.content}</p>
             </div>
             <div className="review-images">
-                <SimpleImageSlider width={"100%"}
+                { ( imageUrlList.length < 1) ? null:<SimpleImageSlider width={"100%"}
                     height={400} images={imageUrlList} showNavs={true} showBullets={true} />
+                
+                }
+                
             </div>
             <div className="row">
                 <div className="col review-like-btn">
                     <button className={"btn "+ ((like) ? "btn-primary":"btn-outline-primary") } like={false} onClick={handleLike}>Like</button>
                 </div>
                 <div className="col">
-                    <div className="review-like">{props.data.like}명이 좋아합니다</div>
+                    <div className="review-like">{likeCount}명이 좋아합니다</div>
                 </div>
             </div>
         </div>
@@ -105,14 +144,27 @@ function ReviewFooter(props) {
     }
     const writeComment = () =>{
         const newComment = {
-            commenterName : "여기에 사용자 찾아넣기",
+            reviewId : props.data.reviewId,
             content : inputValue
         }
 
-        setReviewComments( {
-            reviewCommentList : [...reviewComments.reviewCommentList , newComment]
-        })
+
         setValue( "" )
+
+        const token = localStorage.getItem("token");
+
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+
+        axios.post( REST_API_SERVER_URL +"/api/comment" , newComment , config ).then( response => {
+            console.log( response.data.id);
+            setReviewComments( {
+                reviewCommentList : [...reviewComments.reviewCommentList , newComment]
+            })
+        }).catch( error => console.log(error) );
 
     }
 
@@ -161,17 +213,21 @@ export default class ReviewBox extends Component {
         //좀더 보기좋은 코드를 위함 구조는 어떻게 해야할것인가...
         this.state = {
             headerInfo: {
+                reviewId : this.props.reviewData.reviewId,
                 movieTitle: this.props.reviewData.movieTitle,
                 writerName: this.props.reviewData.writerName,
                 createDate: this.props.reviewData.createData,
                 thumnailUri: this.props.reviewData.thumnailUri
             },
             bodyData: {
+                reviewId : this.props.reviewData.reviewId,
                 content: this.props.reviewData.content,
                 images: this.props.reviewData.images,
-                like: this.props.reviewData.like
+                likes: this.props.reviewData.likes,
+                likePressed :  this.props.reviewData.likePressed
             },
             footerData: {
+                reviewId : this.props.reviewData.reviewId,
                 comments : this.props.reviewData.comments
             }
         }
