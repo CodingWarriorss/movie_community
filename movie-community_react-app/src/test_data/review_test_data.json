@@ -23,7 +23,21 @@
             }
         ],
         "rating" : 2,
-        "like" : 4
+        "like" : 4,
+        "comments" : [
+            {
+                "commenterName": "론위즐리",
+                "content": "해리야 해르미온느 옆에서 떨어져라",
+                "createDate" : "2034.3.4 23:45:12",
+                "commentId" : 1
+            },
+            {
+                "commenterName": "포터",
+                "content": "닥쳐 말포이",
+                "createDate" : "2032.3.4 11:45:12",
+                "commentId" : 2
+            }
+        ]
     },
     {
         "reviewId": "2",
@@ -45,7 +59,8 @@
             }
         ],
         "rating" : 2,
-        "like" : 6
+        "like" : 6,
+        "comments" : []
     } ,
     {
         "reviewId": "5",
@@ -63,6 +78,7 @@
             }
         ],
         "rating" : 1,
-        "like" : 56
+        "like" : 56,
+        "comments" : []
     }  
 ]
