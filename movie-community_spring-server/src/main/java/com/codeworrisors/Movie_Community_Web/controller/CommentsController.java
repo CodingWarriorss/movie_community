@@ -17,7 +17,6 @@ import java.util.Map;
 public class CommentsController {
     public static final int EXIST = 1;
     public static final int NOT_EXIST = 0;
-    public static final int SUCCESS = 1;
 
     private static final String REVIEW_ID = "reviewId";
     private static final String CONTENT = "content";
