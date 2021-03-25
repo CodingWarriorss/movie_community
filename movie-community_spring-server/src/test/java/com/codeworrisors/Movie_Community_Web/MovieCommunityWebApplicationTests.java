@@ -1,5 +1,8 @@
 package com.codeworrisors.Movie_Community_Web;
 
+import com.codeworrisors.Movie_Community_Web.model.Review;
+import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +14,14 @@ class MovieCommunityWebApplicationTests {
 
 	
 
+	@Autowired
+	ReviewRepository reviewRepository;
+
+	
 	@Test
 	void contextLoads() {
 
-		
+
 	}
 
 }

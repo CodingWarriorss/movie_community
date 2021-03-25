@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/review")
-//@CrossOrigin("*")
+// @CrossOrigin("*")
 public class ReviewController {
     private final static int PAGE_SIZE = 5;
 
@@ -42,27 +43,9 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping(produces = "text/plain; charset=UTF-8")
-    public @ResponseBody
-    String searchMovie(@RequestParam("title") String title) {
-        String result = null;
-        try {
-            String text = URLEncoder.encode(title, "UTF-8");
-            result = reviewService.searchMovie(text);
-            System.out.println("[영화 검색 결과] : " + result);
-
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패", e);
-        } catch (IOException e) {
-            throw new RuntimeException("API 요청과 응답 실패", e);
-        }
-
-        return result;
-    }
-
-    // 이미지 없는 리뷰 업로드
+    // Review 등록
     @PostMapping
-    public void uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail, ReviewRequest reviewRequest)
+    public void uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,ReviewDTO reviewRequest)
             throws IOException {
 
         logger.info("Review Regist");
@@ -74,13 +57,12 @@ public class ReviewController {
 
         ArrayList<Image> images = new ArrayList<>();
 
-
         if (reviewRequest.getFiles() != null) {
             reviewRequest.getFiles().forEach(file -> {
                 UUID uuid = UUID.randomUUID(); // 식별자 생성
                 String uuidFilename = uuid + "_" + file.getOriginalFilename();
                 uuidFilenames.add(uuidFilename);
-                Path filePath = Paths.get( StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
+                Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
                 try {
                     Files.write(filePath, file.getBytes());
                 } catch (IOException e) {
@@ -99,13 +81,13 @@ public class ReviewController {
         review.setRating(reviewRequest.getRating());
         review.setMember(member); // Review(주인)에 member를 세팅
 
-        if( reviewRequest.getFiles() != null ){
-            review.setImages(images);    // review에서도 Image를 참조
+        if (reviewRequest.getFiles() != null) {
+            review.setImages(images); // review에서도 Image를 참조
         }
         reviewService.createReview(review);
 
-        //image table setting
-        if( reviewRequest.getFiles() != null ){
+        // image table setting
+        if (reviewRequest.getFiles() != null) {
             for (String uuidFilename : uuidFilenames) {
                 Image image = new Image();
                 image.setFileName(uuidFilename);
@@ -114,7 +96,6 @@ public class ReviewController {
                 images.add(image); // review 테이블에 세팅된 images 자동 update
             }
         }
-
 
     }
 
@@ -129,10 +110,24 @@ public class ReviewController {
         reviewService.deleteReview(review);
     }
 
-    @GetMapping("/main")
-    public Page<ReviewDTO> getAllReview(@RequestParam int pageIndex, @AuthenticationPrincipal PrincipalDetails userDetail) {
+    @GetMapping
+    public Page<ReviewDTO> getAllReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+            @RequestParam int pageIndex, @RequestParam(defaultValue = "") String movieTitle,
+            @RequestParam(defaultValue = "") String writerId) {
         Member currentMember = userDetail.getMember();
-        Page<ReviewDTO> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE, currentMember);
+
+        ReviewDTO reviewFilter = new ReviewDTO();
+
+        if( movieTitle.length() > 0){
+            reviewFilter.setMovieTitle(movieTitle);
+        }
+
+        if( writerId.length() > 0){
+            reviewFilter.setWriterName(writerId);
+        }
+
+        
+        Page<ReviewDTO> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE, currentMember, reviewFilter);
         return reviews;
     }
 }

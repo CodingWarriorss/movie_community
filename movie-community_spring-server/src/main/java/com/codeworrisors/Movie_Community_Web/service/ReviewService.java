@@ -4,6 +4,8 @@ import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
+import com.codeworrisors.Movie_Community_Web.request.ReviewRequest;
+
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;
@@ -16,5 +18,5 @@ public interface ReviewService {
     Review updateReview(Review review);
     void deleteReview(Review review);
     Review getReviewById(long reviewId);
-    Page<ReviewDTO> getReviewData(int index, int size , Member currentMember);
+    Page<ReviewDTO> getReviewData(int index, int size , Member currentMember, ReviewDTO reviewFilter);
 }

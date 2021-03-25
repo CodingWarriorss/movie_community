@@ -8,6 +8,8 @@ import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
+import com.codeworrisors.Movie_Community_Web.request.ReviewRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -132,11 +134,27 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public Page<ReviewDTO> getReviewData(int page, int size, Member currentMember) {
+    public Page<ReviewDTO> getReviewData(int page, int size, Member currentMember, ReviewDTO reviewFilter) {
         this.currentMember = currentMember;
-        final Page<Review> reviewEntity = reviewRepository
-                .findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")));
-        final Page<ReviewDTO> reviewDTOs = reviewEntity.map(this::convertReviewEntityToReviewDTO);
+        Page<Review> reviewEntity = null;
+        Page<ReviewDTO> reviewDTOs = null;
+        if( reviewFilter.getMovieTitle() != null ){
+            reviewEntity = reviewRepository.findAllByMovieTitle(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")),reviewFilter.getMovieTitle());
+            reviewDTOs = reviewEntity.map(this::convertReviewEntityToReviewDTO);
+            return reviewDTOs;
+        }
+
+        if( reviewFilter.getWriterName() != null ){
+            Member member = new Member();
+            member.setId( currentMember.getId() );
+            reviewEntity = reviewRepository.findAllByMember(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")),member);
+            reviewDTOs = reviewEntity.map(this::convertReviewEntityToReviewDTO);
+            return reviewDTOs;
+        }
+
+        reviewEntity = reviewRepository
+        .findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate")));
+        reviewDTOs = reviewEntity.map(this::convertReviewEntityToReviewDTO);
         return reviewDTOs;
     }
 

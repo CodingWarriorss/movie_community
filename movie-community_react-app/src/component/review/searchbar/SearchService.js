@@ -1,10 +1,10 @@
 import axios from "axios";
-
+import { REST_API_SERVER_URL } from "component/constants/APIConstants";
 class SearchService {
 
     // 1. naver 영화 api 요청
     getInfoByMovieTitle(input) {
-        return axios.get(`http://localhost:8080/api/review`, {
+        return axios.get( REST_API_SERVER_URL +"/api/naver/movie", {
             params: {
                 title: input,
                 // display: 20

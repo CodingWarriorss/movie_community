@@ -13,7 +13,7 @@ export default class ReviewList extends Component {
         super(props);
 
         this.state = {
-            reviewList: dumyData,
+            reviewList: [],
             page : 0
         }
         this.loadReview = this.loadReview.bind(this);
@@ -22,15 +22,13 @@ export default class ReviewList extends Component {
 
     /*
         Review Data를 갱신하는 Method
-        현재 Demo
-        API와 연동하여 Review 데이터 로드로 수정
     */
     loadReview() {
         // this.setState({
         //     reviewList: [...this.state.reviewList, ...dumyData]
         // })
 
-        const requestUrl = REST_API_SERVER_URL+ '/api/review/main?pageIndex=' +this.state.page ;
+        const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
      
 
         const token = localStorage.getItem("token");
@@ -39,6 +37,9 @@ export default class ReviewList extends Component {
         let config = {
             headers: {
                 'Authorization': 'Bearer ' + token
+            },
+            params :{
+                pageIndex : this.state.page
             }
         }
 

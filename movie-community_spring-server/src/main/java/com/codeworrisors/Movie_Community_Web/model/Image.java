@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Getter
 @Setter
@@ -21,5 +23,6 @@ public class Image {
     private String fileName;
 
     @ManyToOne // 여러개의 이미지 - 하나의 리뷰 게시물
+    @JsonBackReference
     private Review review;
 }

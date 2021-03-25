@@ -6,7 +6,7 @@ import { Accordion, Button } from "react-bootstrap";
 import './review-box.css';
 import ReviewWriteBox from "../ReviewWriteBox";
 import axios from "axios";
-import { REST_API_SERVER_URL } from "../../constants/APIConstants";
+import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 
 /*
     한곳에 구성을 다 넣자니 코드가 너무 길어지는거 같고
@@ -61,7 +61,8 @@ function ReviewBody(props) {
     const [ likeCount , setCount ] = useState(props.data.likes);
 
     props.data.images.forEach(image => {
-        imageUrlList.push({ url: image.imageUri })
+        console.log( IMAGE_RESOURCE_URL + image.fileName)
+        imageUrlList.push({ url: IMAGE_RESOURCE_URL + image.fileName })
     })
 
     const handleLike = ( event ) => {

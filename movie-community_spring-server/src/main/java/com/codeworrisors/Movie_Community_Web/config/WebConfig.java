@@ -34,17 +34,6 @@ public class WebConfig implements WebMvcConfigurer{
     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**") //이런 패턴의 요청은
-        .addResourceLocations("classpath:/image/")          //이 경로로 연결시킴
-        .setCachePeriod(MAX_AGE_SECS);
-
-        String OSName= System.getProperty("os.name");
-        String imagePath = "";
-
-        if( OSName.matches(".*Windows.*") ){
-            imagePath += "C:";
-        }
-        imagePath += StaticResourceProperties.IMAGE_UPLOAD_PATH;
         registry.addResourceHandler(StaticResourceProperties.IMAGE_REQUEST_URL + "/**")
                 .addResourceLocations("file:///" + StaticResourceProperties.IMAGE_UPLOAD_PATH);
     }
