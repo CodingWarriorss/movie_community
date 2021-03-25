@@ -94,7 +94,7 @@ export default class ReviewWriteBox extends Component {
         const pictures = this.state.pictures;
         if (pictures.length > 0) {
             pictures.forEach(picture => {
-                formData.append("file", picture);
+                formData.append("files", picture);
             })
         }
 

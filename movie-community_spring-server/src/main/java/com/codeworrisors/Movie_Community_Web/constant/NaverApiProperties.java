@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.controller;
+package com.codeworrisors.Movie_Community_Web.constant;
 
 public interface NaverApiProperties {
     String CLIENT_ID = "ONSuAEgGuQzbOzI81o4P";

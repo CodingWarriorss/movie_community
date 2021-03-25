@@ -1,12 +1,15 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.constant.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.dto.ReviewDTO;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.request.ReviewRequest;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +30,8 @@ import java.util.UUID;
 //@CrossOrigin("*")
 public class ReviewController {
     private final static int PAGE_SIZE = 5;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${file.path}")
     private String fileRealPath; // 이미지 저장 경로
@@ -59,6 +64,8 @@ public class ReviewController {
     @PostMapping
     public void uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail, ReviewRequest reviewRequest)
             throws IOException {
+
+        logger.info("Review Regist");
         // id 세팅
         Member member = userDetail.getMember();
 
@@ -73,10 +80,11 @@ public class ReviewController {
                 UUID uuid = UUID.randomUUID(); // 식별자 생성
                 String uuidFilename = uuid + "_" + file.getOriginalFilename();
                 uuidFilenames.add(uuidFilename);
-                Path filePath = Paths.get(fileRealPath + uuidFilename);
+                Path filePath = Paths.get( StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
                 try {
                     Files.write(filePath, file.getBytes());
                 } catch (IOException e) {
+                    logger.error(e.getMessage());
                     e.printStackTrace();
                 }
             });

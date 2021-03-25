@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.config;
 
+import com.codeworrisors.Movie_Community_Web.constant.StaticResourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.codeworrisors.Movie_Community_Web.constant.StaticResourceProperties;
+
 /*
     Web 관련 설정 Configuration 
     기존에는 Bean생성으로 설정을
@@ -24,14 +27,25 @@ import java.util.List;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer{
 
-    private final long MAX_AGE_SECS = 3600;
+    private final int MAX_AGE_SECS = 3600;
 
     /*
         Static resource 관련 설정 Method
     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("classpath:/image") //이 경로로 연결시킴
-        .addResourceLocations("/image");                //이런 패턴의 요청은
+        registry.addResourceHandler("/image/**") //이런 패턴의 요청은
+        .addResourceLocations("classpath:/image/")          //이 경로로 연결시킴
+        .setCachePeriod(MAX_AGE_SECS);
+
+        String OSName= System.getProperty("os.name");
+        String imagePath = "";
+
+        if( OSName.matches(".*Windows.*") ){
+            imagePath += "C:";
+        }
+        imagePath += StaticResourceProperties.IMAGE_UPLOAD_PATH;
+        registry.addResourceHandler(StaticResourceProperties.IMAGE_REQUEST_URL + "/**")
+                .addResourceLocations("file:///" + StaticResourceProperties.IMAGE_UPLOAD_PATH);
     }
 }
