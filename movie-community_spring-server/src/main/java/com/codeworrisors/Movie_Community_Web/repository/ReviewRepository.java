@@ -5,13 +5,11 @@ import com.codeworrisors.Movie_Community_Web.model.Review;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
-public interface ReviewRepository extends PagingAndSortingRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecificationExecutor<Review>  {
 
-    
-    public Page<Review> findAllByMember(Pageable pageable, Member member);
-
-    public Page<Review> findAllByMovieTitle(Pageable pageable, String movieTitle);
 }

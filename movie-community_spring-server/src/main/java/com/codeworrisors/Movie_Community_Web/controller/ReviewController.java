@@ -60,7 +60,7 @@ public class ReviewController {
         if (reviewRequest.getFiles() != null) {
             reviewRequest.getFiles().forEach(file -> {
                 UUID uuid = UUID.randomUUID(); // 식별자 생성
-                String uuidFilename = uuid + "_" + file.getOriginalFilename();
+                String uuidFilename = uuid + "_" + file.getOriginalFilename().replaceAll(" ", "");
                 uuidFilenames.add(uuidFilename);
                 Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
                 try {
@@ -90,7 +90,7 @@ public class ReviewController {
         if (reviewRequest.getFiles() != null) {
             for (String uuidFilename : uuidFilenames) {
                 Image image = new Image();
-                image.setFileName(uuidFilename);
+                image.setFileName(uuidFilename); 
                 image.setReview(review);
                 reviewService.createImage(image); // image 테이블에 row 추가
                 images.add(image); // review 테이블에 세팅된 images 자동 update
@@ -112,21 +112,13 @@ public class ReviewController {
 
     @GetMapping
     public Page<ReviewDTO> getAllReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestParam int pageIndex, @RequestParam(defaultValue = "") String movieTitle,
-            @RequestParam(defaultValue = "") String writerId) {
+            @RequestParam int pageIndex, @RequestParam(required = false) String movieTitle,
+            @RequestParam(required = false) String writerId) {
         Member currentMember = userDetail.getMember();
 
         ReviewDTO reviewFilter = new ReviewDTO();
-
-        if( movieTitle.length() > 0){
-            reviewFilter.setMovieTitle(movieTitle);
-        }
-
-        if( writerId.length() > 0){
-            reviewFilter.setWriterName(writerId);
-        }
-
-        
+        reviewFilter.setWriterName(writerId);
+        reviewFilter.setMovieTitle(movieTitle);
         Page<ReviewDTO> reviews = reviewService.getReviewData(pageIndex, PAGE_SIZE, currentMember, reviewFilter);
         return reviews;
     }

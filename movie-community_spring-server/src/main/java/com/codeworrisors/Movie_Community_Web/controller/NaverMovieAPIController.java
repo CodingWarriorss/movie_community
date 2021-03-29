@@ -31,8 +31,8 @@ public class NaverMovieAPIController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping(produces = "text/plain; charset=UTF-8")
-    public @ResponseBody String searchMovie(@RequestParam("title") String title) {
+    @GetMapping(produces = "application/json; charset=UTF-8")
+    public String searchMovie(@RequestParam("title") String title) {
         logger.info("네이버 영화 조회");
         String result = null;
         try {
