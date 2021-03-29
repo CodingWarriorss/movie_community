@@ -18,6 +18,7 @@ class App extends Component {
 
         return (
             <Router>
+                
                 <div className="App">
                     { /*네비게이션 바*/}
                     <nav className="navbar-expand-lg navbar-light fixed-top">
@@ -30,7 +31,6 @@ class App extends Component {
                             </div>
                         </div>
                     </nav>
-
                             <Switch>
                                 <Route path="/logout" component={LogoutComponent}/>
                                 <Route path="/login" component={LoginComponent}/>
@@ -38,7 +38,9 @@ class App extends Component {
                                 <Route path="/" component={MainTest}/>
                                 {/*    새로고침해야지 렌더링 되는 문제.. 아마 자식 부모 관계 설정때문에 그런거 같음*/}
                             </Switch>
+                            
                 </div>
+
             </Router>
         );
     }

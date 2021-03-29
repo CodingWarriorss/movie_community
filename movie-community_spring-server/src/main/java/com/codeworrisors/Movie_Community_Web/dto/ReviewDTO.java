@@ -3,6 +3,7 @@ package com.codeworrisors.Movie_Community_Web.dto;
 import com.codeworrisors.Movie_Community_Web.model.Comments;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 
+import com.codeworrisors.Movie_Community_Web.model.Review;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;

@@ -8,12 +8,6 @@ import ReviewWriteBox from "../ReviewWriteBox";
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 
-/*
-    한곳에 구성을 다 넣자니 코드가 너무 길어지는거 같고
-    그렇다고 파일로 나누어서 각 컴포넌트로 나누어 관리자하자니 파일이 많아져서
-    어떻게 하는게 답을지 고민을 해봅시다...;;;
-*/
-
 //Review 게시물 상단
 function ReviewHeader(props) {
 
