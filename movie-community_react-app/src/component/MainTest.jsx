@@ -33,7 +33,6 @@ class MainTest extends Component {
         console.log("MainTest");
         console.log(this.props.movieTitle);
         
-        // return access == null ? <h1> 로그인 안된 상태 </h1> : <h1>로그인 된 상태</h1>
         return (
             <div>
                 <ReviewList />
