@@ -154,8 +154,8 @@ function ReviewFooter(props) {
             }
         }
 
-        axios.post( REST_API_SERVER_URL +"/api/comment" , newComment , config ).then( response => {
-            console.log( response.data.id);
+        axios.post( REST_API_SERVER_URL +"/api/review/comment" , newComment , config ).then( response => {
+            console.log(response.data.id);
             setReviewComments( {
                 reviewCommentList : [...reviewComments.reviewCommentList , newComment]
             })
