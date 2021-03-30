@@ -55,6 +55,15 @@ export default class ReviewList extends Component {
                 'Authorization': 'Bearer ' + token
             },
             params : {
+                pageIndex : 0
+            }
+        }
+
+        let configWithMovieTitle = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params : {
                 pageIndex : 0,
                 movieTitle : this.state.movieTitle
             }
@@ -73,7 +82,7 @@ export default class ReviewList extends Component {
 
                 })
         } else {
-            axios.get(requestUrl, config)
+            axios.get(requestUrl, configWithMovieTitle)
                 .then((response) => {
                     console.log(JSON.stringify(response.data, null, 4));
                     this.setState({
