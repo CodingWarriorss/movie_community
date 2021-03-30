@@ -1,0 +1,13 @@
+.ranking-box{
+    position: fixed;
+    right: 50px;
+    width: 300px;
+    height: fit-content;
+    background-color: aliceblue;
+    border-radius: 1cm;
+    padding: auto;
+}
+
+.ranking-chart{
+    margin: auto;
+}
