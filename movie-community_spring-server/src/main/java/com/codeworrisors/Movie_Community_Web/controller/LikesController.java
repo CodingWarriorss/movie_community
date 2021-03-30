@@ -1,70 +1,64 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
-import com.codeworrisors.Movie_Community_Web.model.Likes;
-import com.codeworrisors.Movie_Community_Web.model.Member;
-import com.codeworrisors.Movie_Community_Web.model.Review;
-import com.codeworrisors.Movie_Community_Web.service.LikesService;
-import com.codeworrisors.Movie_Community_Web.service.ReviewService;
+import com.codeworrisors.Movie_Community_Web.service.LikeService;
+import org.json.simple.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping(value = "/api/like")
+@RequestMapping(value = "/api/review/like")
 public class LikesController {
-    public static final int SUCCESS = 1;
-    public static final int FAILED = 0;
-    public static final int NOT_EXIST = -1;
+    static final String RESULT = "result";
+    static final String SUCCESS = "SUCCESS";
+    static final String FAIL = "FAIL";
 
-    private final LikesService likeService;
-    private final ReviewService reviewService;
+    private final LikeService likeService;
 
-    public LikesController(LikesService likeService, ReviewService reviewService) {
+    public LikesController(LikeService likeService) {
         this.likeService = likeService;
-        this.reviewService = reviewService;
     }
 
     /*
-    return value : SUCCESS : 1, FAILED : 0
-    * */
+     * 좋아요 추가/삭제
+     * response(LIKE/UNLIKE 여부)
+     * */
     @PostMapping
-    public int addLike(
-            @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestBody Map<String, Long> params
-            ) {
-        Member currentMember = userDetail.getMember();
-        Review reviewEntity = reviewService.getReviewById(params.get("reviewId"));
+    public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                 @RequestBody Map<String, Long> params) {
+        JSONObject response = new JSONObject();
 
-        Likes likes = new Likes(currentMember, reviewEntity);
-
-        if (likeService.getLikeIdByMemberAndReview(likes) == NOT_EXIST) {
-            likeService.addLike(likes);
-            reviewEntity.getLikes().add(likes);
-            return SUCCESS;
+        try {
+            response.put(RESULT, SUCCESS);
+            likeService.createLike(userDetail.getMember(), params.get("reviewId"));
+            response.put("status", "LIKE");
+        } catch (IllegalStateException e) {
+            response.put(RESULT, FAIL + "/이미 LIKE 상태");
+        } catch (NoSuchElementException e) {
+            response.put(RESULT, FAIL + "/존재하지 않는 리뷰에 대한 LIKE 요청");
         }
 
-        return FAILED;
+        return response;
     }
 
     @DeleteMapping
-    public int deleteLike(
-            @AuthenticationPrincipal PrincipalDetails userDetail,
-            @RequestParam long reviewId
-        ) {
-        Member currentMember = userDetail.getMember();
-        Review review = new Review();
-        review.setId(reviewId);
+    public JSONObject unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   @RequestParam("reviewId") long reviewId) {
+        JSONObject response = new JSONObject();
 
-        Likes likes = new Likes(currentMember, review);
-        long res = likeService.getLikeIdByMemberAndReview(likes);
-
-        if (res > 0) {
-            likeService.deleteById(res);
-            return SUCCESS;
+        try {
+            response.put(RESULT, SUCCESS);
+            likeService.deleteLike(userDetail.getMember(), reviewId);
+            response.put("status", "UNLIKE");
+        } catch (IllegalStateException e) {
+            response.put(RESULT, FAIL + "/이미 UNLIKE 상태");
+        } catch (NoSuchElementException e) {
+            response.put(RESULT, FAIL + "/존재하지 않는 리뷰에 대한 UNLIKE 요청");
         }
 
-        return FAILED;
+        return response;
     }
 }
