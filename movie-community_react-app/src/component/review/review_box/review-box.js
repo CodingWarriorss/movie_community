@@ -211,7 +211,7 @@ export default class ReviewBox extends Component {
                 reviewId : this.props.reviewData.reviewId,
                 movieTitle: this.props.reviewData.movieTitle,
                 writerName: this.props.reviewData.writerName,
-                createDate: this.props.reviewData.createData,
+                createDate: this.props.reviewData.createDate,
                 thumnailUri: this.props.reviewData.thumnailUri
             },
             bodyData: {

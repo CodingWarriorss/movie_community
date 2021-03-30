@@ -5,22 +5,22 @@ import { REST_API_SERVER_URL } from "component/constants/APIConstants"
 
 class RankingCommponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            movieRangking : []
+            movieRangking: []
         }
     }
 
-    componentDidMount(e){
-        axios.get(REST_API_SERVER_URL + "/api/ranking" ).then( response => {
+    componentDidMount(e) {
+        axios.get(REST_API_SERVER_URL + "/api/ranking").then(response => {
             let rangkingList = response.data;
             this.setState({
-                movieRangking : [...rangkingList]
+                movieRangking: [...rangkingList]
             })
-        }).catch( error =>{
-            console.log( error );
+        }).catch(error => {
+            console.log(error);
         })
     }
 
@@ -28,27 +28,27 @@ class RankingCommponent extends Component {
         return (
             <div className="ranking-box">
                 <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Title</th>
-      <th scope="col">Last</th>
-    </tr>
-  </thead>
-  <tbody>
-      {
-          this.state.movieRangking.map( movie =>{
-              return (
-                  <tr>
-                      <th scope="row">{movie.rank}</th>
-                    <td>{movie.movieNm}</td>
-                    <td>{movie.rankInten}</td>
-                  </tr>
-              )
-          })
-      }
-  </tbody>
-</table>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Last</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.movieRangking.map(movie => {
+                                return (
+                                    <tr>
+                                        <th scope="row">{movie.rank}</th>
+                                        <td>{movie.movieNm}</td>
+                                        <td>{movie.rankInten}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
             </div>
         )
     }
