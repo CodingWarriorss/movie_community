@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
 import ReviewList from './review/review-list';
-import "./MainTest.css";
 
 class MainTest extends Component {
     constructor(props) {
