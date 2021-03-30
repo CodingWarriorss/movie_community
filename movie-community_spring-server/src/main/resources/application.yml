@@ -33,4 +33,4 @@ spring:
 
 
 file:
-  path:
+  path: C:/movie_community/image/
