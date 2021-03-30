@@ -1,12 +1,100 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-
 import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
+import org.json.simple.JSONObject;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public interface MemberService {
-    int checkId(String memberName);
-    int joinMember(Member member);
-    int loginMember(String memberName, String password);
-    void updateMember(Member member);
-    void withdrawMember(String memberName);
+import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
+
+@Service
+@Transactional
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.memberRepository = memberRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    /*
+     * 아이디 중복체크
+     * */
+    public void validateDuplicateMemberId(String memberName) throws IllegalStateException {
+        memberRepository.findByMemberName(memberName)
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원");
+                });
+    }
+
+    /*
+     * 회원 가입
+     * */
+    public int createMember(Member member) throws IllegalStateException {
+        // 한번 더 중복체크
+        validateDuplicateMemberId(member.getMemberName());
+
+        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+        member.setRole("ROLE_USER");
+        memberRepository.save(member);
+        return 1;
+    }
+
+    /*
+     * 정보 조회
+     * */
+    public JSONObject selectMember(String memberName) throws NoSuchElementException {
+        JSONObject member = new JSONObject();
+
+        memberRepository.findByMemberName(memberName)
+                .ifPresentOrElse(m -> {
+                            member.put("memberName", m.getMemberName());
+                            member.put("name", m.getName());
+                            member.put("email", m.getEmail());
+                            member.put("address", m.getAddress());
+                            member.put("gender", m.getGender());
+                            member.put("birth", m.getBirth());
+                            member.put("phone", m.getPhone());
+                        },
+                        () -> {
+                            throw new NoSuchElementException("존재하지 않는 회원에 대한 정보조회 요청");
+                        });
+
+        return member;
+    }
+
+    /*
+     * 정보 수정
+     * password, name, email, address, gender, phone 변경
+     * */
+    public void updateMember(Member member) throws NoSuchElementException {
+        memberRepository.findByMemberName(member.getMemberName())
+                .ifPresentOrElse(m -> {
+                    m.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+                    m.setName(member.getName());
+                    m.setEmail(member.getEmail());
+                    m.setAddress(member.getAddress());
+                    m.setGender(member.getGender());
+                    m.setPhone(member.getPhone());
+                }, () -> {
+                    throw new NoSuchElementException("존재하지 않는 회원에 대한 정보수정 요청");
+                });
+    }
+
+    /*
+     * 회원 탈퇴
+     * */
+    public void deleteMember(String memberName) {
+        memberRepository.findByMemberName(memberName)
+                .ifPresentOrElse(m -> {
+                            memberRepository.delete(m);
+                        },
+                        () -> {
+                            throw new NoSuchElementException("존재하지 않는 회원에 대한 정보삭제 요청");
+                        });
+    }
 }
