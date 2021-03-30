@@ -1,0 +1,7 @@
+.ranking-area{
+    position: sticky;
+    top: 100px;
+
+    width: 100px;
+    height: 200px;
+}

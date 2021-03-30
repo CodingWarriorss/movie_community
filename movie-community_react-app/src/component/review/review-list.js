@@ -1,10 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
-import SearchbarComponent from "./searchbar/SearchbarComponent";
-import { Modal, Button, Form } from 'react-bootstrap';
 
-import ReviewBox from './review_box/review-box';
-import dumyData from '../../test_data/review_test_data.json';
+import ReviewContens from './review_box/ReviewContents';
 
 import { REST_API_SERVER_URL } from '../constants/APIConstants';
 
@@ -42,7 +39,7 @@ export default class ReviewList extends Component {
                 .then((response) => {
                     console.log(JSON.stringify(response.data, null, 4));
                     this.setState({
-                        reviewList: [...this.state.reviewList, ...response.data.content],
+                        reviewList: [...this.state.reviewList, ...response.data],
                         page: (this.state.page + 1)
                     })
                 }).catch((error) => {
@@ -50,8 +47,6 @@ export default class ReviewList extends Component {
                 })
         } else {
             config['params']['movieTitle'] = this.state.movieTitle
-
-            console.log( JSON.stringify( config , null, 4 ) );
             axios.get(requestUrl, config)
                 .then((response) => {
                     console.log(JSON.stringify(response.data, null, 4));
@@ -93,7 +88,7 @@ export default class ReviewList extends Component {
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId} />;
+                        return <ReviewContens reviewData={reviewData} key={reviewData.reviewId} />;
                     }
                 )}
             </div>

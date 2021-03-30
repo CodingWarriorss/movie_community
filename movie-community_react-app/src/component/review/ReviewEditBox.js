@@ -5,7 +5,7 @@ import {Modal, Button, Form} from 'react-bootstrap';
 import StarBoxComponent from "./StarBoxComponent";
 import ImageUploader from "react-images-upload";
 
-export default class ReviewWriteBox extends Component {
+export default class ReviewEditBox extends Component {
 
     //boolean -> props.isModify로 수정작업인지 체크
 
