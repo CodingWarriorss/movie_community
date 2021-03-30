@@ -1,40 +1,38 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
-@ToString
+@Getter
 @NoArgsConstructor
-@Table(name = "likes")
+@RequiredArgsConstructor
 @SequenceGenerator(
-        name = "LIKE_ID_GEN",
-        sequenceName = "LIKE_ID_SEQ",
-        allocationSize = 1)
+        name = "LIKES_SEQ_GEN",
+        sequenceName = "LIKES_SEQ",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Likes {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LIKE_ID_GEN")
-    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "LIKES_SEQ_GEN"
+    )
+    private long id;
+
+    @ManyToOne @NonNull
+    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "review_id")
-    @JsonBackReference
+    @ManyToOne @NonNull
+    @JsonIgnore
     private Review review;
-
-    public Likes(Member member, Review review) {
-        this.member = member;
-        this.review = review;
-    }
 }
