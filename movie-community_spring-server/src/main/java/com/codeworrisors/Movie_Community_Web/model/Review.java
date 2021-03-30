@@ -1,9 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,38 +9,49 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Setter @Getter
-@Table(name = "review")
+@Getter
+@NoArgsConstructor
+@RequiredArgsConstructor
 @SequenceGenerator(
-        name = "REVIEW_ID_GEN",
-        sequenceName = "REVIEW_ID_SEQ",
-        allocationSize = 1)
-public class Review { // 리뷰 게시물
+        name = "REVIEW_SEQ_GEN",
+        sequenceName = "REVIEW_SEQ",
+        initialValue = 1,
+        allocationSize = 1
+)
+public class Review {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVIEW_ID_GEN")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "REVIEW_SEQ_GEN"
+    )
     private long id;
+    @NonNull
     private String movieTitle;
+    @NonNull
+    @Setter
     private String content;
+    @NonNull
+    @Setter
     private int rating;
     @CreationTimestamp
-    private Timestamp createDate;   // 작성일
+    private Timestamp createDate;
 
-    // 작성자
-//    @ManyToOne(cascade = CascadeType.ALL) // [wrong] (여기서 1차 오류 ->  detached entity passed to persist... )
-    @ManyToOne(cascade = CascadeType.MERGE) // 여러개의 게시물 - 한명의 작성자
+    @ManyToOne
+    @NonNull
+    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
-    // 이미지
-//    @OneToMany(cascade = CascadeType.MERGE) // [wrong] (여기서 2차 오류 -> transient....)
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
-    private List<Image> images;
 
-    //좋아요
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private List<Likes> likes;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Image> imageList;
 
-    // 댓글
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private List<Comments> comments;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Likes> likesList;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Comments> commentsList;
+
+    @Setter
+    @Transient
+    private int likeCount;
 }
