@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { Component } from "react";
 import SearchbarComponent from "./searchbar/SearchbarComponent";
 import { Modal, Button, Form } from 'react-bootstrap';
-
+import { browserHistory } from 'react-router'
+import { useHistory } from 'react-router-dom';
 import ReviewBox from './review_box/review-box';
 import dumyData from '../../test_data/review_test_data.json';
 
@@ -12,12 +13,13 @@ export default class ReviewList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieTitle: '',
-            reviewList: dumyData,
+            movieTitle: localStorage.getItem('movieTitle') || '',
+            reviewList: [],
             page: 0
         }
         this.loadReview = this.loadReview.bind(this);
         this.scrollCheck = this.scrollCheck.bind(this);
+        this.loadReview();
     }
 
     componentDidMount() {
@@ -31,11 +33,11 @@ export default class ReviewList extends Component {
         console.log('review-list update');
         if (this.state.movieTitle !== this.props.movieTitle) {
             this.setState({
-                movieTitle: this.props.movieTitle
-            })
-            const curentMovieTitle = this.state.movieTitle;
-            window.location.reload(false);
-            console.log(curentMovieTitle);
+                movieTitle: this.props.movieTitle,
+                reviewList: [],
+                page : 0
+            });
+            window.history.pushState(this.state, '', '/');
         }
         console.log(this.state.movieTitle);
     }
