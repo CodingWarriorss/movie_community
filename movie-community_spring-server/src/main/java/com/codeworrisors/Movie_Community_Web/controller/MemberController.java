@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
 
 @RestController
 public class MemberController {
+    private static int SUCCESS = 1;
+    private static int FAIL = 0;
 
     private final MemberService memberService;
 
@@ -28,9 +30,9 @@ public class MemberController {
         try {
             memberService.validateDuplicateMemberId(member.getMemberName());
         } catch (IllegalStateException e) {
-            return 0;
+            return FAIL;
         }
-        return 1;
+        return SUCCESS;
     }
 
 
@@ -43,9 +45,9 @@ public class MemberController {
         try {
             memberService.createMember(member);
         } catch (IllegalStateException e) {
-            return 0;
+            return FAIL;
         }
-        return 1;
+        return SUCCESS;
     }
 
     /*
@@ -75,9 +77,9 @@ public class MemberController {
         try {
             memberService.updateMember(member);
         } catch (NoSuchElementException e) {
-            return 0;
+            return FAIL;
         }
-        return 1;
+        return SUCCESS;
     }
 
     /*
@@ -89,8 +91,8 @@ public class MemberController {
         try {
             memberService.deleteMember(member.getMemberName());
         } catch (NoSuchElementException e) {
-            return 0;
+            return FAIL;
         }
-        return 1;
+        return SUCCESS;
     }
 }
