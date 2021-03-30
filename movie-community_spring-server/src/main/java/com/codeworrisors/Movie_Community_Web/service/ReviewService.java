@@ -251,36 +251,4 @@ public class ReviewService {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
-
-//
-//    public Image createImage(Image image) {
-//        return imageRepository.save(image);
-//    }
-//
-//
-//    public Review createReview(Review review) {
-//        return reviewRepository.save(review);
-//    }
-//
-//
-//    public Review updateReview(Review review) {
-//        if (reviewRepository.findById(review.getId()).isEmpty())
-//            return null;
-//        return reviewRepository.save(review);
-//    }
-//
-//
-//    public void deleteReview(Review review) {
-//        reviewRepository.delete(review);
-//    }
-//
-//    public void clear() {
-//        reviewRepository.deleteAll();
-//    }
-//
-//    public Review getReviewById(long reviewId) {
-//        return reviewRepository.findById(reviewId).get();
-//    }
-//
-//
 }
