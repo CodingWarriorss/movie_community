@@ -33,6 +33,9 @@ export default class ReviewList extends Component {
             this.setState({
                 movieTitle: this.props.movieTitle
             })
+            const curentMovieTitle = this.state.movieTitle;
+            window.location.reload(false);
+            console.log(curentMovieTitle);
         }
         console.log(this.state.movieTitle);
     }
@@ -55,7 +58,7 @@ export default class ReviewList extends Component {
                 'Authorization': 'Bearer ' + token
             },
             params : {
-                pageIndex : 0
+                pageIndex : this.state.page
             }
         }
 
@@ -64,7 +67,7 @@ export default class ReviewList extends Component {
                 'Authorization': 'Bearer ' + token
             },
             params : {
-                pageIndex : 0,
+                pageIndex : this.state.page,
                 movieTitle : this.state.movieTitle
             }
         }
