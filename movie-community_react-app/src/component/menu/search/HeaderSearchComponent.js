@@ -15,7 +15,7 @@ class HeaderSearchComponent extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
-        this.clearBar = this.clearBar.bind(this);
+        this.clearState = this.clearState.bind(this);
         this.setTitle = this.setTitle.bind(this);
     }
 
@@ -91,13 +91,13 @@ class HeaderSearchComponent extends Component {
         console.log(title);
         this.props.movieTitleSelected(title);
     }
-    clearBar() {
+    clearState() {
         this.setState(
             {
-                input: '',
-                preview: ''
+                selected : ''
             }
         )
+        this.props.movieTitleSelected('');
     }
 
     render() {
@@ -118,6 +118,10 @@ class HeaderSearchComponent extends Component {
                         backgroundColor : "white"
                     }}>{preview}</div> : ''
                 }
+                <button
+                            onClick={this.clearState}>
+                    X
+                </button>
             </div>
         )
     }
