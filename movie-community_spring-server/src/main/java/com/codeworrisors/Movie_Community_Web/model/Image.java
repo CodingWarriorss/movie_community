@@ -1,29 +1,35 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
-@Getter
-@Setter
-@Table(name = "image")
+@NoArgsConstructor
+@RequiredArgsConstructor
 @SequenceGenerator(
-        name = "IMAGE_ID_GEN",
-        sequenceName = "IMAGE_ID_SEQ")
+        name = "IMAGE_SEQ_GEN",
+        sequenceName = "IMAGE_SEQ",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IMAGE_ID_SEQ")
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "IMAGE_SEQ_GEN"
+    )
+    @Getter
+    private long id;
+
+    @NonNull
+    @Getter
     private String fileName;
 
-    @ManyToOne // 여러개의 이미지 - 하나의 리뷰 게시물
-    @JsonBackReference
+    @ManyToOne
+    @NonNull
+    @JsonIgnore
     private Review review;
 }
