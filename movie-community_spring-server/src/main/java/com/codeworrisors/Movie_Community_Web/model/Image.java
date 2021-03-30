@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +22,6 @@ public class Image {
     private String fileName;
 
     @ManyToOne // 여러개의 이미지 - 하나의 리뷰 게시물
+    @JsonBackReference
     private Review review;
 }

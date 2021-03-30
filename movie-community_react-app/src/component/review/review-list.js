@@ -6,53 +6,85 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import ReviewBox from './review_box/review-box';
 import dumyData from '../../test_data/review_test_data.json';
 
-import {REST_API_SERVER_URL} from '../constants/APIConstants';
+import { REST_API_SERVER_URL } from '../constants/APIConstants';
 
 export default class ReviewList extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
+            movieTitle: '',
             reviewList: dumyData,
-            page : 0
+            page: 0
         }
         this.loadReview = this.loadReview.bind(this);
         this.scrollCheck = this.scrollCheck.bind(this);
     }
 
-    /*
-        Review Data를 갱신하는 Method
-        현재 Demo
-        API와 연동하여 Review 데이터 로드로 수정
-    */
+    componentDidMount() {
+        console.log('review-list mounted');
+        this.setState({
+            movieTitle: this.props.movieTitle
+        })
+    }
+
+    componentDidUpdate() {
+        console.log('review-list update');
+        if (this.state.movieTitle !== this.props.movieTitle) {
+            this.setState({
+                movieTitle: this.props.movieTitle
+            })
+        }
+        console.log(this.state.movieTitle);
+    }
+
     loadReview() {
         // this.setState({
         //     reviewList: [...this.state.reviewList, ...dumyData]
         // })
 
-        const requestUrl = REST_API_SERVER_URL+ '/api/review/main?pageIndex=' +this.state.page ;
-     
+        const requestUrl = REST_API_SERVER_URL + '/api/review/main'
+        
+        console.log("review_list");
+        console.log(this.state.movieTitle);
 
         const token = localStorage.getItem("token");
 
-        console.log( token );
+        console.log(token);
         let config = {
             headers: {
                 'Authorization': 'Bearer ' + token
+            },
+            params : {
+                pageIndex : 0,
+                movieTitle : this.state.movieTitle
             }
         }
 
         // //요청 형태 프레임만 작성해둠.
-        axios.get( requestUrl, config)
-        .then( (response) => {
-            console.log( JSON.stringify( response.data , null , 4) );
-            this.setState({
-                reviewList: [...this.state.reviewList, ...response.data.content],
-                page : (this.state.page +1)
-            })
-        }).catch( (error) => {
+        if (this.state.movieTitle === "") {
+            axios.get(requestUrl, config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data, null, 4));
+                    this.setState({
+                        reviewList: [...this.state.reviewList, ...response.data.content],
+                        page: (this.state.page + 1)
+                    })
+                }).catch((error) => {
 
-        })
+                })
+        } else {
+            axios.get(requestUrl, config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data, null, 4));
+                    this.setState({
+                        movieTitle : this.state.movieTitle,
+                        reviewList: [...this.state.reviewList, ...response.data.content],
+                        page: (this.state.page + 1)
+                    })
+                }).catch((error) => {
+
+                })
+        }
     }
 
     //스크롤이 마지막에 있는지 체크
@@ -73,7 +105,7 @@ export default class ReviewList extends Component {
         );
         let clientHeight = document.documentElement.clientHeight;
 
-        if ( parseInt(scrollTop + clientHeight ) + 1 >= scrollHeight) {
+        if (parseInt(scrollTop + clientHeight) + 1 >= scrollHeight) {
             this.loadReview();
         }
     }
@@ -89,7 +121,7 @@ export default class ReviewList extends Component {
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId}/>;
+                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId} />;
                     }
                 )}
             </div>
