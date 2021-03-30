@@ -73,7 +73,7 @@ function ReviewBody(props) {
         }
 
         if( !like ){
-            axios.post( REST_API_SERVER_URL + "/api/like" , param , config ).then( response => {
+            axios.post( REST_API_SERVER_URL + "/api/review/like" , param , config ).then( response => {
                 setLike( !like );
                 setCount( likeCount + 1);
             });
@@ -87,7 +87,7 @@ function ReviewBody(props) {
                     reviewId : props.data.reviewId
                 }
             }
-            axios.delete( REST_API_SERVER_URL + "/api/like" , config ).then( response => {
+            axios.delete( REST_API_SERVER_URL + "/api/review/like" , config ).then( response => {
                 setLike( !like );
                 setCount( likeCount - 1);
             });
