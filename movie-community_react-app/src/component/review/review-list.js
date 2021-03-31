@@ -33,7 +33,7 @@ export default class ReviewList extends Component {
 
 
         // //요청 형태 프레임만 작성해둠.
-        if (this.state.movieTitle === "") {
+        if (this.state.movieTitle === "" || this.state.movieTitle == undefined) {
             
             axios.get(requestUrl, config)
                 .then((response) => {
@@ -83,6 +83,22 @@ export default class ReviewList extends Component {
         window.addEventListener("scroll", this.scrollCheck, true);
     }
 
+    
+    componentDidUpdate() {
+        console.log('review-list update');
+        
+        if (this.state.movieTitle !== this.props.movieTitle) {
+            
+            this.setState({
+                movieTitle: this.props.movieTitle,
+                reviewList: [],
+                page : 0
+            });
+            window.history.pushState(this.state, '', '/');
+        }
+
+        console.log(this.state.movieTitle);
+    }
     render() {
         return (
             <div className="container start-margin">

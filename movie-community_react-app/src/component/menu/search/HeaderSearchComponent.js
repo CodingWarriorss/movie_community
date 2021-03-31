@@ -76,6 +76,7 @@ class HeaderSearchComponent extends Component {
             )
         });
     }
+
     setTitle(title) {
         this.setState(
             {
@@ -88,9 +89,11 @@ class HeaderSearchComponent extends Component {
         // 부모 컴포넌트에 전달 (명시적으로 호출해야 함)
         // callbackFromParent : fix된 이름
         //this.props.selectedItem(title);
+        console.log("HeaderSearchComponent");
         console.log(title);
         this.props.movieTitleSelected(title);
     }
+
     clearState() {
         this.setState(
             {

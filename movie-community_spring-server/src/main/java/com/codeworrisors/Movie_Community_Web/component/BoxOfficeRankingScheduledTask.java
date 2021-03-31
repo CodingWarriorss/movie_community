@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.component;
 
-import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDTO;
+import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -70,9 +70,9 @@ public class BoxOfficeRankingScheduledTask {
         try {
             JsonNode jsonNode = objectMapper.readTree( responseEntity.getBody() );
             jsonNode = jsonNode.get("boxOfficeResult");
-            List<BoxOfficeRankingDTO> rankingList = objectMapper.readValue(jsonNode.get("dailyBoxOfficeList").toString(), new TypeReference<List<BoxOfficeRankingDTO>>() {});
+            List<BoxOfficeRankingDto> rankingList = objectMapper.readValue(jsonNode.get("dailyBoxOfficeList").toString(), new TypeReference<List<BoxOfficeRankingDto>>() {});
 
-            for(BoxOfficeRankingDTO rankingData : rankingList){
+            for(BoxOfficeRankingDto rankingData : rankingList){
                 BoxOfficeRanking boxOfficeRanking = rankingData.convertToEntity();
                 boxOfficeRankingRepository.save(boxOfficeRanking);
             }
