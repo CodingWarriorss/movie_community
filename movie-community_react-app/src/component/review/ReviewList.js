@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 
-import ReviewBox from './review_box/ReviewContents';
+import ReviewContent from './review_box/ReviewContents';
 
 import {REST_API_SERVER_URL} from '../constants/APIConstants';
 
@@ -37,7 +37,7 @@ export default class ReviewList extends Component {
         .then( (response) => {
             console.log( JSON.stringify( response.data , null , 4) );
             this.setState({
-                reviewList: [...this.state.reviewList, ...response.data.content],
+                reviewList: [...this.state.reviewList, ...response.data],
                 page : (this.state.page +1)
             })
         }).catch( (error) => {
@@ -69,6 +69,7 @@ export default class ReviewList extends Component {
     }
 
     componentDidMount() {
+        this.loadReview();
         window.addEventListener("scroll", this.scrollCheck, true);
     }
 
@@ -77,7 +78,7 @@ export default class ReviewList extends Component {
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewBox reviewData={reviewData} key={reviewData.reviewId}/>;
+                        return <ReviewContent reviewData={reviewData} key={reviewData.reviewId}/>;
                     }
                 )}
             </div>

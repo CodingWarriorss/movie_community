@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDTO;
+import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ public class BoxOfficeRankingService {
         this.boxOfficeRankingRepository = boxOfficeRankingRepository;
     }
 
-    public List<BoxOfficeRankingDTO> getBoxOfficeRanking(){
+    public List<BoxOfficeRankingDto> getBoxOfficeRanking(){
 
         List<BoxOfficeRanking> rankingList = boxOfficeRankingRepository.findAllByTargetDt(LocalDate.now().minusDays(1));
-        List<BoxOfficeRankingDTO> rankingDTOList = new ArrayList<>();
+        List<BoxOfficeRankingDto> rankingDTOList = new ArrayList<>();
 
         for( BoxOfficeRanking entity : rankingList){
             rankingDTOList.add( converToDTO(entity) );
@@ -30,8 +30,8 @@ public class BoxOfficeRankingService {
         return rankingDTOList;
     }
 
-    private BoxOfficeRankingDTO converToDTO(BoxOfficeRanking boxOfficeRanking){
-        BoxOfficeRankingDTO dto = new BoxOfficeRankingDTO();
+    private BoxOfficeRankingDto converToDTO(BoxOfficeRanking boxOfficeRanking){
+        BoxOfficeRankingDto dto = new BoxOfficeRankingDto();
         dto.setRank(boxOfficeRanking.getRank());
         dto.setRankInten(boxOfficeRanking.getRankInten());
         dto.setMovieNm(boxOfficeRanking.getMovieTitle());

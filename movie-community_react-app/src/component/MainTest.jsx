@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import ReviewList from './review/review-list';
+import ReviewList from './review/ReviewList';
 import "./MainTest.css";
 import RankingComponent from "component/ranking/RankingComponent";
 

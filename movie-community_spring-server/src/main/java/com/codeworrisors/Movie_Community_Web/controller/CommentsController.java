@@ -5,6 +5,8 @@ import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
 import com.codeworrisors.Movie_Community_Web.service.CommentService;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,8 @@ public class CommentsController {
     static final String FAIL = "FAIL";
 
     private final CommentService commentService;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public CommentsController(CommentService commentService) {
         this.commentService = commentService;
@@ -73,6 +77,10 @@ public class CommentsController {
     public JSONObject deleteComment(@AuthenticationPrincipal PrincipalDetails userDetail,
                                     @RequestParam long commentId) {
         JSONObject response = new JSONObject();
+
+        logger.info("===========comment delete start=============");
+        logger.info("delete ID : " + commentId);
+
 
         try {
             response.put(RESULT, SUCCESS);

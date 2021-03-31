@@ -3,6 +3,8 @@ package com.codeworrisors.Movie_Community_Web.controller;
 import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.service.LikeService;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ public class LikesController {
 
     private final LikeService likeService;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public LikesController(LikeService likeService) {
         this.likeService = likeService;
     }
@@ -29,15 +33,19 @@ public class LikesController {
     @PostMapping
     public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                  @RequestBody Map<String, Long> params) {
+        logger.info("===========like 누름!============");
         JSONObject response = new JSONObject();
 
         try {
             response.put(RESULT, SUCCESS);
+            logger.info( "reveiwId : " + params.get("reviewId") );
             likeService.createLike(userDetail.getMember(), params.get("reviewId"));
             response.put("status", "LIKE");
         } catch (IllegalStateException e) {
+            logger.info(e.getMessage());
             response.put(RESULT, FAIL + "/이미 LIKE 상태");
         } catch (NoSuchElementException e) {
+            logger.info(e.getMessage());
             response.put(RESULT, FAIL + "/존재하지 않는 리뷰에 대한 LIKE 요청");
         }
 

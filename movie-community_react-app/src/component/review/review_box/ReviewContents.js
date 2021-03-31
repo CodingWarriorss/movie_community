@@ -1,25 +1,56 @@
 import React, { Component, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
-import { Accordion, Button } from "react-bootstrap";
+import { Accordion, Button, Dropdown, Modal } from "react-bootstrap";
 
 
 import './ReviewContens.css';
-import ReviewEditBox from "../ReviewEditBox";
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
+import ReactImageUploadComponent from "react-images-upload";
+
 
 //Review 게시물 상단
 function ReviewHeader(props) {
 
-    const [ isShow , setShow ] = useState(false);
-    const handleShow = () =>{
-        setShow(!isShow);
+    const [contentModalShow, setContentShow] = useState(false);
+    const [imageModalShow, setImageShow] = useState(false);
+
+    const handleContentShow = () => {
+        setContentShow(!contentModalShow);
     }
 
-    const convertDateFormet = (dateStr) =>{
+    const handleImageShow = () => {
+        setImageShow(!imageModalShow);
+    }
+
+    function onDrop(pictureFiles) {
+        this.setState({
+            pictures: this.state.pictures.concat(pictureFiles)
+        });
+    }
+
+    const convertDateFormet = (dateStr) => {
         let date = new Date(dateStr);
-        console.log( date);
+        console.log(date);
         return date.toLocaleString();
+    }
+
+    const modifyContents = () => {
+        alert("수정")
+
+        return (
+            <div>
+                <p>이걸 리턴하게 되면 어떻게 되는건가교????</p>
+            </div>
+        )
+    }
+
+    const addImage = () => {
+        alert("추가")
+    }
+
+    const removeReview = () => {
+        alert("삭제")
     }
 
     return (
@@ -42,8 +73,56 @@ function ReviewHeader(props) {
                     </div>
                 </div>
                 <div className="col-1 contents-center">
-                    <button className="btn-col" onClick={handleShow}>edit</button>
-                    <ReviewEditBox handleShow={handleShow} isShow={isShow} isModify={true} ></ReviewEditBox>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            edit
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
+                            <Modal show={contentModalShow} onHide={handleContentShow}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>내용변경</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>{props.data.reviewData.contents}</Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleContentShow}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" onClick={handleContentShow}>
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+
+                            <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
+                            <Modal show={imageModalShow} onHide={handleImageShow}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>이미지 추가</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <ReactImageUploadComponent
+                                    withIcon={true}
+                                withPreview={true}
+                                buttonText="사진 추가"
+                                onChange={onDrop}
+                                imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                                maxFileSize={5242880}>
+                                    </ReactImageUploadComponent>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleImageShow}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" onClick={handleImageShow}>
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+
+                            <Dropdown.Item href="#/action-3">삭제</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
             </div>
 
@@ -57,16 +136,16 @@ function ReviewBody(props) {
 
     const imageUrlList = [];
 
-    const [ like, setLike ] = useState(props.data.likePressed);
-    const [ likeCount , setCount ] = useState(props.data.likeCount);
+    const [like, setLike] = useState(props.data.likePressed);
+    const [likeCount, setCount] = useState(props.data.likeCount);
 
     props.data.images.forEach(image => {
         imageUrlList.push({ url: IMAGE_RESOURCE_URL + image.fileName })
     })
 
-    const handleLike = ( event ) => {
-        const param = {
-            reviewId : props.data.id
+    const handleLike = (event) => {
+        const params = {
+            reviewId: parseInt(props.data.reviewId)
         }
 
         const token = localStorage.getItem("token");
@@ -77,20 +156,20 @@ function ReviewBody(props) {
             }
         }
 
-        if( !like ){
-            axios.post( REST_API_SERVER_URL + "/api/review/like" , param , config ).then( response => {
-                setLike( !like );
-                setCount( likeCount + 1);
+        if (!like) {
+            axios.post(REST_API_SERVER_URL + "/api/review/like", params, config).then(response => {
+                setLike(!like);
+                setCount(likeCount + 1);
             });
-        }else{
-
-            axios.delete( REST_API_SERVER_URL + "/api/review/like" , config ).then( response => {
-                setLike( !like );
-                setCount( likeCount - 1);
+        } else {
+            config["params"] = params;
+            axios.delete(REST_API_SERVER_URL + "/api/review/like", config).then(response => {
+                setLike(!like);
+                setCount(likeCount - 1);
             });
 
         }
-       
+
     }
 
     return (
@@ -99,15 +178,15 @@ function ReviewBody(props) {
                 <p>{props.data.content}</p>
             </div>
             <div className="review-images">
-                { ( imageUrlList.length < 1) ? null:<SimpleImageSlider width={"100%"}
+                {(imageUrlList.length < 1) ? null : <SimpleImageSlider width={"100%"}
                     height={400} images={imageUrlList} showNavs={true} showBullets={true} />
-                
+
                 }
-                
+
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    <button className={"btn "+ ((like) ? "btn-primary":"btn-outline-primary") } like={false} onClick={handleLike}>Like</button>
+                    <button className={"btn " + ((like) ? "btn-primary" : "btn-outline-primary")} like={false} onClick={handleLike}>Like</button>
                 </div>
                 <div className="col">
                     <div className="review-like">{likeCount}명이 좋아합니다</div>
@@ -119,23 +198,30 @@ function ReviewBody(props) {
 
 //Review 하단
 function ReviewFooter(props) {
-    const [ inputValue , setValue ] = useState("");
-    const [ reviewComments, setReviewComments ] = useState({
-        reviewCommentList : [...props.data.commentsList]
+    const [inputValue, setValue] = useState("");
+    const [reviewComments, setReviewComments] = useState({
+        reviewCommentList: [...props.data.commentsList]
     });
-    
-    const setComment = (event) =>{
+
+    const setComment = (event) => {
         const { value } = event.target
-        setValue( value )
+        setValue(value)
     }
-    const writeComment = () =>{
+    const writeComment = () => {
+
+        let myName = localStorage.getItem("authenticatedMember");
         const newComment = {
-            reviewId : props.data.reviewId,
-            content : inputValue
+            reviewId: props.data.reviewId,
+            isPossibleRemove: true,
+            id: null,
+            member: {
+                memberName: myName,
+            },
+            content: inputValue,
         }
 
 
-        setValue( "" )
+        setValue("")
 
         const token = localStorage.getItem("token");
 
@@ -145,21 +231,49 @@ function ReviewFooter(props) {
             }
         }
 
-        axios.post( REST_API_SERVER_URL +"/api/review/comment" , newComment , config ).then( response => {
-            console.log(response.data.id);
-            setReviewComments( {
-                reviewCommentList : [...reviewComments.reviewCommentList , newComment]
-            })
-        }).catch( error => console.log(error) );
+        axios.post(REST_API_SERVER_URL + "/api/review/comment", newComment, config).then(response => {
+            console.log(response.data);
 
+            newComment.id = response.data.comment.commentId;
+            setReviewComments({
+                reviewCommentList: [...reviewComments.reviewCommentList, newComment]
+            })
+        }).catch(error => console.log(error));
+
+    }
+
+    const deleteComment = (event) => {
+        const commentId = event.target.value;
+        const token = localStorage.getItem("token");
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params: {
+                commentId: commentId,
+            }
+        }
+        axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
+            if (response.data.result === "SUCCESS") {
+                let delCommentList = [...reviewComments.reviewCommentList];
+                let delIndex = delCommentList.findIndex(data => data.id === commentId)
+                delCommentList.splice(delIndex, 1);
+                setReviewComments({
+                    reviewCommentList: [...delCommentList]
+                });
+            }
+        }).catch(error => console.log(error));
     }
 
     const handleKeyPress = (event) => {
-        if(event.key === "Enter") {
+        if (event.key === "Enter") {
             writeComment();
         }
     }
+
+
     return (
+
         <div className="card-footer">
             <Accordion>
                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
@@ -169,13 +283,17 @@ function ReviewFooter(props) {
                     <div>
                         <div className="comment-area">
                             {reviewComments.reviewCommentList.map(comment => {
-                                    return (
-                                        <div className="bg-white comment">
-                                            <p className="comment-name">{comment.member.memberName}</p>
-                                            <p className="comment-content">{comment.content}</p>
+                                return (
+                                    <div className="bg-white comment" key={comment.id}>
+                                        <div className="comment-top">
+                                            <h5 className="comment-name">{comment.member.memberName}</h5>
+                                            {(comment.isPossibleRemove) ? <button onClick={deleteComment} value={comment.id}>X</button> : null}
                                         </div>
-                                    )
-                                })}
+                                        <p className="comment-content">{comment.content}</p>
+
+                                    </div>
+                                )
+                            })}
                         </div>
 
                         <div className="input-group mt-3">
@@ -192,40 +310,65 @@ function ReviewFooter(props) {
 
 
 //ReviewBox Component
-export default class ReviewContens extends Component {
+export default class ReviewContent extends Component {
     constructor(props) {
         super(props);
 
-        //좀더 보기좋은 코드를 위함 구조는 어떻게 해야할것인가...
+        //자기가 좋아요 했는지 체크?
+
+
+        let likePressed = false;
+        let myName = localStorage.getItem("authenticatedMember");
+        console.log("ReviewContents is rendering!");
+        for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
+            console.log(this.props.reviewData.likesList[i].member.memberName + " == " + myName)
+            if (this.props.reviewData.likesList[i].member.memberName === myName) {
+                likePressed = true;
+                console.log("is Pressed!!!!!!!!!!!");
+            }
+        }
+
+        this.props.reviewData.commentsList.forEach(data => {
+            if (data.member.memberName === myName) {
+                data["isPossibleRemove"] = true;
+            } else {
+                data["isPossibleRemove"] = false;
+            }
+        })
+
+
         this.state = {
             headerInfo: {
-                reviewId : this.props.reviewData.id,
+                reviewId: this.props.reviewData.id,
                 movieTitle: this.props.reviewData.movieTitle,
                 writer: this.props.reviewData.member,
                 createDate: this.props.reviewData.createDate,
+                reviewData: this.props.reviewData,
             },
             bodyData: {
-                reviewId : this.props.reviewData.id,
+                reviewId: this.props.reviewData.id,
                 content: this.props.reviewData.content,
                 images: this.props.reviewData.imageList,
                 likeCount: this.props.reviewData.likeCount,
-                likesList :  this.props.reviewData.likesList,
-                rating : this.props.reviewData.rating,
+                likesList: this.props.reviewData.likesList,
+                likePressed: likePressed,
+                rating: this.props.reviewData.rating,
             },
             footerData: {
-                reviewId : this.props.reviewData.id,
-                commentsList : this.props.reviewData.commentsList
+                reviewId: this.props.reviewData.id,
+                member: this.props.reviewData.member,
+                commentsList: this.props.reviewData.commentsList,
             }
         }
     }
 
     render() {
         return (
-            <div className=" review-box">
+            <div className="review-box">
                 <div className="card">
-                    <ReviewHeader data={this.state.headerInfo}/>
-                    <ReviewBody data={this.state.bodyData}/>
-                    <ReviewFooter data={this.state.footerData}/>
+                    <ReviewHeader data={this.state.headerInfo} />
+                    <ReviewBody data={this.state.bodyData} />
+                    <ReviewFooter data={this.state.footerData} />
                 </div>
             </div>
         )

@@ -27,7 +27,7 @@ class RankingCommponent extends Component {
     render() {
         return (
             <div className="ranking-box">
-                <table class="table">
+                <table className="table">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
