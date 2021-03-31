@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.config.auth;
+package com.codeworrisors.Movie_Community_Web.security.auth;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;

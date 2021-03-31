@@ -2,7 +2,7 @@ package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
-import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

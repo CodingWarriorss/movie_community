@@ -1,11 +1,11 @@
-package com.codeworrisors.Movie_Community_Web.config.jwt;
+package com.codeworrisors.Movie_Community_Web.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.property.JwtProperties;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

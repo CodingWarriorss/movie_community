@@ -1,9 +1,8 @@
-package com.codeworrisors.Movie_Community_Web.config.auth;
+package com.codeworrisors.Movie_Community_Web.security.auth;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
