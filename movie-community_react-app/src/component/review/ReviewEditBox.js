@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, {Component} from "react";
 import SearchbarComponent from "./searchbar/SearchbarComponent";
-import {Modal, Button, Form} from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import StarBoxComponent from "./StarBoxComponent";
 import ImageUploader from "react-images-upload";
+import { REST_API_SERVER_URL } from "../constants/APIConstants";
 
 export default class ReviewEditBox extends Component {
 
@@ -90,7 +91,7 @@ export default class ReviewEditBox extends Component {
         formData.append("rating", parseInt( this.state.rating ) ); // 별점
 
         // 이미지 존재여부 확인
-        let url = 'http://localhost:8080/api/review';
+        let url = REST_API_SERVER_URL + '/api/review';
         const pictures = this.state.pictures;
         if (pictures.length > 0) {
             pictures.forEach(picture => {

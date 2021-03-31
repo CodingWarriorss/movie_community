@@ -15,7 +15,6 @@ export default class ReviewList extends Component {
 
         this.loadReview = this.loadReview.bind(this);
         this.scrollCheck = this.scrollCheck.bind(this);
-
     }
 
     componentDidMount() {
