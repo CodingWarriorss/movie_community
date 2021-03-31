@@ -1,21 +1,10 @@
 package com.codeworrisors.Movie_Community_Web.config;
 
-import com.codeworrisors.Movie_Community_Web.constant.StaticResourceProperties;
-import org.springframework.context.annotation.Bean;
+import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.codeworrisors.Movie_Community_Web.constant.StaticResourceProperties;
 
 /*
     Web 관련 설정 Configuration 
