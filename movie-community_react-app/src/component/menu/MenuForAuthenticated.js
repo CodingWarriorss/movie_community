@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReviewWriteBox from "../review/ReviewWriteBox";
+import ReviewEditBox from "../review/ReviewEditBox";
 import LogoutComponent from "../login/LogoutComponent";
 import HeaderSearchComponent from './search/HeaderSearchComponent';
 
@@ -26,7 +26,7 @@ const Menu = (props) => {
                     <button className="btn btn-primary" onClick={handleShow}>
                         +
                     </button>
-                    <ReviewWriteBox handleShow={handleShow} isShow={isShow} isModify={false} />
+                    <ReviewEditBox handleShow={handleShow} isShow={isShow} isModify={false} />
                 </li>
                 {/*테스트용 프로필 버튼*/}
                 <li className="nav-item">

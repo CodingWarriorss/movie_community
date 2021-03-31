@@ -3,8 +3,8 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { Accordion, Button } from "react-bootstrap";
 
 
-import './review-box.css';
-import ReviewWriteBox from "../ReviewWriteBox";
+import './ReviewContens.css';
+import ReviewEditBox from "../ReviewEditBox";
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 
@@ -14,6 +14,12 @@ function ReviewHeader(props) {
     const [ isShow , setShow ] = useState(false);
     const handleShow = () =>{
         setShow(!isShow);
+    }
+
+    const convertDateFormet = (dateStr) =>{
+        let date = new Date(dateStr);
+        console.log( date);
+        return date.toLocaleString();
     }
 
     return (
@@ -29,15 +35,15 @@ function ReviewHeader(props) {
                 </div>
                 <div className="col-9">
                     <div className="row">
-                        <div className="col">{props.data.writerName}</div>
+                        <div className="col">{props.data.writer.memberName}</div>
                     </div>
                     <div className="row">
-                        <div className="col">{props.data.createDate}</div>
+                        <div className="col">{convertDateFormet(props.data.createDate)}</div>
                     </div>
                 </div>
                 <div className="col-1 contents-center">
                     <button className="btn-col" onClick={handleShow}>edit</button>
-                    <ReviewWriteBox handleShow={handleShow} isShow={isShow} isModify={true} ></ReviewWriteBox>
+                    <ReviewEditBox handleShow={handleShow} isShow={isShow} isModify={true} ></ReviewEditBox>
                 </div>
             </div>
 
@@ -52,16 +58,15 @@ function ReviewBody(props) {
     const imageUrlList = [];
 
     const [ like, setLike ] = useState(props.data.likePressed);
-    const [ likeCount , setCount ] = useState(props.data.likes);
+    const [ likeCount , setCount ] = useState(props.data.likeCount);
 
     props.data.images.forEach(image => {
-        console.log( IMAGE_RESOURCE_URL + image.fileName)
         imageUrlList.push({ url: IMAGE_RESOURCE_URL + image.fileName })
     })
 
     const handleLike = ( event ) => {
         const param = {
-            reviewId : props.data.reviewId
+            reviewId : props.data.id
         }
 
         const token = localStorage.getItem("token");
@@ -79,14 +84,6 @@ function ReviewBody(props) {
             });
         }else{
 
-            config ={
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                params : {
-                    reviewId : props.data.reviewId
-                }
-            }
             axios.delete( REST_API_SERVER_URL + "/api/review/like" , config ).then( response => {
                 setLike( !like );
                 setCount( likeCount - 1);
@@ -96,12 +93,6 @@ function ReviewBody(props) {
        
     }
 
-
-    /*
-        react-simple-image-slider 라이브러리 이용. 하여 이미지를 보여주는 부분을 사용.
-        현재 이미지가 원하는 크기로 조정이 안되는 오류.
-        Fix가 안되면 다른 것을 찾아보겠습다.
-    */
     return (
         <div className="card-body">
             <div className="review-content">
@@ -130,7 +121,7 @@ function ReviewBody(props) {
 function ReviewFooter(props) {
     const [ inputValue , setValue ] = useState("");
     const [ reviewComments, setReviewComments ] = useState({
-        reviewCommentList : [...props.data.comments]
+        reviewCommentList : [...props.data.commentsList]
     });
     
     const setComment = (event) =>{
@@ -180,7 +171,7 @@ function ReviewFooter(props) {
                             {reviewComments.reviewCommentList.map(comment => {
                                     return (
                                         <div className="bg-white comment">
-                                            <p className="comment-name">{comment.commenterName}</p>
+                                            <p className="comment-name">{comment.member.memberName}</p>
                                             <p className="comment-content">{comment.content}</p>
                                         </div>
                                     )
@@ -201,29 +192,29 @@ function ReviewFooter(props) {
 
 
 //ReviewBox Component
-export default class ReviewBox extends Component {
+export default class ReviewContens extends Component {
     constructor(props) {
         super(props);
 
         //좀더 보기좋은 코드를 위함 구조는 어떻게 해야할것인가...
         this.state = {
             headerInfo: {
-                reviewId : this.props.reviewData.reviewId,
+                reviewId : this.props.reviewData.id,
                 movieTitle: this.props.reviewData.movieTitle,
-                writerName: this.props.reviewData.writerName,
+                writer: this.props.reviewData.member,
                 createDate: this.props.reviewData.createDate,
-                thumnailUri: this.props.reviewData.thumnailUri
             },
             bodyData: {
-                reviewId : this.props.reviewData.reviewId,
+                reviewId : this.props.reviewData.id,
                 content: this.props.reviewData.content,
-                images: this.props.reviewData.images,
-                likes: this.props.reviewData.likes,
-                likePressed :  this.props.reviewData.likePressed
+                images: this.props.reviewData.imageList,
+                likeCount: this.props.reviewData.likeCount,
+                likesList :  this.props.reviewData.likesList,
+                rating : this.props.reviewData.rating,
             },
             footerData: {
-                reviewId : this.props.reviewData.reviewId,
-                comments : this.props.reviewData.comments
+                reviewId : this.props.reviewData.id,
+                commentsList : this.props.reviewData.commentsList
             }
         }
     }
