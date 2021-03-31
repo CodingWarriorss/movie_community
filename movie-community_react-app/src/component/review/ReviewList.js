@@ -15,6 +15,10 @@ export default class ReviewList extends Component {
         }
         this.loadReview = this.loadReview.bind(this);
         this.scrollCheck = this.scrollCheck.bind(this);
+        this.modifyReview = this.modifyReview.bind(this);
+        this.addImage = this.addImage.bind(this);
+        this.deleteReview = this.deleteReview.bind(this);
+
     }
 
     /*
@@ -32,7 +36,6 @@ export default class ReviewList extends Component {
             }
         }
 
-        // //요청 형태 프레임만 작성해둠.
         axios.get( requestUrl, config)
         .then( (response) => {
             console.log( JSON.stringify( response.data , null , 4) );
@@ -45,14 +48,34 @@ export default class ReviewList extends Component {
         })
     }
 
-    //스크롤이 마지막에 있는지 체크
-    scrollCheck() {
+    modifyReview = ( data ) => {
+        console.log( JSON.stringify( data, null ,4 ));
+        const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
+        const token = localStorage.getItem("token");
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
 
-        /*
-            document요소에 접근하여 스크롤의 위치를 체크
-            body와 documentElement의 스크롤이 다를때도 있어서
-            두개중 비교해서 사용한다고 합니다.
-        */
+        axios.put( requestUrl , data, config)
+        .then( response => {
+            this.setState({
+                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+            })
+            console.log( JSON.stringify( this.state , null , 4 ));
+        }).catch( error => console.log( error ));
+    }
+
+    addImage = ( data ) => {
+        console.log( JSON.stringify( data, null ,4 ));
+    }
+
+    deleteReview = ( data ) => {
+        console.log( JSON.stringify( data, null ,4 ));
+    }
+
+    scrollCheck() {
         let scrollHeight = Math.max(
             document.documentElement.scrollHeight,
             document.body.scrollHeight
@@ -78,7 +101,11 @@ export default class ReviewList extends Component {
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewContent reviewData={reviewData} key={reviewData.reviewId}/>;
+                        return <ReviewContent reviewData={reviewData} key={reviewData.reviewId}
+                            modifyReview={this.modifyReview}
+                            deleteReview={this.deleteReview}
+                            addImage={this.addImage}
+                        />;
                     }
                 )}
             </div>

@@ -1,6 +1,6 @@
-import React, { Component, useState } from "react";
+import React, { Component, useRef, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
-import { Accordion, Button, Dropdown, Modal } from "react-bootstrap";
+import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
 
 
 import './ReviewContens.css';
@@ -11,6 +11,8 @@ import ReactImageUploadComponent from "react-images-upload";
 
 //Review 게시물 상단
 function ReviewHeader(props) {
+
+    const [contentModified , setContent] = useState(props.data.reviewData.content);
 
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
@@ -35,22 +37,21 @@ function ReviewHeader(props) {
         return date.toLocaleString();
     }
 
-    const modifyContents = () => {
-        alert("수정")
-
-        return (
-            <div>
-                <p>이걸 리턴하게 되면 어떻게 되는건가교????</p>
-            </div>
-        )
+    const modifyReview = () => {
+        let dataModified = {
+            reviewId : props.data.reviewId,
+            content : contentModified,
+        }
+        props.modifyReview(dataModified);
+        handleContentShow();
     }
 
     const addImage = () => {
-        alert("추가")
+        props.addImage();
     }
 
-    const removeReview = () => {
-        alert("삭제")
+    const deleteReview = () => {
+        props.deleteReview()
     }
 
     return (
@@ -84,16 +85,21 @@ function ReviewHeader(props) {
                                 <Modal.Header closeButton>
                                     <Modal.Title>내용변경</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>{props.data.reviewData.contents}</Modal.Body>
+                                <Modal.Body>
+                                <Form.Control as="textarea" value={contentModified}
+                                              rows={8} onChange={(e) => { setContent( e.target.value); }} />
+                                              
+                                </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleContentShow}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" onClick={handleContentShow}>
+                                    <Button variant="primary" onClick={modifyReview}>
                                         Save Changes
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
+
 
                             <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
                             <Modal show={imageModalShow} onHide={handleImageShow}>
@@ -102,25 +108,25 @@ function ReviewHeader(props) {
                                 </Modal.Header>
                                 <Modal.Body>
                                     <ReactImageUploadComponent
-                                    withIcon={true}
-                                withPreview={true}
-                                buttonText="사진 추가"
-                                onChange={onDrop}
-                                imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                                maxFileSize={5242880}>
+                                        withIcon={true}
+                                        withPreview={true}
+                                        buttonText="사진 추가"
+                                        onChange={onDrop}
+                                        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                                        maxFileSize={5242880}>
                                     </ReactImageUploadComponent>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleImageShow}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" onClick={handleImageShow}>
+                                    <Button variant="primary" onClick={addImage}>
                                         Save Changes
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
 
-                            <Dropdown.Item href="#/action-3">삭제</Dropdown.Item>
+                            <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
@@ -366,7 +372,10 @@ export default class ReviewContent extends Component {
         return (
             <div className="review-box">
                 <div className="card">
-                    <ReviewHeader data={this.state.headerInfo} />
+                    <ReviewHeader data={this.state.headerInfo} 
+                        modifyReview={this.props.modifyReview}
+                        deleteReview={this.props.deleteReview}
+                        addImage={this.props.addImage} />
                     <ReviewBody data={this.state.bodyData} />
                     <ReviewFooter data={this.state.footerData} />
                 </div>
