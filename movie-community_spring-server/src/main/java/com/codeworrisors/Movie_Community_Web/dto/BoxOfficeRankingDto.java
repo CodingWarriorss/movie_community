@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.dto.boxoffice;
+package com.codeworrisors.Movie_Community_Web.dto;
 
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,13 +12,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class BoxOfficeRankingDTO {
+public class BoxOfficeRankingDto {
     private Integer rank;
     private String movieNm;
     private String rankInten;
 
-
-    //과연 이게 좋은건지는 다시 생각해봅시다. 하지말라는데는 이유가 있겠죠...
     public BoxOfficeRanking convertToEntity(){
         return new BoxOfficeRanking( this.movieNm, this.rank, this.rankInten, LocalDate.now().minusDays(1) );
     }

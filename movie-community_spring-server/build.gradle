@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    // json object 생성 라이브러리
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     //spring securiy
     implementation 'org.springframework.boot:spring-boot-starter-security'

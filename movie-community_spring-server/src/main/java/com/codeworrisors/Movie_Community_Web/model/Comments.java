@@ -1,39 +1,44 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Getter @Setter
-@ToString
+@Getter
 @NoArgsConstructor
-@Table(name = "comments")
-@SequenceGenerator(name = "COMMENT_ID_GEN",
-                    sequenceName = "COMMENT_ID_SEQ",
-                    allocationSize = 1)
+@RequiredArgsConstructor
+@SequenceGenerator(
+        name = "COMMENT_SEQ_GEN",
+        sequenceName = "COMMENT_SEQ",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Comments {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_ID_GEN")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "COMMENT_SEQ_GEN"
+    )
     private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "review_id")
-    @JsonBackReference
-    private Review review;
-
+    @NonNull
+    @Setter
     private String content;
-
     @CreationTimestamp
     private Timestamp createDate;
+
+    @NonNull
+    @ManyToOne
+    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
+    private Member member;
+
+    @NonNull
+    @ManyToOne
+    @JsonIgnore
+    private Review review;
 }

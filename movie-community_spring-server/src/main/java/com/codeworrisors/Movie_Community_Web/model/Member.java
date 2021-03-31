@@ -1,37 +1,41 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@Table(name = "member")
 @SequenceGenerator(
         name = "MEMBER_SEQ_GEN",
-        sequenceName = "MEMBER_ID_SEQ",
-        allocationSize = 1)
+        sequenceName = "MEMBER_SEQ",
+        initialValue = 1,
+        allocationSize = 1
+)
+@Getter
 public class Member {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_ID_SEQ")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "MEMBER_SEQ_GEN"
+    )
     private long id;
+    @Setter
     private String memberName;
+    @Setter
     private String password;
+    @Setter
     private String name;
+    @Setter
     private String email;
+    @Setter
     private String address;
+    @Setter
     private String gender;
+    @Setter
     private String birth;
+    @Setter
     private String phone;
-    private String role; // ROLE_USER
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Review> uploadedReviews;
+    @Setter
+    private String role;
 }
