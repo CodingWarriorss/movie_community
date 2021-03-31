@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -26,16 +27,12 @@ import java.util.List;
 
 import static com.codeworrisors.Movie_Community_Web.property.BoxOfficeRankingProperties.*;
 
+@RequiredArgsConstructor
 @Component
 public class BoxOfficeRankingScheduledTask {
-
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private BoxOfficeRankingRepository boxOfficeRankingRepository;
-
-    public BoxOfficeRankingScheduledTask(BoxOfficeRankingRepository boxOfficeRankingRepository) {
-        this.boxOfficeRankingRepository = boxOfficeRankingRepository;
-    }
+    private final BoxOfficeRankingRepository boxOfficeRankingRepository;
 
     @PostConstruct
     public void initRankingData() {
@@ -48,7 +45,6 @@ public class BoxOfficeRankingScheduledTask {
     }
 
     public void recordBoxOfficeRanking() {
-
         logger.info("Box Office Ranking API call");
         //하루전 통계자료만 있다.
         LocalDate date = LocalDate.now().minusDays(1);
