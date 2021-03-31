@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import com.codeworrisors.Movie_Community_Web.service.ReviewService;
+import com.codeworrisors.Movie_Community_Web.service.NaverMovieAPIService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /*
     네이버 영화 조회 API사용 Controller
@@ -25,10 +23,10 @@ public class NaverMovieAPIController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private ReviewService reviewService;
+    private final NaverMovieAPIService naverMovieAPIService;
 
-    public NaverMovieAPIController( ReviewService reviewService){
-        this.reviewService = reviewService;
+    public NaverMovieAPIController(NaverMovieAPIService naverMovieAPIService) {
+        this.naverMovieAPIService = naverMovieAPIService;
     }
 
     @GetMapping(produces = "application/json; charset=UTF-8")
@@ -37,7 +35,7 @@ public class NaverMovieAPIController {
         String result = null;
         try {
             String text = URLEncoder.encode(title, "UTF-8");
-            result = reviewService.searchMovie(text);
+            result = naverMovieAPIService.searchMovie(text);
 
         } catch (UnsupportedEncodingException e) {
             logger.error(e.getMessage());
