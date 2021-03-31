@@ -2,6 +2,7 @@ package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class MemberService {
@@ -16,14 +18,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.memberRepository = memberRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
-    /*
-     * 아이디 중복체크
-     * */
     public void validateDuplicateMemberId(String memberName) throws IllegalStateException {
         memberRepository.findByMemberName(memberName)
                 .ifPresent(m -> {
@@ -31,12 +26,8 @@ public class MemberService {
                 });
     }
 
-    /*
-     * 회원 가입
-     * */
     public int createMember(Member member) throws IllegalStateException {
-        // 한번 더 중복체크
-        validateDuplicateMemberId(member.getMemberName());
+        validateDuplicateMemberId(member.getMemberName());// 한번 더 중복체크
 
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
         member.setRole("ROLE_USER");
@@ -44,9 +35,6 @@ public class MemberService {
         return 1;
     }
 
-    /*
-     * 정보 조회
-     * */
     public JSONObject selectMember(String memberName) throws NoSuchElementException {
         JSONObject member = new JSONObject();
 
@@ -67,10 +55,6 @@ public class MemberService {
         return member;
     }
 
-    /*
-     * 정보 수정
-     * password, name, email, address, gender, phone 변경
-     * */
     public void updateMember(Member member) throws NoSuchElementException {
         memberRepository.findByMemberName(member.getMemberName())
                 .ifPresentOrElse(m -> {
@@ -85,9 +69,6 @@ public class MemberService {
                 });
     }
 
-    /*
-     * 회원 탈퇴
-     * */
     public void deleteMember(String memberName) {
         memberRepository.findByMemberName(memberName)
                 .ifPresentOrElse(m -> {

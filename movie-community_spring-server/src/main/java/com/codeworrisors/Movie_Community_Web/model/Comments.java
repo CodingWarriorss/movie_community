@@ -13,17 +13,16 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @SequenceGenerator(
-        name = "COMMENT_SEQ_GEN",
-        sequenceName = "COMMENT_SEQ",
-        initialValue = 1,
-        allocationSize = 1
+        name = "comment_seq_gen",
+        sequenceName = "comment_seq",
+        allocationSize = 50
 )
 public class Comments {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "COMMENT_SEQ_GEN"
+            generator = "comment_seq_gen"
     )
     private long id;
     @NonNull

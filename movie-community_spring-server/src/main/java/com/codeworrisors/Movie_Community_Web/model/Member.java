@@ -5,19 +5,18 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(
-        name = "MEMBER_SEQ_GEN",
-        sequenceName = "MEMBER_SEQ",
-        initialValue = 1,
-        allocationSize = 1
-)
 @Getter
+@SequenceGenerator(
+        name = "member_seq_gen",
+        sequenceName = "member_seq",
+        allocationSize = 50
+)
 public class Member {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "MEMBER_SEQ_GEN"
+            generator = "member_seq_gen"
     )
     private long id;
     @Setter

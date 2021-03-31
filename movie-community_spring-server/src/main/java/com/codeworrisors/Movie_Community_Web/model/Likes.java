@@ -14,25 +14,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @SequenceGenerator(
-        name = "LIKES_SEQ_GEN",
-        sequenceName = "LIKES_SEQ",
-        initialValue = 1,
-        allocationSize = 1
+        name = "likes_seq_gen",
+        sequenceName = "likes_seq",
+        allocationSize = 50
 )
 public class Likes {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "LIKES_SEQ_GEN"
+            generator = "likes_seq_gen"
     )
     private long id;
 
-    @ManyToOne @NonNull
+    @NonNull
+    @ManyToOne
     @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
-    @ManyToOne @NonNull
+    @NonNull
+    @ManyToOne
     @JsonIgnore
     private Review review;
 }
