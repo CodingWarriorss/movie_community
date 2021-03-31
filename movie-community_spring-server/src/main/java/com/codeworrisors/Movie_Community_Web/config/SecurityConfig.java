@@ -4,7 +4,6 @@ import com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilte
 import com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,9 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final MemberRepository memberRepository;
-
     private final CorsFilter corsFilter;
 
     @Bean
@@ -29,11 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("WebSecurityConfigurerAdapter의 configure() 호출");
-
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 쿠키와 세션 사용 안함

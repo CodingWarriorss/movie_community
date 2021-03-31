@@ -2,6 +2,7 @@ package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.memberRepository = memberRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     /*
      * 아이디 중복체크

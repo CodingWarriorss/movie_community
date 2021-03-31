@@ -3,6 +3,7 @@ package com.codeworrisors.Movie_Community_Web.security.auth;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,20 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/*
-'/login' 요청이 오면 시큐리티가 낚아채서 로그인을 진행.
-시큐리티는 `Security ContextHolder`라는 자신만의 session 공간을 가진다.
-[세션] Security Session => [객체] Authentication 객체  => [객체] UserDetails 타입
-*/
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class PrincipalDetails implements UserDetails { // UserDetails를 구현했기 때문에 Authentication에 포함될 수 있음
+public class PrincipalDetails implements UserDetails {
 
-    private Member member; // 컴포지션
-
-    // 일반로그인시 사용하는 Constructor
+    private Member member;
     public PrincipalDetails(Member member) {
         this.member = member;
     }

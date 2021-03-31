@@ -8,8 +8,11 @@ import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.model.*;
 import com.codeworrisors.Movie_Community_Web.repository.*;
 
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +25,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class ReviewService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ReviewRepository reviewRepository;
     private final ImageRepository imageRepository;
@@ -32,19 +37,28 @@ public class ReviewService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, ImageRepository imageRepository, LikeRepository likeRepository, CommentRepository commentRepository, MemberRepository memberRepository) {
-        this.reviewRepository = reviewRepository;
-        this.imageRepository = imageRepository;
-        this.likeRepository = likeRepository;
-        this.commentRepository = commentRepository;
-        this.memberRepository = memberRepository;
-    }
 
     /*
-     * READ Review, Comment, Like
-     *
+     * 리뷰
      * */
-    public List<Review> getAll(Pageable pageable) {
+    public List<Review> getReviews(Pageable pageable, String movieTitle, Long memberId) throws IllegalStateException {
+        if (movieTitle != null) return getReviewsByMovieTitle(pageable, movieTitle);
+        else if (memberId != null) return getReviewsByMemberId(pageable, memberId);
+        return getAll(pageable);
+    }
+
+    private List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
+        return reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
+    }
+
+    private List<Review> getReviewsByMemberId(Pageable pageable, long memberId) throws IllegalStateException {
+        if (memberRepository.findById(memberId).isEmpty())
+            throw new IllegalStateException("존재하지 않는 회원");
+
+        return reviewRepository.findByMemberId(pageable, memberId).getContent();
+    }
+
+    private List<Review> getAll(Pageable pageable) {
         List<Review> reviews = reviewRepository.findAll(pageable).getContent();
         reviews.forEach(review -> {
             review.setLikeCount(likeRepository.countByReviewId(review.getId()));
@@ -53,21 +67,8 @@ public class ReviewService {
         return reviews;
     }
 
-    public List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
-        return reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
-    }
-
-    public List<Review> getReviewsByMemberId(Pageable pageable, long memberId) throws IllegalStateException {
-        if (memberRepository.findById(memberId).isEmpty())
-            throw new IllegalStateException("존재하지 않는 회원");
-
-        return reviewRepository.findByMemberId(pageable, memberId).getContent();
-    }
 
 
-    /*
-     * CREATE, UPDATE, DELETE REVIEW
-     * */
     public JSONObject createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
         Review saved = reviewRepository.save(
                 new Review(createReviewDto.getMovieTitle().replaceAll("\n", ""),
@@ -121,7 +122,7 @@ public class ReviewService {
     }
 
     private String saveFile(MultipartFile file) throws IOException {
-        UUID uuid = UUID.randomUUID(); // 식별자 생성
+        UUID uuid = UUID.randomUUID();
         String uuidFilename = uuid + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
         Files.write(filePath, file.getBytes());
@@ -163,15 +164,17 @@ public class ReviewService {
             Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
             Files.delete(filePath);
         } catch (IOException e) {
-            System.out.println("이미지 파일 삭제 오류");
+            logger.error(e.getMessage());
         }
     }
 
 
     /*
-     * CREATE, UPDATE, DELETE COMMENT
+     * 댓글
      * */
     public JSONObject createComment(Member member, CreateCommentDto createCommentDto) throws EntityNotFoundException {
+        if (reviewRepository.findById(createCommentDto.getReviewId()).isEmpty())
+            throw new EntityNotFoundException("존재하지 않는 리뷰에 대한 댓글 추가 요청");
         Comments saved = commentRepository.save(
                 new Comments(createCommentDto.getContent(), member, reviewRepository.getOne(createCommentDto.getReviewId())));
 
@@ -208,7 +211,7 @@ public class ReviewService {
 
 
     /*
-     * CREATE, DELETE LIKE
+     * 좋아요
      * */
     public void createLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
         if (reviewRepository.findById(reviewId).isEmpty())

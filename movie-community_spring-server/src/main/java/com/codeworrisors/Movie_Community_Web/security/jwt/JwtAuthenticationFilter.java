@@ -1,10 +1,5 @@
 package com.codeworrisors.Movie_Community_Web.security.jwt;
 
-/*
-
-
- */
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
@@ -12,6 +7,8 @@ import com.codeworrisors.Movie_Community_Web.property.JwtProperties;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -26,6 +23,7 @@ import java.sql.Date;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AuthenticationManager authenticationManager;
 
@@ -33,7 +31,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        System.out.println("==================로그인 처리 중====================");
+        logger.info("로그인 처리중");
         // 1. JSON 파싱해서 membername, password 받기
         Member member = null;
         ObjectMapper om = new ObjectMapper();
@@ -42,7 +40,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("From Client : " + member); // 클라이언트로부터 받아온 로그인 정보
 
         // 2. Token 생성
         UsernamePasswordAuthenticationToken authenticationToken
@@ -53,14 +50,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Authentication authentication = null;
         try {
             authentication = authenticationManager.authenticate(authenticationToken); // UserDetailsService로 ㄱ
-//            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();// 4. (test) 반환 결과 확인
-        }
-        catch (BadCredentialsException e) {
-            System.out.println("[로그인 실패] 비밀번호가 틀림: " + member.getMemberName());
+        } catch (BadCredentialsException e) {
+            logger.error("[로그인 실패] 비밀번호가 틀림");
             response.addHeader(JwtProperties.HEADER_STRING, "failure/password");
-        }
-        catch (AuthenticationException e) {
-            System.out.println("[로그인 실패] 아이디가 없음: " + member.getMemberName());
+        } catch (AuthenticationException e) {
             response.addHeader(JwtProperties.HEADER_STRING, "failure/memberName");
         }
 
@@ -72,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
-        System.out.println("[로그인 완료] 로그인 정보 : " + principalDetails.getMember()); // 값이 존재하면 로그인이 정상적으로 된 것
+        logger.info("[로그인 성공]"); // 값이 존재하면 로그인이 정상적으로 된 것
 
         // Hash 암호방식으로 암호화 (RSA(X), HMAC(O): 서버만 알고 있는 secret 값으로 암호화)
         String jwtToken = JWT.create()

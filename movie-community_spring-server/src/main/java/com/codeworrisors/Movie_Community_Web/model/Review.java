@@ -13,17 +13,16 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @SequenceGenerator(
-        name = "REVIEW_SEQ_GEN",
-        sequenceName = "REVIEW_SEQ",
-        initialValue = 1,
-        allocationSize = 1
+        name = "review_seq_gen",
+        sequenceName = "review_seq",
+        allocationSize = 50
 )
 public class Review {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "REVIEW_SEQ_GEN"
+            generator = "review_seq_gen"
     )
     private long id;
     @NonNull
@@ -36,9 +35,12 @@ public class Review {
     private int rating;
     @CreationTimestamp
     private Timestamp createDate;
+    @Setter
+    @Transient
+    private int likeCount;
 
-    @ManyToOne
     @NonNull
+    @ManyToOne
     @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
@@ -50,8 +52,4 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Comments> commentsList;
-
-    @Setter
-    @Transient
-    private int likeCount;
 }

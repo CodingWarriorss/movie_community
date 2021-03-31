@@ -3,12 +3,13 @@ package com.codeworrisors.Movie_Community_Web.controller;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
-import org.json.simple.JSONObject;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @RestController
 public class MemberController {
     private static int SUCCESS = 1;
@@ -16,14 +17,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
-
     /*
      * 아이디 중복체크
-     * response (1-성공, 0-이미 존재하는 아이디)
      */
     @PostMapping("checkid")
     public int checkId(@RequestBody Member member) {
@@ -35,10 +30,8 @@ public class MemberController {
         return SUCCESS;
     }
 
-
     /*
      * 회원가입
-     * response (1-성공, 0-이미 존재하는 아이디)
      * */
     @PostMapping("join")
     public int joinMember(@RequestBody Member member) {
@@ -52,25 +45,19 @@ public class MemberController {
 
     /*
      * 회원정보 조회
-     * response (성공/실패 여부, 회원정보)
      * */
     @GetMapping("/api/member")
-    public JSONObject readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
-        JSONObject response = new JSONObject();
-        response.put("result", "SUCCESS");
-
+    public int readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
         try {
-            response.put("member", memberService.selectMember(userDetail.getUsername()));
+            memberService.selectMember(userDetail.getUsername());
         } catch (NoSuchElementException e) {
-            response.put("result", "FAIL");
+            return FAIL;
         }
-
-        return response;
+        return SUCCESS;
     }
 
     /*
      * 회원정보 수정
-     * response (1-성공, 0-존재하지 않는 회원)
      * */
     @PutMapping("/api/member")
     public int modifyMember(@RequestBody Member member) {
@@ -84,7 +71,6 @@ public class MemberController {
 
     /*
      * 회원정보 삭제
-     * response (1-성공, 0-존재하지 않는 회원)
      * */
     @DeleteMapping("api/member")
     public int withdrawMember(@RequestBody Member member) {

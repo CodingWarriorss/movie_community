@@ -27,7 +27,6 @@ public class NaverMovieAPIService {
     }
 
     private String get(String apiUrl, Map<String, String> requestHeaders) throws IOException {
-        // 요청
         HttpURLConnection conn = connect(apiUrl);
         try {
             conn.setRequestMethod("GET");
@@ -35,12 +34,10 @@ public class NaverMovieAPIService {
                 conn.setRequestProperty(header.getKey(), header.getValue());
             }
 
-            // 응답
             int responseCode = conn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
-
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 return readBody(conn.getInputStream());
-            } else { // 에러 발생
+            } else {
                 return readBody(conn.getErrorStream());
             }
         } catch (IOException e) {
@@ -63,9 +60,7 @@ public class NaverMovieAPIService {
 
     private String readBody(InputStream body) {
         InputStreamReader streamReader = new InputStreamReader(body);
-
         ObjectMapper jsonParser = new ObjectMapper();
-
         //Jaskson 사용 Deserializing? 후 sorting 다시 serializing
         try {
             NaverAPIResponseDto naverAPIResponseDto = jsonParser.readValue(body, NaverAPIResponseDto.class);
@@ -77,7 +72,6 @@ public class NaverMovieAPIService {
                     return (o1Rating > o2Rating) ? -1 : 1;
                 }
             });
-
             return jsonParser.writeValueAsString(naverAPIResponseDto);
         } catch (IOException e) {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);

@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.component;
 
-import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDTO;
+import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,16 +38,16 @@ public class BoxOfficeRankingScheduledTask {
     }
 
     @PostConstruct
-    public void initRankingData(){
+    public void initRankingData() {
         recordBoxOfficeRanking();
     }
 
-    @Scheduled( cron = "0 0 1 * * ?")
-    public void updateRankingData(){
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void updateRankingData() {
         recordBoxOfficeRanking();
     }
 
-    public void recordBoxOfficeRanking(){
+    public void recordBoxOfficeRanking() {
 
         logger.info("Box Office Ranking API call");
         //하루전 통계자료만 있다.
@@ -56,30 +56,31 @@ public class BoxOfficeRankingScheduledTask {
 
         HttpHeaders headers = new HttpHeaders();
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BOX_OFFICE_RANKING_API_URL)
-                .queryParam("key" , BOX_OFFICE_RANKING_API_KEY )
-                .queryParam("targetDt" , dataFormatToAPI );
+                .queryParam("key", BOX_OFFICE_RANKING_API_KEY)
+                .queryParam("targetDt", dataFormatToAPI);
 
         URI queryUri = builder.build().toUri();
-        HttpEntity<String> entity = new HttpEntity<String>("" , null);
+        HttpEntity<String> entity = new HttpEntity<String>("", null);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(queryUri, HttpMethod.GET , entity ,String.class);
-
+        ResponseEntity<String> responseEntity = restTemplate.exchange(queryUri, HttpMethod.GET, entity, String.class);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            JsonNode jsonNode = objectMapper.readTree( responseEntity.getBody() );
+            JsonNode jsonNode = objectMapper.readTree(responseEntity.getBody());
             jsonNode = jsonNode.get("boxOfficeResult");
-            List<BoxOfficeRankingDTO> rankingList = objectMapper.readValue(jsonNode.get("dailyBoxOfficeList").toString(), new TypeReference<List<BoxOfficeRankingDTO>>() {});
+            List<BoxOfficeRankingDto> rankingList = objectMapper.readValue(jsonNode.get("dailyBoxOfficeList").toString(), new TypeReference<List<BoxOfficeRankingDto>>() {
+            });
 
-            for(BoxOfficeRankingDTO rankingData : rankingList){
-                BoxOfficeRanking boxOfficeRanking = rankingData.convertToEntity();
-                boxOfficeRankingRepository.save(boxOfficeRanking);
-            }
+            rankingList.forEach(boxOfficeRankingDto -> {
+                boxOfficeRankingRepository.save(new BoxOfficeRanking(
+                        boxOfficeRankingDto.getMovieNm(),
+                        boxOfficeRankingDto.getRank(),
+                        boxOfficeRankingDto.getRankInten(),
+                        LocalDate.now().minusDays(1)));
+            });
             logger.info("ranking save - date: " + date.toString());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
     }
-
 }
