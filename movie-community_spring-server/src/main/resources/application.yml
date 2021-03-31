@@ -1,9 +1,6 @@
 logging:
   level: 
     root: info
-  #아래 설정으로 파일로 남김 but 파일을 나누는 단위나. 만료기간 등 설정을 아직 모르겠습니다.
-  #file:
-  #  name: /log/dev_app.log    
 
   pattern:
       console: "%d %-5level %logger : %msg%n"
@@ -29,8 +26,3 @@ spring:
   mvc:
     static-path-pattern: /image/**
 
-
-
-
-file:
-  path: C:/movie_community/image/

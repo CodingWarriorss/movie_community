@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        logger.info("로그인 처리중");
         // 1. JSON 파싱해서 membername, password 받기
         Member member = null;
         ObjectMapper om = new ObjectMapper();
@@ -65,7 +64,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
-        logger.info("[로그인 성공]"); // 값이 존재하면 로그인이 정상적으로 된 것
+        logger.info("'" + principalDetails.getUsername() + "' 로그인 성공"); // 값이 존재하면 로그인이 정상적으로 된 것
 
         // Hash 암호방식으로 암호화 (RSA(X), HMAC(O): 서버만 알고 있는 secret 값으로 암호화)
         String jwtToken = JWT.create()

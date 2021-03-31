@@ -35,8 +35,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("[BasicAuthenticationFilter의 doFilterInternal() 호출]");
-
         // 1. Request Header를 확인
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
@@ -51,8 +49,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             // 3. 서명이 정상
             if (memberName != null) {
-                System.out.println("서명이 정상처리되었음");
-
                 // 3-1) 임의로 authentication 객체를 생성
                 Member memberEntity = memberRepository.findByMemberName(memberName).get();
                 PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);

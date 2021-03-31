@@ -17,9 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    /*
-     * 아이디 중복체크
-     */
+
     @PostMapping("checkid")
     public int checkId(@RequestBody Member member) {
         try {
@@ -30,9 +28,6 @@ public class MemberController {
         return SUCCESS;
     }
 
-    /*
-     * 회원가입
-     * */
     @PostMapping("join")
     public int joinMember(@RequestBody Member member) {
         try {
@@ -43,9 +38,6 @@ public class MemberController {
         return SUCCESS;
     }
 
-    /*
-     * 회원정보 조회
-     * */
     @GetMapping("/api/member")
     public int readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
         try {
@@ -56,9 +48,6 @@ public class MemberController {
         return SUCCESS;
     }
 
-    /*
-     * 회원정보 수정
-     * */
     @PutMapping("/api/member")
     public int modifyMember(@RequestBody Member member) {
         try {
@@ -69,9 +58,6 @@ public class MemberController {
         return SUCCESS;
     }
 
-    /*
-     * 회원정보 삭제
-     * */
     @DeleteMapping("api/member")
     public int withdrawMember(@RequestBody Member member) {
         try {
