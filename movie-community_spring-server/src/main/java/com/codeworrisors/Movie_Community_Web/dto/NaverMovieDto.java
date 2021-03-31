@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.request;
+package com.codeworrisors.Movie_Community_Web.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
-public class NaverMovie {
+public class NaverMovieDto {
     String title;
     String link;
     String image;
