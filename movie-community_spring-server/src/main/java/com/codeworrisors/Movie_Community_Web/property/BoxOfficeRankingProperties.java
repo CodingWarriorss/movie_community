@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.constant;
+package com.codeworrisors.Movie_Community_Web.property;
 
 public interface BoxOfficeRankingProperties {
     public static final String BOX_OFFICE_RANKING_API_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
