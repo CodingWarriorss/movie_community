@@ -19,13 +19,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.codeworrisors.Movie_Community_Web.constant.BoxOfficeRankingProperties.*;
+import static com.codeworrisors.Movie_Community_Web.property.BoxOfficeRankingProperties.*;
 
 @Component
 public class BoxOfficeRankingScheduledTask {
