@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.config.jwt;
+package com.codeworrisors.Movie_Community_Web.property;
 
 public interface JwtProperties {
     String SECRET = "cw"; // 서버만 알고 있는 SECRET 키
