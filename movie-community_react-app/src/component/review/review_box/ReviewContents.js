@@ -77,6 +77,7 @@ function ReviewBody(props) {
             }
         }
 
+
         if( !like ){
             axios.post( REST_API_SERVER_URL + "/api/review/like" , param , config ).then( response => {
                 setLike( !like );

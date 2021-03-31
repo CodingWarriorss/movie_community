@@ -35,7 +35,7 @@ class HeaderSearchComponent extends Component {
                 if (data.hasOwnProperty('items')) {
                     that.setState(
                         {
-                            selected: '영화',
+                            selected: '',
                             detailed : '',
                             preview: this.setResult(data['items'])
                         }
@@ -85,12 +85,6 @@ class HeaderSearchComponent extends Component {
                 preview: '',
             }
         )
-
-        // 부모 컴포넌트에 전달 (명시적으로 호출해야 함)
-        // callbackFromParent : fix된 이름
-        //this.props.selectedItem(title);
-        console.log("HeaderSearchComponent");
-        console.log(title);
         this.props.movieTitleSelected(title);
     }
 

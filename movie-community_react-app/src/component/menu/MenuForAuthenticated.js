@@ -11,8 +11,6 @@ const Menu = (props) => {
     }
 
     const movieTitleSelected = (data) => {
-        console.log("MenuForAuthentication");
-        console.log(data);
         props.getMovieTitle(data);
     }
 

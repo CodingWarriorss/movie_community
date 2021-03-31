@@ -1,29 +1,45 @@
 import axios from "axios";
 import React, { Component } from "react";
-
-import ReviewContens from './review_box/ReviewContents';
+import ReviewContents from './review_box/ReviewContents';
 
 import { REST_API_SERVER_URL } from '../constants/APIConstants';
 
 export default class ReviewList extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            movieTitle: '',
             reviewList: [],
             page: 0
         }
+
         this.loadReview = this.loadReview.bind(this);
         this.scrollCheck = this.scrollCheck.bind(this);
+
+    }
+
+    componentDidMount() {
+        window.addEventListener("scroll", this.scrollCheck, true);
+        this.loadReview();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.movieTitle !== this.props.movieTitle) {
+            this.setState({
+                reviewList : [],
+                page : 0
+            }, () => {
+                this.loadReview();
+            })
+        }
     }
 
     loadReview() {
         const requestUrl = REST_API_SERVER_URL + '/api/review'
-        
         const token = localStorage.getItem("token");
 
         let config = {
-            headers: {
+            headers : {
                 'Authorization': 'Bearer ' + token
             },
             params : {
@@ -31,10 +47,18 @@ export default class ReviewList extends Component {
             }
         }
 
+        let configWithMovieTitle = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params : {
+                pageIndex : this.state.page,
+                movieTitle : this.props.movieTitle
+            }
+        }
 
         // //요청 형태 프레임만 작성해둠.
-        if (this.state.movieTitle === "" || this.state.movieTitle == undefined) {
-            
+        if (this.props.movieTitle === "") {
             axios.get(requestUrl, config)
                 .then((response) => {
                     console.log(JSON.stringify(response.data, null, 4));
@@ -46,19 +70,18 @@ export default class ReviewList extends Component {
 
                 })
         } else {
-            config['params']['movieTitle'] = this.state.movieTitle
-            axios.get(requestUrl, config)
+            axios.get(requestUrl, configWithMovieTitle)
                 .then((response) => {
                     console.log(JSON.stringify(response.data, null, 4));
                     this.setState({
-                        movieTitle : this.state.movieTitle,
-                        reviewList: [...response.data.content],
+                        reviewList: [...this.state.reviewList, ...response.data],
                         page: (this.state.page + 1)
                     })
                 }).catch((error) => {
 
                 })
         }
+        
     }
 
     //스크롤이 마지막에 있는지 체크
@@ -73,38 +96,18 @@ export default class ReviewList extends Component {
         );
         let clientHeight = document.documentElement.clientHeight;
 
-        if (parseInt(scrollTop + clientHeight) + 1 >= scrollHeight) {
+        if (parseInt(scrollTop + clientHeight) + 10 >= scrollHeight) {
             this.loadReview();
         }
     }
-
-    componentDidMount() {
-        this.loadReview();
-        window.addEventListener("scroll", this.scrollCheck, true);
-    }
-
     
-    componentDidUpdate() {
-        console.log('review-list update');
-        
-        if (this.state.movieTitle !== this.props.movieTitle) {
-            
-            this.setState({
-                movieTitle: this.props.movieTitle,
-                reviewList: [],
-                page : 0
-            });
-            window.history.pushState(this.state, '', '/');
-        }
 
-        console.log(this.state.movieTitle);
-    }
     render() {
         return (
             <div className="container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewContens reviewData={reviewData} key={reviewData.reviewId} />;
+                        return <ReviewContents reviewData={reviewData} key={reviewData.reviewId} />;
                     }
                 )}
             </div>
