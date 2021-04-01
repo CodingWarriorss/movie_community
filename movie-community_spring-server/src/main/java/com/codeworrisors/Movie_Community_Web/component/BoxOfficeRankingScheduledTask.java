@@ -36,7 +36,8 @@ public class BoxOfficeRankingScheduledTask {
 
     @PostConstruct
     public void initRankingData() {
-        recordBoxOfficeRanking();
+        if (boxOfficeRankingRepository.findAllByTargetDt(LocalDate.now().minusDays(1)).isEmpty())
+            recordBoxOfficeRanking();
     }
 
     @Scheduled(cron = "0 0 1 * * ?")
