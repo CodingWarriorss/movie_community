@@ -7,7 +7,5 @@ import java.time.LocalDate;
 import java.util.*;
 
 public interface BoxOfficeRankingRepository extends JpaRepository<BoxOfficeRanking, Long> {
-
     List<BoxOfficeRanking> findAllByTargetDt(LocalDate targetDate);
-
 }

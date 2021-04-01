@@ -197,26 +197,28 @@ function ReviewFooter(props) {
 export default class ReviewContens extends Component {
     constructor(props) {
         super(props);
-
         //좀더 보기좋은 코드를 위함 구조는 어떻게 해야할것인가...
         this.state = {
             headerInfo: {
-                reviewId : this.props.reviewData.id,
-                movieTitle: this.props.reviewData.movieTitle,
-                writer: this.props.reviewData.member,
-                createDate: this.props.reviewData.createDate,
+                reviewId : '',
+                movieTitle: '',
+                writer: {
+                    memberId : '',
+                    memberName : ''
+                },
+                createDate: '',
             },
             bodyData: {
-                reviewId : this.props.reviewData.id,
-                content: this.props.reviewData.content,
-                images: this.props.reviewData.imageList,
-                likeCount: this.props.reviewData.likeCount,
-                likesList :  this.props.reviewData.likesList,
-                rating : this.props.reviewData.rating,
+                reviewId : '',
+                content: '',
+                images: [],
+                likeCount: '',
+                likesList : [],
+                rating : '',
             },
             footerData: {
-                reviewId : this.props.reviewData.id,
-                commentsList : this.props.reviewData.commentsList
+                reviewId : '',
+                commentsList : []
             }
         }
     }

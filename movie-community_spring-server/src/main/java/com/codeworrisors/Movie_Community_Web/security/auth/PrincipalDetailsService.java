@@ -1,8 +1,10 @@
-package com.codeworrisors.Movie_Community_Web.config.auth;
+package com.codeworrisors.Movie_Community_Web.security.auth;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,25 +12,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-// `/login` 요청이 오면 UserDetailsService의 loadByUsername()이 호출된다.
+/*
+ `/login` 요청이 오면 UserDetailsService의 loadByUsername()이 호출된다.
+ */
+
 @Service
+@RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    // loadUserByUsername() 종료 => @AuthenticationPrincipal 생성됨
     @Override
     public UserDetails loadUserByUsername(String memberName)
             throws UsernameNotFoundException {
-        System.out.println("=============== MemberName 인증 =================");
         Optional<Member> byMemberName = memberRepository.findByMemberName(memberName);
 
         if (byMemberName.isPresent()) {
-            System.out.println("[Found 'memberName']:" + memberName);
             return new PrincipalDetails(byMemberName.get());
         }
-        System.out.println("[Not Found 'memberName']");
+        logger.error("[해당 아이디가 존재하지 않음] '" + memberName + "'");
         return null;
     }
 }

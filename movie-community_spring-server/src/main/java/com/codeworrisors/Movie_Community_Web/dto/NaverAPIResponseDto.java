@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.request;
+package com.codeworrisors.Movie_Community_Web.dto;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NaverAPIResponse {
+public class NaverAPIResponseDto {
     private String lastBuildDate;
     private int total;
-    private List<NaverMovie> items;
+    private List<NaverMovieDto> items;
 }

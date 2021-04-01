@@ -1,11 +1,11 @@
-package com.codeworrisors.Movie_Community_Web.config.jwt;
+package com.codeworrisors.Movie_Community_Web.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.property.JwtProperties;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,8 +35,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("[BasicAuthenticationFilter의 doFilterInternal() 호출]");
-
         // 1. Request Header를 확인
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         if (jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
@@ -51,8 +49,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             // 3. 서명이 정상
             if (memberName != null) {
-                System.out.println("서명이 정상처리되었음");
-
                 // 3-1) 임의로 authentication 객체를 생성
                 Member memberEntity = memberRepository.findByMemberName(memberName).get();
                 PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);

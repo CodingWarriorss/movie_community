@@ -9,27 +9,25 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @SequenceGenerator(
-        name = "IMAGE_SEQ_GEN",
-        sequenceName = "IMAGE_SEQ",
-        initialValue = 1,
-        allocationSize = 1
+        name = "image_seq_gen",
+        sequenceName = "image_seq",
+        allocationSize = 50
 )
 public class Image {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "IMAGE_SEQ_GEN"
+            generator = "image_seq_gen"
     )
     @Getter
     private long id;
-
     @NonNull
     @Getter
     private String fileName;
 
-    @ManyToOne
     @NonNull
+    @ManyToOne
     @JsonIgnore
     private Review review;
 }
