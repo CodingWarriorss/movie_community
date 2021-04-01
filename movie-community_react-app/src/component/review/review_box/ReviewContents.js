@@ -217,7 +217,6 @@ function ReviewBody(props) {
 
 //Review 하단
 function ReviewFooter(props) {
-    console.log( props.data.commentsList );
     const [inputValue, setValue] = useState("");
     const [reviewComments, setReviewComments] = useState({
         reviewCommentList: [...props.data.commentsList]
@@ -262,6 +261,27 @@ function ReviewFooter(props) {
             })
         }).catch(error => console.log(error));
 
+    const deleteComment = (event) => {
+        const commentId = event.target.value;
+        const token = localStorage.getItem("token");
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params: {
+                commentId: commentId,
+            }
+        }
+        axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
+            if (response.data.result === "SUCCESS") {
+                let delCommentList = [...reviewComments.reviewCommentList];
+                let delIndex = delCommentList.findIndex(data => data.id === commentId)
+                delCommentList.splice(delIndex, 1);
+                setReviewComments({
+                    reviewCommentList: [...delCommentList]
+                });
+            }
+        }).catch(error => console.log(error));
     }
 
     const deleteComment = (event) => {
@@ -443,4 +463,3 @@ export default class ReviewContent extends Component {
         )
     }
 }
-

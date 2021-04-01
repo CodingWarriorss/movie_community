@@ -11,7 +11,6 @@ const Menu = (props) => {
     }
 
     const movieTitleSelected = (data) => {
-        console.log(data);
         props.getMovieTitle(data);
     }
 

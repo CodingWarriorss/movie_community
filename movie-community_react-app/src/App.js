@@ -10,13 +10,6 @@ import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
 
 
-const getMovieTitle = (title) => {
-    console.log("APP.js");
-    console.log(title);
-    //settingMovieTitle(title);
-    //console.log(movieTitle);
-}
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -28,6 +21,7 @@ class App extends Component {
     }
 
     setMovieTitle = (movieTitle) => {
+        // console.log("App.js");
         this.setState({
             movieTitle : movieTitle
         });
@@ -38,6 +32,8 @@ class App extends Component {
         const access = localStorage.getItem('token');
         (access === null) ? console.log('[로그인 안됨]') : console.log('[로그인 상태]' + access);
 
+        console.log("App.js");
+        console.log(this.state.movieTitle);
         return (
             <Router>
                 
