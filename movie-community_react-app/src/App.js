@@ -1,7 +1,7 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, {Component, useState, useEffect} from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import LoginComponent from "./component/login/LoginComponent";
 import LogoutComponent from "./component/login/LogoutComponent";
 import SignupComponent from "./component/signup/SignupComponent";
@@ -21,7 +21,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieTitle : ""
+            movieTitle: ""
         }
 
         this.setMovieTitle = this.setMovieTitle.bind(this);
@@ -29,7 +29,7 @@ class App extends Component {
 
     setMovieTitle = (movieTitle) => {
         this.setState({
-            movieTitle : movieTitle
+            movieTitle: movieTitle
         });
     }
 
@@ -40,28 +40,29 @@ class App extends Component {
 
         return (
             <Router>
-                
+
                 <div className="App">
                     { /*네비게이션 바*/}
                     <nav className="navbar-expand-lg navbar-light fixed-top"
-                        style={{ height: "70px"}}>
+                         style={{height: "70px"}}>
                         <div className="container fixed-top">
-                            <div className="collapse navbar-collapse" style={{marginTop : "10px"}} id="navbarTogglerDemo02">
+                            <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
+                                 id="navbarTogglerDemo02">
                                 <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
-                                    <MenuForUnauthenticated /> : <MenuForAuthenticated getMovieTitle={this.setMovieTitle} />}
+                                    <MenuForUnauthenticated/> :
+                                    <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}
                             </div>
                         </div>
                     </nav>
 
                     <Switch>
-                        <Route path="/logout" component={LogoutComponent} />
-                        <Route path="/login" component={LoginComponent} />
-                        <Route path="/signup" component={SignupComponent} />
-                        <Route path="/"
-                            render = {() => <MainTest movieTitle = {this.state.movieTitle}/>}/>
-                        {/*    새로고침해야지 렌더링 되는 문제.. 아마 자식 부모 관계 설정때문에 그런거 같음*/}
+                        <Route path="/logout" component={LogoutComponent}/>
+                        <Route path="/login" component={LoginComponent}/>
+                        <Route path="/signup" component={SignupComponent}/>
+                        {access === null ? <Route path="/" component={LoginComponent}/> :
+                            <Route path="/" render={() => <MainTest movieTitle={this.state.movieTitle}/>}/>}
                     </Switch>
                 </div>
 
