@@ -14,6 +14,8 @@ function ReviewHeader(props) {
 
     const [contentModified , setContent] = useState(props.data.reviewData.content);
 
+    const [ addImageList, setImageLIst] = useState([]);
+
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
 

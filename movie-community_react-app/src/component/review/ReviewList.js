@@ -58,17 +58,40 @@ export default class ReviewList extends Component {
             }
         }
 
-        axios.put( requestUrl , data, config)
+        let formData = new FormData()
+        formData.append("reviewId" , data.reviewId);
+        formData.append("content" , data.content);
+
+        axios.put( requestUrl , formData, config)
         .then( response => {
             this.setState({
                 reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
             })
-            console.log( JSON.stringify( this.state , null , 4 ));
         }).catch( error => console.log( error ));
     }
 
     addImage = ( data ) => {
-        console.log( JSON.stringify( data, null ,4 ));
+        const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
+        const token = localStorage.getItem("token");
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+
+        let formData = new FormData()
+        formData.append("reviewId" , data.reviewId);
+        formData.append("content" , data.content);
+        data.imageList.forEach( imageFile => {
+            formData.append("newFiles" , imageFile );
+        });
+
+        axios.put( requestUrl , formData, config)
+        .then( response => {
+            this.setState({
+                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+            })
+        }).catch( error => console.log( error ));
     }
 
     deleteReview = ( data ) => {
