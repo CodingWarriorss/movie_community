@@ -71,6 +71,7 @@ export default class ReviewList extends Component {
     }
 
     addImage = ( data ) => {
+        console.log( data );
         const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
         const token = localStorage.getItem("token");
         let config = {
@@ -81,7 +82,7 @@ export default class ReviewList extends Component {
 
         let formData = new FormData()
         formData.append("reviewId" , data.reviewId);
-        formData.append("content" , data.content);
+        formData.append("content" , data.content );
         data.imageList.forEach( imageFile => {
             formData.append("newFiles" , imageFile );
         });
@@ -95,7 +96,22 @@ export default class ReviewList extends Component {
     }
 
     deleteReview = ( data ) => {
-        console.log( JSON.stringify( data, null ,4 ));
+        const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
+        const token = localStorage.getItem("token");
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params :{
+                reviewId: data.reviewId
+            }
+        }
+        axios.delete( requestUrl, config)
+        .then( response => {
+            this.setState({
+                reviewList : this.state.reviewList.filter( review => (review.id !== data.reviewId) ),
+            })
+        }).catch( error => console.log( error ));
     }
 
     scrollCheck() {

@@ -3,7 +3,7 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
 
 
-import './ReviewContens.css';
+import './ReviewContents.css';
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
@@ -14,7 +14,7 @@ function ReviewHeader(props) {
 
     const [contentModified , setContent] = useState(props.data.reviewData.content);
 
-    const [ addImageList, setImageLIst] = useState([]);
+    const [addImageList, setImageList] = useState( [] );
 
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
@@ -28,14 +28,12 @@ function ReviewHeader(props) {
     }
 
     function onDrop(pictureFiles) {
-        this.setState({
-            pictures: this.state.pictures.concat(pictureFiles)
-        });
+        console.log( pictureFiles )
+        setImageList(addImageList.concat(pictureFiles));
     }
 
     const convertDateFormet = (dateStr) => {
         let date = new Date(dateStr);
-        console.log(date);
         return date.toLocaleString();
     }
 
@@ -49,11 +47,20 @@ function ReviewHeader(props) {
     }
 
     const addImage = () => {
-        props.addImage();
+
+        let addImageData ={
+            reviewId : props.data.reviewId,
+            imageList : addImageList.concat(),
+            content : props.data.reviewData.content
+        }
+        props.addImage( addImageData );
     }
 
     const deleteReview = () => {
-        props.deleteReview()
+        const data = {
+            reviewId: props.data.reviewId
+        }
+        props.deleteReview(data)
     }
 
     return (
@@ -76,7 +83,9 @@ function ReviewHeader(props) {
                     </div>
                 </div>
                 <div className="col-1 contents-center">
-                    <Dropdown>
+
+                    { (props.data.changeable) ? (
+                        <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                             edit
                         </Dropdown.Toggle>
@@ -131,6 +140,8 @@ function ReviewHeader(props) {
                             <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
+                    ) : null}
+                    
                 </div>
             </div>
 
@@ -206,10 +217,13 @@ function ReviewBody(props) {
 
 //Review 하단
 function ReviewFooter(props) {
+    console.log( props.data.commentsList );
     const [inputValue, setValue] = useState("");
     const [reviewComments, setReviewComments] = useState({
         reviewCommentList: [...props.data.commentsList]
     });
+
+    console.log( reviewComments.reviewCommentList )
 
     const setComment = (event) => {
         const { value } = event.target
@@ -322,14 +336,10 @@ export default class ReviewContent extends Component {
     constructor(props) {
         super(props);
 
-        //자기가 좋아요 했는지 체크?
-
-
         let likePressed = false;
         let myName = localStorage.getItem("authenticatedMember");
         console.log("ReviewContents is rendering!");
         for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
-            console.log(this.props.reviewData.likesList[i].member.memberName + " == " + myName)
             if (this.props.reviewData.likesList[i].member.memberName === myName) {
                 likePressed = true;
                 console.log("is Pressed!!!!!!!!!!!");
@@ -344,10 +354,10 @@ export default class ReviewContent extends Component {
             }
         })
 
-
         this.state = {
             headerInfo: {
                 reviewId: this.props.reviewData.id,
+                changeable : ( this.props.reviewData.member.memberName ===  localStorage.getItem("authenticatedMember")),
                 movieTitle: this.props.reviewData.movieTitle,
                 writer: this.props.reviewData.member,
                 createDate: this.props.reviewData.createDate,
@@ -358,16 +368,64 @@ export default class ReviewContent extends Component {
                 content: this.props.reviewData.content,
                 images: this.props.reviewData.imageList,
                 likeCount: this.props.reviewData.likeCount,
-                likesList: this.props.reviewData.likesList,
+                likesList: [...this.props.reviewData.likesList],
                 likePressed: likePressed,
                 rating: this.props.reviewData.rating,
             },
             footerData: {
                 reviewId: this.props.reviewData.id,
                 member: this.props.reviewData.member,
-                commentsList: this.props.reviewData.commentsList,
+                commentsList: [...this.props.reviewData.commentsList]
             }
         }
+    }
+
+    componentDidMount() {
+
+        // let likePressed = false;
+        // let myName = localStorage.getItem("authenticatedMember");
+        // console.log("ReviewContents is rendering!");
+        // for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
+        //     if (this.props.reviewData.likesList[i].member.memberName === myName) {
+        //         likePressed = true;
+        //         console.log("is Pressed!!!!!!!!!!!");
+        //     }
+        // }
+
+        // this.props.reviewData.commentsList.forEach(data => {
+        //     if (data.member.memberName === myName) {
+        //         data["isPossibleRemove"] = true;
+        //     } else {
+        //         data["isPossibleRemove"] = false;
+        //     }
+        // })
+
+        // console.log( JSON.stringify( this.props.reviewData , null , 4));
+        
+        // this.setState({
+        //     headerInfo: {
+        //         reviewId: this.props.reviewData.id,
+        //         changeable : ( this.props.reviewData.member.memberName ===  localStorage.getItem("authenticatedMember")),
+        //         movieTitle: this.props.reviewData.movieTitle,
+        //         writer: this.props.reviewData.member,
+        //         createDate: this.props.reviewData.createDate,
+        //         reviewData: this.props.reviewData,
+        //     },
+        //     bodyData: {
+        //         reviewId: this.props.reviewData.id,
+        //         content: this.props.reviewData.content,
+        //         images: this.props.reviewData.imageList,
+        //         likeCount: this.props.reviewData.likeCount,
+        //         likesList: [...this.props.reviewData.likesList],
+        //         likePressed: likePressed,
+        //         rating: this.props.reviewData.rating,
+        //     },
+        //     footerData: {
+        //         reviewId: this.props.reviewData.id,
+        //         member: this.props.reviewData.member,
+        //         commentsList: [...this.props.reviewData.commentsList]
+        //     }
+        // });
     }
 
     render() {
