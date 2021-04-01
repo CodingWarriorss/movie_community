@@ -129,6 +129,7 @@ function ReviewFooter(props) {
         const { value } = event.target
         setValue( value )
     }
+    
     const writeComment = () =>{
         const newComment = {
             reviewId : props.data.reviewId,

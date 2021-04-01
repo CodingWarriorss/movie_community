@@ -74,6 +74,7 @@ public class ReviewController {
         return response;
     }
 
+<<<<<<< Updated upstream
     /*
      * 리뷰 수정
      * response(성공/실패 여부, 만들어진 imageIds)
@@ -92,9 +93,63 @@ public class ReviewController {
             response.put(RESULT, FAIL + "/존재하지 않는 리뷰에 대한 수정 요청");
         } catch (IOException e) {
             response.put(RESULT, FAIL + "/이미지 저장 오류");
+=======
+    // 이미지 없는 리뷰 업로드
+    @PostMapping
+    public void uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail, ReviewRequest reviewRequest)
+            throws IOException {
+        // id 세팅
+        Member member = userDetail.getMember();
+
+        // 이미지 업로드
+        ArrayList<String> uuidFilenames = new ArrayList<>();
+        files.forEach(file -> {
+            UUID uuid = UUID.randomUUID(); // 식별자 생성
+            String uuidFilename = uuid + "_" + file.getOriginalFilename();
+            uuidFilenames.add(uuidFilename);
+            Path filePath = Paths.get(fileRealPath + uuidFilename);
+            try {
+                Files.write(filePath, file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // 리뷰 테이블 세팅
+        Review review = new Review();
+
+        review.setMovieTitle(reviewRequest.getMovieTitle());
+        review.setContent(reviewRequest.getContent());
+        review.setRating(reviewRequest.getRating());
+        review.setMember(member); // Review(주인)에 member를 세팅
+
+        if( reviewRequest.getFiles() != null ){
+            review.setImages(images);    // review에서도 Image를 참조
+        }
+        reviewService.createReview(review);
+
+        // 이미지 테이블 세팅
+        for (String uuidFilename : uuidFilenames) {
+            Image image = new Image();
+            image.setFileName(uuidFilename);
+            image.setReview(review);
+            reviewService.createImage(image); // image 테이블에 row 추가
+
+            images.add(image); // review 테이블에 세팅된 images 자동 update
+>>>>>>> Stashed changes
         }
 
+<<<<<<< Updated upstream
         return response;
+=======
+
+    }
+
+    // 미완 ====================================================
+    //    @PutMapping
+    public void updateReview(@RequestBody Review review) {
+        reviewService.updateReview(review);
+>>>>>>> Stashed changes
     }
 
 
