@@ -25,6 +25,10 @@ public class CorsConfig {
         // token 받기 위한 header exposed 설정
         List<String> exposedHeaders = new ArrayList<>();// 노출할 헤더명을 담을 리스트
         exposedHeaders.add("Authorization");
+        exposedHeaders.add("name");
+        exposedHeaders.add("email");
+        exposedHeaders.add("address");
+        exposedHeaders.add("phone");
         config.setExposedHeaders(exposedHeaders); // 노출헤더 세팅
 
         source.registerCorsConfiguration("/**", config);

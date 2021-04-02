@@ -75,6 +75,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));  // secret : 서버만 알고 있는 고유 값(cw)
 
         // Authorization : Bearer + ' ' + jwtToken
+        Member member = principalDetails.getMember();
+        response.setCharacterEncoding("UTF-8");
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
+        response.addHeader("name",member.getName());
+        response.addHeader("email",member.getEmail());
+        response.addHeader("address",member.getAddress());
+        response.addHeader("phone",member.getPhone());
     }
 }
