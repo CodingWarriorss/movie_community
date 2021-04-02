@@ -5,19 +5,26 @@ class AuthenticationService {
 
     // 1. 로그인 요청 : memberName, password를 서버에 전송
     executeJwtAuthenticationService(memberName, password) {
-        return axios.post(REST_API_SERVER_URL+ '/login', {
+        return axios.post(REST_API_SERVER_URL + '/login', {
             memberName,
             password
         });
     }
 
     // 2. 로그인 후처리
-    registerSuccessfulLoginForJwt(memberName, token) {
+    // registerSuccessfulLoginForJwt(memberName, token) {
+    registerSuccessfulLoginForJwt(memberName, response) {
+        const token = response.headers['authorization'];
+
         // 스토리지에 로그인된 유저의 id(memberName)과 token 저장
         if (token.startsWith('Bearer')) {
             console.log('[로그인 성공]'); // 토큰 확인 완료
             localStorage.setItem('token', token);
             localStorage.setItem('authenticatedMember', memberName);
+            localStorage.setItem('name', response.headers['name']);
+            localStorage.setItem('email', response.headers['email']);
+            localStorage.setItem('address', response.headers['address']);
+            localStorage.setItem('phone', response.headers['phone']);
             return 'success';
         } else if (token.startsWith('failure')) {
             console.log('[로그인 실패]'); // 토큰 확인 완료
@@ -25,7 +32,6 @@ class AuthenticationService {
         } else {
             console.log('[로그인 오류 발생]')
         }
-        this.setupAxiosInterceptors();
     }
 
     // 3. 요청이나 응답전 axios
@@ -51,6 +57,9 @@ class AuthenticationService {
     logout() {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        localStorage.removeItem("address");
+        localStorage.removeItem("phone");
         console.log('[로그아웃 완료]');
         window.location.replace('/');
     }
