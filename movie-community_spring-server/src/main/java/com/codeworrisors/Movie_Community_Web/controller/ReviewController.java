@@ -1,86 +1,196 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
-import com.codeworrisors.Movie_Community_Web.config.auth.PrincipalDetails;
-import com.codeworrisors.Movie_Community_Web.model.Image;
-import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
+import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.UUID;
+import javax.persistence.EntityNotFoundException;
+import java.io.*;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/review")
-//@CrossOrigin("*")
+@RequestMapping(value = "/api/review")
 public class ReviewController {
+    static final String SUCCESS = "SUCCESS";
+    static final String FAIL = "FAIL";
+    static final String RESULT = "result";
+    static final String REVIEW = "review";
+    static final String COMMENT = "comment";
+    static final int PAGE_SIZE = 5;
 
-    @Value("${file.path}")
-    private String fileRealPath; // 이미지 저장 경로
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ReviewService reviewService;
 
-    // (임시)
-//    Member member = new Member();
-
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-
-//        member.setMemberName("anyeji1220"); // 임시
+    /*
+     * 리뷰 CRUD
+     * */
+    @GetMapping
+    public List<Review> seeReview(@RequestParam int pageIndex,
+                                  @RequestParam(required = false) String movieTitle,
+                                  @RequestParam(required = false) Long memberId) {
+        try {
+            return reviewService.getReviews(
+                    PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
+                    movieTitle,
+                    memberId);
+        } catch (IllegalStateException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException("존재하지 않는 회원");
+        }
     }
 
     @PostMapping
-    public void uploadReview
-            (@AuthenticationPrincipal PrincipalDetails userDetail,
-             @RequestParam("movieTitle") String movieTitle,
-             @RequestParam("content") String content,
-             @RequestParam("file") MultipartFile file) throws IOException {
-        // id 세팅
-        Member member = userDetail.getMember();
-        System.out.println(member);
+    public JSONObject uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   CreateReviewDto createReviewDto) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
 
-        // 이미지 업로드
-        UUID uuid = UUID.randomUUID(); // 식별자 생성
-        String uuidFilename = uuid + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(fileRealPath + uuidFilename);
-        Files.write(filePath, file.getBytes());
+        try {
+            response.put(REVIEW, reviewService.createReview(userDetail.getMember(), createReviewDto));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
 
-        // DB 저장 [ Image(fk: review) < Review(fk: member) < Member ]
-        Review review = new Review();
-        Image image = new Image();
-        ArrayList<Image> images = new ArrayList<>();
-        images.add(image);
-
-        review.setMovieTitle(movieTitle);
-        review.setContent(content);
-        review.setImageList(images); // review에서도 Image를 참조
-        review.setMember(member);// Review(주인)에 member를 세팅
-        reviewService.createReview(review);
-
-        image.setFileName(uuidFilename);
-        image.setReview(review); // Image(주인)에 review를 세팅
-        reviewService.createImage(image);
+        return response;
     }
 
-    //    @PutMapping
-    public void updateReview(@RequestBody Review review) {
-        // (임시) 실제로는 토큰으로 처리
-//        review.setMember(member);
-        reviewService.updateReview(review);
+    @PutMapping
+    public JSONObject modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   UpdateReviewDto updateReviewDto) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            response.put(REVIEW, reviewService.updateReview(userDetail.getMember(), updateReviewDto));
+        } catch (IllegalStateException | NoSuchElementException | IOException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
     }
 
-    //    @DeleteMapping
-    public void deleteReview(@RequestBody Review review) {
-        // (임시) 실제로는 토큰으로 처리
-//        review.setMember(member);
-        reviewService.deleteReview(review);
+    @DeleteMapping
+    public JSONObject deleteReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   @RequestParam("reviewId") long reviewId) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            reviewService.deleteReview(userDetail.getMember(), reviewId);
+        } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
+    }
+
+
+    /*
+     * 댓글 CRUD
+     * */
+    @PostMapping("/comment")
+    public JSONObject postComment(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                  @RequestBody CreateCommentDto createCommentDto) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            response.put(COMMENT, reviewService.createComment(userDetail.getMember(), createCommentDto));
+        } catch (EntityNotFoundException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
+    }
+
+
+    @PutMapping("/comment")
+    public JSONObject modifyComment(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                    UpdateCommentDto updateCommentDto) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            reviewService.updateComment(userDetail.getMember(), updateCommentDto);
+        } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @DeleteMapping("/comment")
+    public JSONObject deleteComment(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                    @RequestParam long commentId) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            reviewService.deleteComment(userDetail.getMember(), commentId);
+        } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
+    }
+
+
+    /*
+     * 좋아요 CD
+     * */
+    @PostMapping("/like")
+    public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                 @RequestBody Map<String, Long> params) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
+            response.put("status", "LIKE");
+        } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @DeleteMapping("/like")
+    public JSONObject unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   @RequestParam("reviewId") long reviewId) {
+        JSONObject response = new JSONObject();
+        response.put(RESULT, SUCCESS);
+
+        try {
+            reviewService.deleteLike(userDetail.getMember(), reviewId);
+            response.put("status", "UNLIKE");
+        } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
+            response.put(RESULT, FAIL + "/" + e.getMessage());
+        }
+
+        return response;
     }
 }

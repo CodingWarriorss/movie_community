@@ -6,19 +6,36 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter @ToString
+@SequenceGenerator(
+        name = "member_seq_gen",
+        sequenceName = "member_seq",
+        allocationSize = 50
+)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "member_seq_gen"
+    )
+    private Long id;
+    @Setter
     private String memberName;
+    @Setter
     private String password;
+    @Setter
     private String name;
+    @Setter
     private String email;
+    @Setter
     private String address;
+    @Setter
     private String gender;
+    @Setter
     private String birth;
+    @Setter
     private String phone;
-    private String role; // ROLE_USER
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 }

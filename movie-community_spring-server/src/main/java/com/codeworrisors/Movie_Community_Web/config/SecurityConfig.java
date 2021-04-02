@@ -1,11 +1,9 @@
 package com.codeworrisors.Movie_Community_Web.config;
 
-import com.codeworrisors.Movie_Community_Web.config.jwt.JwtAuthenticationFilter;
-import com.codeworrisors.Movie_Community_Web.config.jwt.JwtAuthorizationFilter;
-import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter;
+import com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,14 +13,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
 
-@Configuration //IoC
-@EnableWebSecurity // 시큐리티 활성화 => 기본 스프링 필터체인에 등록
-@RequiredArgsConstructor 
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final MemberRepository memberRepository;
-
     private final CorsFilter corsFilter;
 
     @Bean
@@ -30,11 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("WebSecurityConfigurerAdapter의 configure() 호출");
-        
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 쿠키와 세션 사용 안함

@@ -1,0 +1,78 @@
+
+
+.col{
+    margin: auto;
+}
+
+.card-body{
+    padding: 0px;
+}
+
+.contents-center{
+    margin: auto;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.member-thumnail{
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.review-like{
+    text-align: right;
+    margin-right: 10px;
+}
+
+.review-like-btn, .review-content{
+    margin: 10px;
+}
+
+
+.review-box{
+    box-shadow: 10px 10px 1cm;
+    margin: 0%;
+    margin-bottom: 35px;
+    /* display: inline-flex;     */
+}
+/* 
+div{
+    border: #343434 1px solid;
+} */
+
+.start-margin{
+    margin-top: 80px;
+}
+
+/* div{
+    border: 1px solid black;
+} */
+.comment-area{
+    margin-top: 10px;
+    text-align: left;
+}
+
+.comment{
+    vertical-align: middle;
+    padding: 5px;
+    border-radius: 0.5cm ;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+.comment-name{
+    font-size: small;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.comment-content{
+    font-size: small;
+    margin-left: 14px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}

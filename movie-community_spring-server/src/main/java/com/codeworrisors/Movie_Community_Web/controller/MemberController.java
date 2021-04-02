@@ -2,62 +2,78 @@ package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.NoSuchElementException;
+
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@RestController
 public class MemberController {
+    private static int SUCCESS = 1;
+    private static int FAIL = 0;
 
-    @Autowired
-    private MemberService memberService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MemberService memberService;
 
-    /*
-    아이디 중복체크: 1 (성공), 0 (이미 존재하는 아이디)
-    */
+
     @PostMapping("checkid")
     public int checkId(@RequestBody Member member) {
-        return memberService.checkId(member.getMemberName());
-    }
-
-
-    /*
-     * 회원가입
-     * 한번 더 중복체크: 1 (성공), 0 (이미 존재하는 아이디)
-     * */
-    @PostMapping("join")
-    public int createMember(@RequestBody Member member) {
-        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-        member.setRole("ROLE_USER");
-        int res = memberService.joinMember(member);
-        if (res == 1) {
-            System.out.println("회원가입 성공");
-        } else {
-            System.out.println("이미 존재하는 아이디");
+        try {
+            memberService.validateDuplicateMemberId(member.getMemberName());
+        } catch (IllegalStateException e) {
+            logger.error(e.getMessage());
+            return FAIL;
         }
-
-        return res;
+        return SUCCESS;
     }
 
-    /*
-     * 회원정보 수정
-     * */
-    @PutMapping
-    public void updateMember(@RequestBody Member member) {
-        memberService.updateMember(member);
+    @PostMapping("join")
+    public int joinMember(@RequestBody Member member) {
+        try {
+            memberService.createMember(member);
+        } catch (IllegalStateException e) {
+            logger.error(e.getMessage());
+            return FAIL;
+        }
+        return SUCCESS;
     }
 
-    /*
-     * 회원정보 삭제
-     * */
-    @DeleteMapping
-    public void withdrawMember(@RequestBody String id) {
-        memberService.withdrawMember(id);
+    @GetMapping("/api/member")
+    public int readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
+        try {
+            memberService.selectMember(userDetail.getUsername());
+        } catch (NoSuchElementException e) {
+            logger.error(e.getMessage());
+            return FAIL;
+        }
+        return SUCCESS;
+    }
+
+    @PutMapping("/api/member")
+    public int modifyMember(@RequestBody Member member) {
+        try {
+            memberService.updateMember(member);
+        } catch (NoSuchElementException e) {
+            logger.error(e.getMessage());
+            return FAIL;
+        }
+        return SUCCESS;
+    }
+
+    @DeleteMapping("api/member")
+    public int withdrawMember(@RequestBody Member member) {
+        try {
+            memberService.deleteMember(member.getMemberName());
+        } catch (NoSuchElementException e) {
+            logger.error(e.getMessage());
+            return FAIL;
+        }
+        return SUCCESS;
     }
 }

@@ -1,9 +1,6 @@
 logging:
   level: 
-    '[com.codeworrisors]': debug
-  #아래 설정으로 파일로 남김 but 파일을 나누는 단위나. 만료기간 등 설정을 아직 모르겠습니다.
-  #file:
-  #  name: /log/dev_app.log    
+    root: info
 
   pattern:
       console: "%d %-5level %logger : %msg%n"
@@ -21,11 +18,11 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
 
+  mvc:
+    static-path-pattern: /image/**
 
-
-
-  
-file:
-  path: C:/workspace/gitRepository/fork_repository/movie_community/imgFiles

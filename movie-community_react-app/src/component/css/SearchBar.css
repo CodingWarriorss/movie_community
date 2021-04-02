@@ -1,0 +1,218 @@
+/*
+Input styles
+------------------
+*/
+.search-bar {
+    width: 760px;
+    padding: 15px 10px;
+    font-size: 23px;
+    color: dimgrey;
+    background-color: lightgrey;
+    border: white;
+    font-weight: 600;
+    border-radius: 0.2rem;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+/*
+SearchBar container
+*/
+
+.auto {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    z-index: 1;
+    padding-bottom: 30px;
+}
+
+/*Cancel button styles*/
+
+.cancel-btn {
+    color: rgb(99, 99, 99);
+    border: none;
+    outline: none;
+    font-weight: 500;
+
+    z-index: 1;
+    transform: translate(335px, 44px) scale(1.5);
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+}
+
+.active {
+    opacity: 1;
+}
+
+.inactive {
+    opacity: 0;
+}
+
+/*
+search results container div
+*/
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    border: none;
+    width: 757px;
+    max-height: 300px;
+    padding: 10px;
+    overflow-y: scroll;
+    margin-top: 5px;
+    border-radius: 0.2rem;
+}
+
+/*
+SearchPreview Component
+*/
+
+.search-preview {
+    transition: 1s;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 3px;
+    border-top: 1px solid;
+    border-color: rgb(241, 241, 241);
+    align-items: baseline;
+}
+
+.search-previews {
+    transition: 1s;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 3px;
+    border-top: 1px solid;
+    border-color: rgb(241, 241, 241);
+    align-items: baseline;
+}
+
+.search-previews :hover {
+    background-color: navajowhite;
+}
+
+.search-preview :hover {
+    background-color: navajowhite;
+}
+
+.first {
+    flex-direction: column;
+    align-items: baseline;
+}
+
+/*영화 타이틀*/
+.name {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 20px;
+    color: black;
+    font-weight: 800;
+    margin: 0rem 0;
+}
+
+/*영화 세부 정보*/
+.sub-header {
+    position: center;
+    font-size: 18px;
+    color: dimgray;
+    font-weight: 600;
+}
+
+.start {
+    border-top: none;
+}
+
+/* 커스텀 */
+/* 리뷰 작성 안내 텍스트 */
+.search-direction {
+    color: black;
+    padding-top: 20px;
+    padding-left: 7px;
+    padding-right: 3px;
+}
+
+/* 영화 포스터*/
+.movie-img {
+    display: flex;
+    float: left;
+}
+
+/* 선택된 영화*/
+.selected-movie {
+    position: absolute;
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+/* 선택된 영화 제목*/
+.selected-text {
+    color: orange;
+}
+
+/* 반응형 조절 기능 추가*/
+@media (max-width: 1080px) {
+    .search-bar {
+        width: 450px;
+    }
+
+    .cancel-btn {
+        color: rgb(99, 99, 99);
+        border: none;
+        outline: none;
+        font-weight: 500;
+
+        z-index: 1;
+        transform: translate(198px, 44px) scale(1.15);
+    }
+
+    /*검색결과창*/
+    .search-results {
+        display: flex;
+        flex-direction: column;
+        background-color: whitesmoke;
+        border: none;
+        width: 455px;
+        max-height: 200px;
+        padding: 10px;
+        overflow-y: scroll;
+        margin-top: 5px;
+        border-radius: 0.2rem;
+    }
+
+    /*영화 타이틀*/
+    .name {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        font-size: 17px;
+        color: black;
+        font-weight: 800;
+        margin: 0rem 0;
+    }
+
+    /*영화 세부 정보*/
+    .sub-header {
+        position: center;
+        font-size: 15px;
+        color: dimgray;
+        font-weight: 600;
+    }
+
+    /* 영화 포스터*/
+    .movie-img {
+        display: flex;
+        float: left;
+        width: 15vh;
+        height: 20vh;
+    }
+}

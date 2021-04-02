@@ -1,20 +1,33 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@SequenceGenerator(
+        name = "image_seq_gen",
+        sequenceName = "image_seq",
+        allocationSize = 50
+)
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "image_seq_gen"
+    )
+    @Getter
+    private Long id;
+    @NonNull
+    @Getter
     private String fileName;
 
-    @ManyToOne(cascade = CascadeType.ALL) // 여러개의 이미지 - 하나의 리뷰 게시물
+    @NonNull
+    @ManyToOne
+    @JsonIgnore
     private Review review;
 }

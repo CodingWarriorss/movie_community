@@ -1,9 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,27 +9,47 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-public class Review { // 리뷰 게시물
+@NoArgsConstructor
+@RequiredArgsConstructor
+@SequenceGenerator(
+        name = "review_seq_gen",
+        sequenceName = "review_seq",
+        allocationSize = 50
+)
+public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "review_seq_gen"
+    )
+    private Long id;
+    @NonNull
     private String movieTitle;
+    @NonNull
+    @Setter
     private String content;
+    @NonNull
+    @Setter
+    private Integer rating;
     @CreationTimestamp
-    private Timestamp createDate;   // 작성일
+    private Timestamp createDate;
+    @Setter
+    @Transient
+    private int likeCount;
 
-    // 작성자
-//    @ManyToOne(cascade = CascadeType.ALL) // [wrong] (여기서 1차 오류 ->  detached entity passed to persist... )
-    @ManyToOne(cascade = CascadeType.MERGE) // 여러개의 게시물 - 한명의 작성자
+    @NonNull
+    @ManyToOne
+    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
-    // 이미지
-//    @OneToMany(cascade = CascadeType.MERGE) // [wrong] (여기서 2차 오류 -> transient....)
-    @OneToMany(cascade = CascadeType.ALL) // 하나의 리뷰 게시물 - 여러개의 이미지
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Image> imageList;
 
-    // 좋아요
-    // 댓글
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Likes> likesList;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Comments> commentsList;
 }
