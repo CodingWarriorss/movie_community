@@ -4,6 +4,7 @@ import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,14 +46,17 @@ public class MemberController {
     }
 
     @GetMapping("/api/member")
-    public int readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
+    public JSONObject readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
+        JSONObject response = new JSONObject();
+
         try {
-            memberService.selectMember(userDetail.getUsername());
+            response.put("result", SUCCESS);
+            response.put("member", memberService.selectMember(userDetail.getUsername()));
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
-            return FAIL;
+            response.put("result", FAIL);
         }
-        return SUCCESS;
+        return response;
     }
 
     @PutMapping("/api/member")
