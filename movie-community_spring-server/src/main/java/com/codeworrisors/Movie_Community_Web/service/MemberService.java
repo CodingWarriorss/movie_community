@@ -59,11 +59,10 @@ public class MemberService {
     public void updateMember(Member member) throws NoSuchElementException {
         memberRepository.findByMemberName(member.getMemberName())
                 .ifPresentOrElse(m -> {
-                    m.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+//                    m.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
                     m.setName(member.getName());
                     m.setEmail(member.getEmail());
                     m.setAddress(member.getAddress());
-                    m.setGender(member.getGender());
                     m.setPhone(member.getPhone());
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 회원에 대한 정보수정 요청");
