@@ -103,7 +103,7 @@ export default class ReviewEditBox extends Component {
         let config = {
             headers: {
                 'Content-Type': "multipart/form-data",
-                'Authorization': 'Bearer ' + token,
+                'Authorization': token,
             }
         }
 
@@ -111,6 +111,11 @@ export default class ReviewEditBox extends Component {
         axios.post(url, formData, config)
             .then(response => {
                 alert("게시물이 성공적으로 등록되었습니다.");
+                this.setState({
+                    title: '',
+                    rating: 0,
+                    pictures: [],
+                })
                 this.handleClose();
             })
             .catch(error => {
@@ -119,7 +124,6 @@ export default class ReviewEditBox extends Component {
     }
 
     render() {
-
         if( this.props.isModify ) console.log("수정모드");
         else console.log("등록모드");
 
