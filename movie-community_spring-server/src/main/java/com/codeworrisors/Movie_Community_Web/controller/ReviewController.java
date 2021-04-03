@@ -41,23 +41,25 @@ public class ReviewController {
      * 리뷰 CRUD
      * */
     @GetMapping
-    public List<Review> seeReview(@RequestParam int pageIndex,
+    public List<Review> seeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                  @RequestParam int pageIndex,
                                   @RequestParam(required = false) String movieTitle,
-                                  @RequestParam(required = false) Long memberId) {
+                                  @RequestParam(required = false) String memberName) {
         try {
             return reviewService.getReviews(
                     PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
                     movieTitle,
-                    memberId);
+                    memberName,
+                    userDetail.getMember());
         } catch (IllegalStateException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException("존재하지 않는 회원");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @PostMapping
     public JSONObject uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   CreateReviewDto createReviewDto) {
+                                   @ModelAttribute CreateReviewDto createReviewDto) {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
@@ -73,7 +75,7 @@ public class ReviewController {
 
     @PutMapping
     public JSONObject modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   UpdateReviewDto updateReviewDto) {
+                                   @ModelAttribute UpdateReviewDto updateReviewDto) {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
@@ -126,7 +128,7 @@ public class ReviewController {
 
     @PutMapping("/comment")
     public JSONObject modifyComment(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                    UpdateCommentDto updateCommentDto) {
+                                    @ModelAttribute UpdateCommentDto updateCommentDto) {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
