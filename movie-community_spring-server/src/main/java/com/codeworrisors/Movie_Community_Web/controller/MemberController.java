@@ -1,5 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
+import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
@@ -35,9 +37,10 @@ public class MemberController {
     }
 
     @PostMapping("join")
-    public int joinMember(@RequestBody Member member) {
+    public int joinMember(CreateMemberDto createMemberDto) {
         try {
-            memberService.createMember(member);
+            System.out.println();
+            memberService.createMember(createMemberDto);
         } catch (IllegalStateException e) {
             logger.error(e.getMessage());
             return FAIL;
@@ -51,29 +54,35 @@ public class MemberController {
 
         try {
             response.put("result", SUCCESS);
-            response.put("member", memberService.selectMember(userDetail.getUsername()));
+            response.put("member", memberService.selectMember(userDetail.getMember()));
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
             response.put("result", FAIL);
         }
+
         return response;
     }
 
     @PutMapping("/api/member")
-    public int modifyMember(@RequestBody Member member) {
+    public JSONObject modifyMember(@AuthenticationPrincipal PrincipalDetails userDetail,
+                            @ModelAttribute UpdateMemberDto updateMemberDto) {
+        JSONObject response = new JSONObject();
+
         try {
-            memberService.updateMember(member);
+            response.put("result", SUCCESS);
+            response.put("member", memberService.updateMember(userDetail.getMember(), updateMemberDto));
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
-            return FAIL;
+            response.put("result", FAIL);
         }
-        return SUCCESS;
+
+        return response;
     }
 
     @DeleteMapping("api/member")
-    public int withdrawMember(@RequestBody Member member) {
+    public int withdrawMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
         try {
-            memberService.deleteMember(member.getMemberName());
+            memberService.deleteMember(userDetail.getMember());
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
             return FAIL;
