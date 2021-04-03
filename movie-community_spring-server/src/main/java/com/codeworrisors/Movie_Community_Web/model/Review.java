@@ -38,6 +38,9 @@ public class Review {
     @Setter
     @Transient
     private int likeCount;
+    @Setter
+    @Transient
+    private int commentCount;
 
     @NonNull
     @ManyToOne
