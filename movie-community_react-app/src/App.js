@@ -8,7 +8,7 @@ import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
-
+import ProfileComponent from "./component/mypage/ProfileComponent";
 
 const getMovieTitle = (title) => {
     console.log("APP.js");
@@ -58,6 +58,7 @@ class App extends Component {
                     </nav>
 
                     <Switch>
+                        <Route path="/mypage" component={ProfileComponent}/>
                         <Route path="/logout" component={LogoutComponent}/>
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>
