@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {REST_API_SERVER_URL} from '../constants/APIConstants';
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from '../constants/APIConstants';
 
 class AuthenticationService {
 
@@ -21,10 +21,7 @@ class AuthenticationService {
             console.log('[로그인 성공]'); // 토큰 확인 완료
             localStorage.setItem('token', token);
             localStorage.setItem('authenticatedMember', memberName);
-            localStorage.setItem('name', response.headers['name']);
-            localStorage.setItem('email', response.headers['email']);
-            localStorage.setItem('address', response.headers['address']);
-            localStorage.setItem('phone', response.headers['phone']);
+
             return 'success';
         } else if (token.startsWith('failure')) {
             console.log('[로그인 실패]'); // 토큰 확인 완료
@@ -32,6 +29,26 @@ class AuthenticationService {
         } else {
             console.log('[로그인 오류 발생]')
         }
+    }
+
+    setMemberInfo() {
+        const requestURL = REST_API_SERVER_URL + '/api/member';
+        const config = {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        }
+
+        axios.get(requestURL, config)
+            .then((response) => {
+                const member = response.data.member;
+                localStorage.setItem('name', member.name ? member.name : '');
+                localStorage.setItem('email', member.email ? member.email : '');
+                localStorage.setItem('website', member.website ? member.website : '');
+                localStorage.setItem('bio', member.bio ? member.bio : '');
+                localStorage.setItem('profileImg', member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL);
+                window.location.replace('/');
+            });
     }
 
     // 3. 요청이나 응답전 axios
@@ -58,9 +75,11 @@ class AuthenticationService {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
         localStorage.removeItem("name");
-        localStorage.removeItem("address");
-        localStorage.removeItem("phone");
-        console.log('[로그아웃 완료]');
+        localStorage.removeItem("email");
+        localStorage.removeItem("birth");
+        localStorage.removeItem("website");
+        localStorage.removeItem("bio");
+        localStorage.removeItem("profileImg");
         window.location.replace('/');
     }
 }
