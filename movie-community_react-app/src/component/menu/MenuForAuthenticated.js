@@ -29,12 +29,10 @@ const Menu = (props) => {
                     </button>
                     <ReviewEditBox handleShow={handleShow} isShow={isShow} isModify={false} />
                 </li>
-                {/*테스트용 프로필 버튼*/}
                 <li className="nav-item">
                     <Link className="nav-link" to={"/mypage"}>
                         <img
-                            alt="https://user-images.githubusercontent.com/62331803/111857083-870d3980-8972-11eb-8f75-fa10bb859997.png"
-                            src="https://user-images.githubusercontent.com/62331803/111857083-870d3980-8972-11eb-8f75-fa10bb859997.png"
+                            src={localStorage.getItem('profileImg')}
                             width={40} height={40} style={{ borderRadius: 50 }} />
                     </Link>
                 </li>
