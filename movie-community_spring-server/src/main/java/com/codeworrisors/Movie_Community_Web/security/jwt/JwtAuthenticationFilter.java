@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -78,9 +79,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Member member = principalDetails.getMember();
         response.setCharacterEncoding("UTF-8");
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-        response.addHeader("name",member.getName());
-        response.addHeader("email",member.getEmail());
-        response.addHeader("address",member.getAddress());
-        response.addHeader("phone",member.getPhone());
     }
 }
