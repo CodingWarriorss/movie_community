@@ -15,7 +15,7 @@ class HeaderSearchComponent extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.update = this.update.bind(this);
-        this.clearBar = this.clearBar.bind(this);
+        this.clearState = this.clearState.bind(this);
         this.setTitle = this.setTitle.bind(this);
     }
 
@@ -35,7 +35,7 @@ class HeaderSearchComponent extends Component {
                 if (data.hasOwnProperty('items')) {
                     that.setState(
                         {
-                            selected: '영화',
+                            selected: '',
                             detailed : '',
                             preview: this.setResult(data['items'])
                         }
@@ -76,6 +76,7 @@ class HeaderSearchComponent extends Component {
             )
         });
     }
+
     setTitle(title) {
         this.setState(
             {
@@ -84,24 +85,20 @@ class HeaderSearchComponent extends Component {
                 preview: '',
             }
         )
-
-        // 부모 컴포넌트에 전달 (명시적으로 호출해야 함)
-        // callbackFromParent : fix된 이름
-        //this.props.selectedItem(title);
-        console.log(title);
         this.props.movieTitleSelected(title);
     }
-    clearBar() {
+
+    clearState() {
         this.setState(
             {
-                input: '',
-                preview: ''
+                selected : ''
             }
         )
+        this.props.movieTitleSelected('');
     }
 
     render() {
-        const { input, preview, selected } = this.state;
+        const { input, preview,  } = this.state;
 
         return (
             <div style={{ width: 450 }}>
@@ -118,6 +115,10 @@ class HeaderSearchComponent extends Component {
                         backgroundColor : "white"
                     }}>{preview}</div> : ''
                 }
+                <button
+                            onClick={this.clearState}>
+                    X
+                </button>
             </div>
         )
     }

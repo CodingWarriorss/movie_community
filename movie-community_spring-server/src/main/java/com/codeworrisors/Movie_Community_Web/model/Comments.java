@@ -24,7 +24,7 @@ public class Comments {
             strategy = GenerationType.SEQUENCE,
             generator = "comment_seq_gen"
     )
-    private long id;
+    private Long id;
     @NonNull
     @Setter
     private String content;

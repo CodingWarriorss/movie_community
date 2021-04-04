@@ -24,7 +24,7 @@ public class Review {
             strategy = GenerationType.SEQUENCE,
             generator = "review_seq_gen"
     )
-    private long id;
+    private Long id;
     @NonNull
     private String movieTitle;
     @NonNull
@@ -32,7 +32,7 @@ public class Review {
     private String content;
     @NonNull
     @Setter
-    private int rating;
+    private Integer rating;
     @CreationTimestamp
     private Timestamp createDate;
     @Setter

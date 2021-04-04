@@ -18,7 +18,7 @@ public class Member {
             strategy = GenerationType.SEQUENCE,
             generator = "member_seq_gen"
     )
-    private long id;
+    private Long id;
     @Setter
     private String memberName;
     @Setter
@@ -36,5 +36,6 @@ public class Member {
     @Setter
     private String phone;
     @Setter
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 }

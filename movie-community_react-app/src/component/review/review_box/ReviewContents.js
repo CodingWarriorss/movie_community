@@ -72,7 +72,7 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img className="member-thumnail" src={props.data.thumnailUri} />
+                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -443,4 +443,3 @@ export default class ReviewContent extends Component {
         )
     }
 }
-
