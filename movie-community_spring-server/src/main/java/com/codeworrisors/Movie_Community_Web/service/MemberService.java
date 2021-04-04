@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.model.RoleType;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -30,7 +31,7 @@ public class MemberService {
         validateDuplicateMemberId(member.getMemberName());// 한번 더 중복체크
 
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-        member.setRole("ROLE_USER");
+        member.setRole(RoleType.ROLE_USER);
         memberRepository.save(member);
         return 1;
     }

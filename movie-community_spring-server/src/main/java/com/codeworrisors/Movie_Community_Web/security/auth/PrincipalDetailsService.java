@@ -31,7 +31,7 @@ public class PrincipalDetailsService implements UserDetailsService {
         if (byMemberName.isPresent()) {
             return new PrincipalDetails(byMemberName.get());
         }
-        logger.error("[해당 아이디가 존재하지 않음] '" + memberName + "'");
+        logger.error("아이디 '" + memberName + "'가 존재하지 않음");
         return null;
     }
 }
