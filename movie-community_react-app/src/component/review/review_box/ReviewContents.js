@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from "react";
+import React, { Component, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
 import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
 
