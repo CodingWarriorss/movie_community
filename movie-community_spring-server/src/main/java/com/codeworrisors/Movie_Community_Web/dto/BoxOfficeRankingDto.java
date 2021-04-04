@@ -11,5 +11,6 @@ import lombok.*;
 public class BoxOfficeRankingDto {
     private Integer rank;
     private String movieNm;
+
     private String rankInten;
 }

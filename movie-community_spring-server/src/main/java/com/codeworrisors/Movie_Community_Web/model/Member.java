@@ -18,6 +18,7 @@ public class Member {
             strategy = GenerationType.SEQUENCE,
             generator = "member_seq_gen"
     )
+    @Setter
     private long id;
     @Setter
     private String memberName;

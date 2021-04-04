@@ -34,10 +34,10 @@ public class BoxOfficeRankingScheduledTask {
 
     private final BoxOfficeRankingRepository boxOfficeRankingRepository;
 
-    @PostConstruct
-    public void initRankingData() {
-        recordBoxOfficeRanking();
-    }
+//    @PostConstruct
+//    public void initRankingData() {
+//        recordBoxOfficeRanking();
+//    }
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void updateRankingData() {

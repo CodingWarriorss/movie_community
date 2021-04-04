@@ -1,6 +1,6 @@
 import React, { Component, useRef, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
-import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
+import { Accordion, Button, Dropdown, Modal, Form } from "react-bootstrap";
 
 
 import './ReviewContents.css';
@@ -12,9 +12,9 @@ import ReactImageUploadComponent from "react-images-upload";
 //Review 게시물 상단
 function ReviewHeader(props) {
 
-    const [contentModified , setContent] = useState(props.data.reviewData.content);
+    const [contentModified, setContent] = useState(props.data.reviewData.content);
 
-    const [addImageList, setImageList] = useState( [] );
+    const [addImageList, setImageList] = useState([]);
 
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
@@ -28,7 +28,7 @@ function ReviewHeader(props) {
     }
 
     function onDrop(pictureFiles) {
-        console.log( pictureFiles )
+        console.log(pictureFiles)
         setImageList(addImageList.concat(pictureFiles));
     }
 
@@ -39,8 +39,8 @@ function ReviewHeader(props) {
 
     const modifyReview = () => {
         let dataModified = {
-            reviewId : props.data.reviewId,
-            content : contentModified,
+            reviewId: props.data.reviewId,
+            content: contentModified,
         }
         props.modifyReview(dataModified);
         handleContentShow();
@@ -48,12 +48,12 @@ function ReviewHeader(props) {
 
     const addImage = () => {
 
-        let addImageData ={
-            reviewId : props.data.reviewId,
-            imageList : addImageList.concat(),
-            content : props.data.reviewData.content
+        let addImageData = {
+            reviewId: props.data.reviewId,
+            imageList: addImageList.concat(),
+            content: props.data.reviewData.content
         }
-        props.addImage( addImageData );
+        props.addImage(addImageData);
     }
 
     const deleteReview = () => {
@@ -84,64 +84,64 @@ function ReviewHeader(props) {
                 </div>
                 <div className="col-1 contents-center">
 
-                    { (props.data.changeable) ? (
+                    {(props.data.changeable) ? (
                         <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            edit
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                edit
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
-                            <Modal show={contentModalShow} onHide={handleContentShow}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>내용변경</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                <Form.Control as="textarea" value={contentModified}
-                                              rows={8} onChange={(e) => { setContent( e.target.value); }} />
-                                              
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleContentShow}>
-                                        Close
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
+                                <Modal show={contentModalShow} onHide={handleContentShow}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>내용변경</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Form.Control as="textarea" value={contentModified}
+                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleContentShow}>
+                                            Close
                                     </Button>
-                                    <Button variant="primary" onClick={modifyReview}>
-                                        Save Changes
+                                        <Button variant="primary" onClick={modifyReview}>
+                                            Save Changes
                                     </Button>
-                                </Modal.Footer>
-                            </Modal>
+                                    </Modal.Footer>
+                                </Modal>
 
 
-                            <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
-                            <Modal show={imageModalShow} onHide={handleImageShow}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>이미지 추가</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <ReactImageUploadComponent
-                                        withIcon={true}
-                                        withPreview={true}
-                                        buttonText="사진 추가"
-                                        onChange={onDrop}
-                                        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                                        maxFileSize={5242880}>
-                                    </ReactImageUploadComponent>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleImageShow}>
-                                        Close
+                                <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
+                                <Modal show={imageModalShow} onHide={handleImageShow}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>이미지 추가</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <ReactImageUploadComponent
+                                            withIcon={true}
+                                            withPreview={true}
+                                            buttonText="사진 추가"
+                                            onChange={onDrop}
+                                            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                                            maxFileSize={5242880}>
+                                        </ReactImageUploadComponent>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleImageShow}>
+                                            Close
                                     </Button>
-                                    <Button variant="primary" onClick={addImage}>
-                                        Save Changes
+                                        <Button variant="primary" onClick={addImage}>
+                                            Save Changes
                                     </Button>
-                                </Modal.Footer>
-                            </Modal>
+                                    </Modal.Footer>
+                                </Modal>
 
-                            <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                                <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     ) : null}
-                    
+
                 </div>
             </div>
 
@@ -197,7 +197,7 @@ function ReviewBody(props) {
                 <p>{props.data.content}</p>
             </div>
             <div className="review-images">
-                {(imageUrlList.length < 1) ? null : <SimpleImageSlider width={"100%"}
+                {(imageUrlList.length < 1) ? null : <SimpleImageSlider width={"100%"} 
                     height={400} images={imageUrlList} showNavs={true} showBullets={true} />
 
                 }
@@ -222,8 +222,6 @@ function ReviewFooter(props) {
         reviewCommentList: [...props.data.commentsList]
     });
 
-    console.log( reviewComments.reviewCommentList )
-
     const setComment = (event) => {
         const { value } = event.target
         setValue(value)
@@ -240,7 +238,6 @@ function ReviewFooter(props) {
             },
             content: inputValue,
         }
-
 
         setValue("")
 
@@ -260,28 +257,6 @@ function ReviewFooter(props) {
                 reviewCommentList: [...reviewComments.reviewCommentList, newComment]
             })
         }).catch(error => console.log(error));
-
-    const deleteComment = (event) => {
-        const commentId = event.target.value;
-        const token = localStorage.getItem("token");
-        const config = {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            params: {
-                commentId: commentId,
-            }
-        }
-        axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
-            if (response.data.result === "SUCCESS") {
-                let delCommentList = [...reviewComments.reviewCommentList];
-                let delIndex = delCommentList.findIndex(data => data.id === commentId)
-                delCommentList.splice(delIndex, 1);
-                setReviewComments({
-                    reviewCommentList: [...delCommentList]
-                });
-            }
-        }).catch(error => console.log(error));
     }
 
     const deleteComment = (event) => {
@@ -303,6 +278,7 @@ function ReviewFooter(props) {
                 setReviewComments({
                     reviewCommentList: [...delCommentList]
                 });
+
             }
         }).catch(error => console.log(error));
     }
@@ -377,7 +353,7 @@ export default class ReviewContent extends Component {
         this.state = {
             headerInfo: {
                 reviewId: this.props.reviewData.id,
-                changeable : ( this.props.reviewData.member.memberName ===  localStorage.getItem("authenticatedMember")),
+                changeable: (this.props.reviewData.member.memberName === localStorage.getItem("authenticatedMember")),
                 movieTitle: this.props.reviewData.movieTitle,
                 writer: this.props.reviewData.member,
                 createDate: this.props.reviewData.createDate,
@@ -400,59 +376,11 @@ export default class ReviewContent extends Component {
         }
     }
 
-    componentDidMount() {
-
-        // let likePressed = false;
-        // let myName = localStorage.getItem("authenticatedMember");
-        // console.log("ReviewContents is rendering!");
-        // for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
-        //     if (this.props.reviewData.likesList[i].member.memberName === myName) {
-        //         likePressed = true;
-        //         console.log("is Pressed!!!!!!!!!!!");
-        //     }
-        // }
-
-        // this.props.reviewData.commentsList.forEach(data => {
-        //     if (data.member.memberName === myName) {
-        //         data["isPossibleRemove"] = true;
-        //     } else {
-        //         data["isPossibleRemove"] = false;
-        //     }
-        // })
-
-        // console.log( JSON.stringify( this.props.reviewData , null , 4));
-        
-        // this.setState({
-        //     headerInfo: {
-        //         reviewId: this.props.reviewData.id,
-        //         changeable : ( this.props.reviewData.member.memberName ===  localStorage.getItem("authenticatedMember")),
-        //         movieTitle: this.props.reviewData.movieTitle,
-        //         writer: this.props.reviewData.member,
-        //         createDate: this.props.reviewData.createDate,
-        //         reviewData: this.props.reviewData,
-        //     },
-        //     bodyData: {
-        //         reviewId: this.props.reviewData.id,
-        //         content: this.props.reviewData.content,
-        //         images: this.props.reviewData.imageList,
-        //         likeCount: this.props.reviewData.likeCount,
-        //         likesList: [...this.props.reviewData.likesList],
-        //         likePressed: likePressed,
-        //         rating: this.props.reviewData.rating,
-        //     },
-        //     footerData: {
-        //         reviewId: this.props.reviewData.id,
-        //         member: this.props.reviewData.member,
-        //         commentsList: [...this.props.reviewData.commentsList]
-        //     }
-        // });
-    }
-
     render() {
         return (
             <div className="review-box">
                 <div className="card">
-                    <ReviewHeader data={this.state.headerInfo} 
+                    <ReviewHeader data={this.state.headerInfo}
                         modifyReview={this.props.modifyReview}
                         deleteReview={this.props.deleteReview}
                         addImage={this.props.addImage} />

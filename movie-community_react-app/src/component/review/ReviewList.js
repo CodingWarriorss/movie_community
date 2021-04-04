@@ -18,35 +18,62 @@ export default class ReviewList extends Component {
         this.modifyReview = this.modifyReview.bind(this);
         this.addImage = this.addImage.bind(this);
         this.deleteReview = this.deleteReview.bind(this);
+        this.deleteReviewSet = this.deleteReviewSet.bind(this);
 
     }
 
     /*
         Review Data를 갱신하는 Method
     */
-    loadReview() {
-        const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
-        const token = localStorage.getItem("token");
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            params :{
-                pageIndex : this.state.page
+        loadReview() {
+            const requestUrl = REST_API_SERVER_URL + '/api/review'
+            const token = localStorage.getItem("token");
+    
+            let config = {
+                headers : {
+                    'Authorization': 'Bearer ' + token
+                },
+                params : {
+                    pageIndex : this.state.page
+                }
             }
+    
+            let configWithMovieTitle = {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                params : {
+                    pageIndex : this.state.page,
+                    movieTitle : this.props.movieTitle
+                }
+            }
+    
+            // //요청 형태 프레임만 작성해둠.
+            if (this.props.movieTitle === "") {
+                axios.get(requestUrl, config)
+                    .then((response) => {
+                        console.log(JSON.stringify(response.data, null, 4));
+                        this.setState({
+                            reviewList: [...this.state.reviewList, ...response.data],
+                            page: (this.state.page + 1)
+                        })
+                    }).catch((error) => {
+    
+                    })
+            } else {
+                axios.get(requestUrl, configWithMovieTitle)
+                    .then((response) => {
+                        console.log(JSON.stringify(response.data, null, 4));
+                        this.setState({
+                            reviewList: [...this.state.reviewList, ...response.data],
+                            page: (this.state.page + 1)
+                        })
+                    }).catch((error) => {
+    
+                    })
+            }
+    
         }
-
-        axios.get( requestUrl, config)
-        .then( (response) => {
-            console.log( JSON.stringify( response.data , null , 4) );
-            this.setState({
-                reviewList: [...this.state.reviewList, ...response.data],
-                page : (this.state.page +1)
-            })
-        }).catch( (error) => {
-
-        })
-    }
 
     modifyReview = ( data ) => {
         console.log( JSON.stringify( data, null ,4 ));
@@ -106,12 +133,19 @@ export default class ReviewList extends Component {
                 reviewId: data.reviewId
             }
         }
+
+        console.log( JSON.stringify( data , null ,4 ))
+
         axios.delete( requestUrl, config)
         .then( response => {
-            this.setState({
-                reviewList : this.state.reviewList.filter( review => (review.id !== data.reviewId) ),
-            })
+            this.deleteReviewSet(data.reviewId);
         }).catch( error => console.log( error ));
+    }
+
+    deleteReviewSet = ( id ) => {
+        this.setState({
+            reviewList : this.state.reviewList.filter( review => ( review.id !== id )),
+        })
     }
 
     scrollCheck() {
@@ -131,8 +165,21 @@ export default class ReviewList extends Component {
     }
 
     componentDidMount() {
-        this.loadReview();
         window.addEventListener("scroll", this.scrollCheck, true);
+        this.loadReview();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.movieTitle !== this.props.movieTitle) {
+            this.setState({
+                reviewList : [],
+                page : 0
+            }, () => {
+                this.loadReview();
+            })
+        }
+        console.log( "update component!!!!!");
+        console.log( JSON.stringify( this.state.reviewList , null, 4) );
     }
 
     render() {
