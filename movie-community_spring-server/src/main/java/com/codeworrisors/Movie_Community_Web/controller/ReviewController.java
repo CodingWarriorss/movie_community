@@ -141,6 +141,7 @@ public class ReviewController {
         try {
             reviewService.updateComment(userDetail.getMember(), updateCommentDto);
         } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());
         }
 
@@ -157,6 +158,7 @@ public class ReviewController {
         try {
             reviewService.deleteComment(userDetail.getMember(), commentId);
         } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());
         }
 
@@ -179,6 +181,7 @@ public class ReviewController {
             reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
             response.put("status", "LIKE");
         } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());
         }
 
@@ -197,6 +200,7 @@ public class ReviewController {
             reviewService.deleteLike(userDetail.getMember(), reviewId);
             response.put("status", "UNLIKE");
         } catch (IllegalStateException | NoSuchElementException e) {
+            logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());
         }
 

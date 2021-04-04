@@ -20,7 +20,6 @@ export default class ReviewList extends Component {
         this.modifyReview = this.modifyReview.bind(this);
         this.addImage = this.addImage.bind(this);
         this.deleteReview = this.deleteReview.bind(this);
-        this.deleteReviewSet = this.deleteReviewSet.bind(this);
 
     }
 
@@ -50,7 +49,6 @@ export default class ReviewList extends Component {
                 }
             }
     
-            // //요청 형태 프레임만 작성해둠.
             if (this.props.movieTitle === "") {
                 axios.get(requestUrl, config)
                     .then((response) => {

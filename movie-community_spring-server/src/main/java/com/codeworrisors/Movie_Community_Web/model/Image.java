@@ -21,7 +21,7 @@ public class Image {
             generator = "image_seq_gen"
     )
     @Getter
-    private long id;
+    private Long id;
     @NonNull
     @Getter
     private String fileName;

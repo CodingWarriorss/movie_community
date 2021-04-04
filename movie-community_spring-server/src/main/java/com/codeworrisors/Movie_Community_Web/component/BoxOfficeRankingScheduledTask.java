@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,10 +35,10 @@ public class BoxOfficeRankingScheduledTask {
 
     private final BoxOfficeRankingRepository boxOfficeRankingRepository;
 
-//    @PostConstruct
-//    public void initRankingData() {
-//        recordBoxOfficeRanking();
-//    }
+    @PostConstruct
+    public void initRankingData(){
+        recordBoxOfficeRanking();
+    }
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void updateRankingData() {
@@ -59,6 +60,7 @@ public class BoxOfficeRankingScheduledTask {
         HttpEntity<String> entity = new HttpEntity<String>("", null);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(queryUri, HttpMethod.GET, entity, String.class);
+
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {

@@ -25,7 +25,7 @@ public class Likes {
             strategy = GenerationType.SEQUENCE,
             generator = "likes_seq_gen"
     )
-    private long id;
+    private Long id;
 
     @NonNull
     @ManyToOne
