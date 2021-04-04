@@ -5,6 +5,8 @@ import ReviewContent from './review_box/ReviewContents';
 
 import {REST_API_SERVER_URL} from '../constants/APIConstants';
 
+import "./ReviewList.css";
+
 export default class ReviewList extends Component {
     constructor(props) {
         super(props);
@@ -52,7 +54,6 @@ export default class ReviewList extends Component {
             if (this.props.movieTitle === "") {
                 axios.get(requestUrl, config)
                     .then((response) => {
-                        console.log(JSON.stringify(response.data, null, 4));
                         this.setState({
                             reviewList: [...this.state.reviewList, ...response.data],
                             page: (this.state.page + 1)
@@ -63,7 +64,6 @@ export default class ReviewList extends Component {
             } else {
                 axios.get(requestUrl, configWithMovieTitle)
                     .then((response) => {
-                        console.log(JSON.stringify(response.data, null, 4));
                         this.setState({
                             reviewList: [...this.state.reviewList, ...response.data],
                             page: (this.state.page + 1)
@@ -76,7 +76,6 @@ export default class ReviewList extends Component {
         }
 
     modifyReview = ( data ) => {
-        console.log( JSON.stringify( data, null ,4 ));
         const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
         const token = localStorage.getItem("token");
         let config = {
@@ -98,7 +97,6 @@ export default class ReviewList extends Component {
     }
 
     addImage = ( data ) => {
-        console.log( data );
         const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
         const token = localStorage.getItem("token");
         let config = {
@@ -117,7 +115,7 @@ export default class ReviewList extends Component {
         axios.put( requestUrl , formData, config)
         .then( response => {
             this.setState({
-                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+                // reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
             })
         }).catch( error => console.log( error ));
     }
@@ -134,7 +132,6 @@ export default class ReviewList extends Component {
             }
         }
 
-        console.log( JSON.stringify( data , null ,4 ))
 
         axios.delete( requestUrl, config)
         .then( response => {
@@ -178,16 +175,14 @@ export default class ReviewList extends Component {
                 this.loadReview();
             })
         }
-        console.log( "update component!!!!!");
-        console.log( JSON.stringify( this.state.reviewList , null, 4) );
     }
 
     render() {
         return (
-            <div className="container start-margin">
+            <div className="container review-container start-margin">
                 {this.state.reviewList.map(
                     (reviewData) => {
-                        return <ReviewContent reviewData={reviewData} key={reviewData.reviewId}
+                        return <ReviewContent reviewData={reviewData} key={reviewData.id}
                             modifyReview={this.modifyReview}
                             deleteReview={this.deleteReview}
                             addImage={this.addImage}

@@ -1,12 +1,21 @@
-import React, { Component, useRef, useState } from "react";
-import SimpleImageSlider from "react-simple-image-slider";
+import React, { Component, useState } from "react";
 import { Accordion, Button, Dropdown, Modal, Form } from "react-bootstrap";
 
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 import './ReviewContents.css';
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
+
+
+
+
+import editImage from "img/button/edit.png";
+import closeImage from "img/button/close.png";
+
+
 
 
 //Review 게시물 상단
@@ -63,6 +72,20 @@ function ReviewHeader(props) {
         props.deleteReview(data)
     }
 
+    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+        <img
+            ref={ref}
+            alt={editImage}
+            src={editImage}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e);
+            }}
+        >
+            {children}
+        </img>
+    ));
+
     return (
         <div className="card-header">
             <div className="row justify-content-md-center">
@@ -72,7 +95,7 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img className="member-thumnail" src={props.data.thumnailUri} />
+                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -86,9 +109,9 @@ function ReviewHeader(props) {
 
                     {(props.data.changeable) ? (
                         <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                edit
-                        </Dropdown.Toggle>
+                            <Dropdown.Toggle as={CustomToggle} id="dropdown-basic">
+
+                            </Dropdown.Toggle>
 
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
@@ -197,10 +220,19 @@ function ReviewBody(props) {
                 <p>{props.data.content}</p>
             </div>
             <div className="review-images">
-                {(imageUrlList.length < 1) ? null : <SimpleImageSlider width={"100%"} 
-                    height={400} images={imageUrlList} showNavs={true} showBullets={true} />
-
-                }
+                <div className="slide-container">
+                    <Slide autoplay={false} >
+                        {(imageUrlList.length < 1) ? null :
+                            imageUrlList.map(image => {
+                                return (
+                                    <div className="each-slide">
+                                      <img alt="no image" src={image.url}></img>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Slide>
+                </div>
 
             </div>
             <div className="row">
@@ -259,17 +291,18 @@ function ReviewFooter(props) {
         }).catch(error => console.log(error));
     }
 
-    const deleteComment = (event) => {
-        const commentId = event.target.value;
+    const deleteComment = (commentId) => {
         const token = localStorage.getItem("token");
         const config = {
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': token
             },
             params: {
                 commentId: commentId,
             }
         }
+
+        console.log(JSON.stringify(config, null, 4));
         axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
             if (response.data.result === "SUCCESS") {
                 let delCommentList = [...reviewComments.reviewCommentList];
@@ -304,10 +337,16 @@ function ReviewFooter(props) {
                                 return (
                                     <div className="bg-white comment" key={comment.id}>
                                         <div className="comment-top">
+
                                             <h5 className="comment-name">{comment.member.memberName}</h5>
-                                            {(comment.isPossibleRemove) ? <button onClick={deleteComment} value={comment.id}>X</button> : null}
+
+                                            {(comment.isPossibleRemove) ? <img className="x-btn" alt={closeImage} src={closeImage} onClick={() => { deleteComment(comment.id) }}></img> : null}
+
                                         </div>
-                                        <p className="comment-content">{comment.content}</p>
+                                        <br></br>
+                                        <div>
+                                            <p className="comment-content">{comment.content}</p>
+                                        </div>
 
                                     </div>
                                 )

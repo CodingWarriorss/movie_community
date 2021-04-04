@@ -34,7 +34,7 @@ class MainTest extends Component {
         console.log(this.props.movieTitle);
         
         return (
-            <div>
+            <div className="main-container">
                 <ReviewList movieTitle = {this.state.movieTitle}/>
                 <RankingComponent></RankingComponent>
             </div>

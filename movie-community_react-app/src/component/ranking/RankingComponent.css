@@ -5,7 +5,6 @@
     width: 300px;
     height: fit-content;
     background-color: aliceblue;
-    border-radius: 1cm;
     padding: auto;
     box-shadow: 10px 10px 1cm;
     
@@ -13,4 +12,15 @@
 
 .ranking-chart > {
     margin: auto;
+}
+
+.comment-name{
+    float: left;
+}
+
+.x-btn{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    float: right;
 }

@@ -39,7 +39,7 @@ class RankingCommponent extends Component {
                         {
                             this.state.movieRangking.map(movie => {
                                 return (
-                                    <tr>
+                                    <tr key={movie.rank}>
                                         <th scope="row">{movie.rank}</th>
                                         <td>{movie.movieNm}</td>
                                         <td>{movie.rankInten}</td>
