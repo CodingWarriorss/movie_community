@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from "react";
+import React, { Component, useState } from "react";
 import SimpleImageSlider from "react-simple-image-slider";
 import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
 
@@ -13,8 +13,6 @@ import ReactImageUploadComponent from "react-images-upload";
 function ReviewHeader(props) {
 
     const [contentModified , setContent] = useState(props.data.reviewData.content);
-
-    const [ addImageList, setImageLIst] = useState([]);
 
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
@@ -65,7 +63,7 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img className="member-thumnail" src={props.data.thumnailUri} />
+                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
                 </div>
                 <div className="col-9">
                     <div className="row">

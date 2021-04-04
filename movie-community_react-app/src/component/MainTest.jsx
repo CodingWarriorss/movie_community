@@ -29,7 +29,6 @@ class MainTest extends Component {
         console.log(this.state.movieTitle);
     }
     render() {
-        const access = localStorage.getItem('token');
         console.log("MainTest");
         console.log(this.props.movieTitle);
         
