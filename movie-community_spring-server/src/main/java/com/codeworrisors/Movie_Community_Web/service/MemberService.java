@@ -2,9 +2,12 @@ package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.model.RoleType;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
+import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -33,6 +37,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final ImageRepository imageRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void validateDuplicateMemberId(String memberName) throws IllegalStateException {
@@ -134,10 +139,18 @@ public class MemberService {
         }
     }
 
+    private void deleteImages(Review review){
+        List<Image> imagesByReviewId = imageRepository.findImagesByReviewId(review.getId());
+        imagesByReviewId.forEach(image -> {
+            imageRepository.delete(image);
+        });
+    }
+
     private void deleteCascades(Member member) {
         reviewRepository.findById(member.getId())
                 .ifPresent(review -> {
                     review.getImageList().forEach(image -> removeFile(image.getFileName()));
+                    deleteImages(review);
                     reviewRepository.delete(review);
                 });
     }
