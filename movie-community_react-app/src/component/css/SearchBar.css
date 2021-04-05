@@ -56,8 +56,8 @@ SearchBar container
     color: white;
     border: 1px;
     outline: none;
-    font-weight: 100;
-    background : darkcyan;
+
+    background : #009688;
     z-index: 1;
     border-radius: 10px;
     transform: translate(340px, 38px) scale(0.8);
