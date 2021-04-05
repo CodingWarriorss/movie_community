@@ -23,17 +23,19 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
-class MovieCommunityWebApplicationTests {
+public class MovieCommunityWebApplicationTests {
 
-	
+
 
 	@Autowired
-	ReviewRepository reviewRepository;
+	private ReviewRepository reviewRepository;
 
-	
 	@Test
-	void contextLoads() {
-		
+	public void reviewCountTest(){
+		Member member = new Member();
+		member.setId(1);
+		int count = reviewRepository.countReviewByMember(member);
+		System.out.println( member.getId() +" 가 쓴 계시물 개수 : " + count );
 	}
 
 }

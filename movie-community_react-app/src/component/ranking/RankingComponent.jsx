@@ -27,26 +27,26 @@ class RankingCommponent extends Component {
     render() {
         return (
             <div className="ranking-box">
-                <table class="table">
+                <table className="table">
                     <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Last</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Last</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {
-                            this.state.movieRangking.map(movie => {
-                                return (
-                                    <tr>
-                                        <th scope="row">{movie.rank}</th>
-                                        <td>{movie.movieNm}</td>
-                                        <td>{movie.rankInten}</td>
-                                    </tr>
-                                )
-                            })
-                        }
+                    {
+                        this.state.movieRangking.map(movie => {
+                            return (
+                                <tr key={movie.rank}>
+                                    <th scope="row">{movie.rank}</th>
+                                    <td>{movie.movieNm}</td>
+                                    <td>{movie.rankInten}</td>
+                                </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
             </div>

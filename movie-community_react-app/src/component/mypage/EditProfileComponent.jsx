@@ -43,6 +43,12 @@ class EditProfileComponent extends Component {
             name, email, website, bio, picture
         } = this.state;
 
+        if (email
+            && !/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(email)) {
+            alert('올바르지 않은 이메일 형식입니다.');
+            return;
+        }
+
         const url = REST_API_SERVER_URL + '/api/member';
 
         const formData = new FormData();

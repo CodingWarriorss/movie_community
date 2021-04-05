@@ -10,13 +10,6 @@ import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
 import ProfileComponent from "./component/mypage/ProfileComponent";
 
-const getMovieTitle = (title) => {
-    console.log("APP.js");
-    console.log(title);
-    //settingMovieTitle(title);
-    //console.log(movieTitle);
-}
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +41,7 @@ class App extends Component {
                         <div className="container fixed-top">
                             <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
                                  id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
+                                <Link className="navbar-brand" to={"/"}><h2 className="title-fix">Movie Community</h2></Link>
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
                                     <MenuForUnauthenticated/> :

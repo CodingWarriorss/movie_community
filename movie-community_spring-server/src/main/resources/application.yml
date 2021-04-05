@@ -1,11 +1,11 @@
 logging:
-  level: 
+  level:
     root: info
 
   pattern:
-      console: "%d %-5level %logger : %msg%n"
-      file: "%d %-5level [%thread] %logger : %msg%n"
-    
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -25,4 +25,3 @@ spring:
 
   mvc:
     static-path-pattern: /image/**
-

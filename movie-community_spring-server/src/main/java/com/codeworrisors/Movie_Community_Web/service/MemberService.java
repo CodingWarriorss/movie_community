@@ -6,6 +6,7 @@ import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.RoleType;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
+import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,8 +32,8 @@ public class MemberService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     public void validateDuplicateMemberId(String memberName) throws IllegalStateException {
         memberRepository.findByMemberName(memberName)
@@ -122,10 +125,28 @@ public class MemberService {
         }
     }
 
+    private void removeFile(String uuidFilename) {
+        try {
+            Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
+            Files.delete(filePath);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void deleteCascades(Member member) {
+        reviewRepository.findById(member.getId())
+                .ifPresent(review -> {
+                    review.getImageList().forEach(image -> removeFile(image.getFileName()));
+                    reviewRepository.delete(review);
+                });
+    }
+
     public void deleteMember(Member member) {
         memberRepository.findById(member.getId())
                 .ifPresentOrElse(m -> {
                             removeImg(member.getProfileImg());
+                            deleteCascades(member);
                             memberRepository.delete(m);
                         },
                         () -> {
