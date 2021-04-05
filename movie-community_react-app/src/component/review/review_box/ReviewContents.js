@@ -240,12 +240,12 @@ function ReviewBody(props) {
                 <div className="col review-like-btn">
                     {like ?
                         <Favorite style={{
-                            color: 'red',
+                            color: 'indianred',
                             fontSize: 40,
                             marginLeft : 10,
                         }} onClick={handleLike}/>
                         : <FavoriteBorder style={{
-                            color: 'red',
+                            color: 'indianred',
                             fontSize : 40,
                             marginLeft : 10,
                         }} onClick={handleLike}/>
