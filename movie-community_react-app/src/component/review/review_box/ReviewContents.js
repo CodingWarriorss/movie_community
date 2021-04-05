@@ -9,9 +9,6 @@ import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
-
-
-
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
 import {Favorite, FavoriteBorder } from "@material-ui/icons";
