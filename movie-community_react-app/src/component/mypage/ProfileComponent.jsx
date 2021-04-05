@@ -3,8 +3,8 @@ import '../css/Profile.css';
 import EditProfileComponent from "./EditProfileComponent";
 import {REST_API_SERVER_URL} from "../constants/APIConstants";
 import axios from "axios";
-import AuthenticationService from "../login/AuthenticationService";
 import ProfileReviewComponent from "./ProfileReviewComponent";
+import DeleteMemberComponent from "./DeleteMemberComponent";
 
 class ProfileComponent extends Component {
 
@@ -12,45 +12,36 @@ class ProfileComponent extends Component {
         super(props);
 
         this.state = {
-            isModalOpen: false,
+            isModalEditOpen: false,
+            isModalWithdrawOpen: false,
             reviewList: [],
         }
 
         this.loadReview = this.loadReview.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.withdraw = this.withdraw.bind(this);
+        this.openEditModal = this.openEditModal.bind(this);
+        this.closeEditModal = this.closeEditModal.bind(this);
+        this.openWithdrawModal = this.openWithdrawModal.bind(this);
+        this.closeWithdrawModal = this.closeWithdrawModal.bind(this);
     }
 
     componentDidMount() {
-        console.log('componentDidMount')
         this.loadReview();
     }
 
-    openModal() {
-        console.log('open edit modal');
-        this.setState({isModalOpen: true});
+    openEditModal() {
+        this.setState({isModalEditOpen: true});
     }
 
-    closeModal() {
-        console.log('close edit modal');
-        this.setState({isModalOpen: false});
+    closeEditModal() {
+        this.setState({isModalEditOpen: false});
     }
 
-    withdraw() {
-        let config = {
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            }
-        }
+    openWithdrawModal() {
+        this.setState({isModalWithdrawOpen: true});
+    }
 
-        axios.delete(REST_API_SERVER_URL + '/api/member', config)
-            .then(function (response) {
-                // handle success
-                console.log(response);
-                alert('회원 정보가 삭제되었습니다.');
-                AuthenticationService.logout();
-            })
+    closeWithdrawModal() {
+        this.setState({isModalWithdrawOpen: false});
     }
 
     loadReview() {
@@ -80,6 +71,7 @@ class ProfileComponent extends Component {
         const name = localStorage.getItem('name');
         const website = localStorage.getItem('website');
         const bio = localStorage.getItem('bio');
+        const profileImg = localStorage.getItem('profileImg');
 
         return (
             <main id="profile" style={{backgroundColor: "white", padding: "100px 100px"}}>
@@ -89,7 +81,7 @@ class ProfileComponent extends Component {
                             <input type="file" name="profileImage" style={{display: "none"}}/>
                         </form>
                         <img
-                            src={localStorage.getItem('profileImg')}
+                            src={profileImg}
                             id="profile_image"
                             style={{cursor: "pointer"}}/>
                     </div>
@@ -98,15 +90,16 @@ class ProfileComponent extends Component {
                         <div className="profile__title">
                             <h1>{memberName}</h1>
                             <a href="#">
-                                <button className="profile_edit_btn" onClick={this.openModal}>
+                                <button className="profile_edit_btn" onClick={this.openEditModal}>
                                     회원수정
                                 </button>
-                                <EditProfileComponent isOpen={this.state.isModalOpen} close={this.closeModal}/>
+                                <EditProfileComponent isOpen={this.state.isModalEditOpen} close={this.closeEditModal}/>
                             </a>
                             <a href="#">
-                                <button className="profile_follow_btn" onClick={this.withdraw}>
+                                <button className="profile_follow_btn" onClick={this.openWithdrawModal}>
                                     회원탈퇴
                                 </button>
+                                <DeleteMemberComponent isOpen={this.state.isModalWithdrawOpen} close={this.closeWithdrawModal}/>
                             </a>
                         </div>
 
