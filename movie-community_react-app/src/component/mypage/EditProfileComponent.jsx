@@ -96,7 +96,7 @@ class EditProfileComponent extends Component {
 
         return (
             <Modal
-                size="lg"
+                size="xs"
                 show={isOpen}
                 onHide={close}>
                 <Modal.Header closeButton>회원 정보 수정</Modal.Header>
