@@ -5,7 +5,6 @@ import ImageUploader from "react-images-upload";
 
 class SignupComponent extends Component {
 
-
     constructor(props) {
         super(props);
 
@@ -13,13 +12,13 @@ class SignupComponent extends Component {
         this.state = {
             memberName: '',
             availableName: false,
-            checkNameStyle: {},
-            checkNameText: '',
+            checkNameStyle: {display: "block", float: "right", color: "red"},
+            checkNameText: '아이디를 중복확인 해주세요',
 
             password: '',
             password2: '',
             availablePwd: false,
-            checkPwdStyle: {},
+            checkPwdStyle: {display: "block", float: "right", color: "red"},
             checkPwdText: '',
 
             name: '',
@@ -50,20 +49,29 @@ class SignupComponent extends Component {
         // 아이디 변경되면 중복체크 다시해야 함
         if (e.target.name === 'memberName') {
             this.setState({
-                    [this.state.availableName]: false,
-                    [this.state.checkNameStyle]: {},
-                    [this.state.checkNameText]: ''
+                    availableName: false,
+                    checkNameStyle: {display: "block", float: "right", color: "red"},
+                    checkNameText: '아이디를 중복확인 해주세요'
                 }
             )
         }
     }// changeHandler
-
 
     validateName = (e) => {    // 아이디 중복체크
         e.preventDefault();
         const that = this;
         const data = {
             memberName: this.state.memberName
+        }
+
+        if (!/(?=.*\d{1,50})(?=.*[a-zA-Z]{1,50}).{6,50}$/.test(this.state.memberName)) {
+            this.setState({
+                    availableName: false,
+                    checkNameStyle: {display: "block", float: "right", color: 'red'},
+                    checkNameText: '올바르지 않은 아이디 형식입니다'
+                }
+            )
+            return;
         }
 
         fetch(REST_API_SERVER_URL + '/checkid', {
@@ -81,22 +89,22 @@ class SignupComponent extends Component {
                 if (jsonStr === '1') {
                     that.setState({
                             availableName: true,
-                            checkNameStyle: {color: 'green'},
-                            checkNameText: '사용 가능한 id'
+                            checkNameStyle: {display: "block", float: "right", color: 'green'},
+                            checkNameText: '사용 가능한 아이디입니다'
                         }
                     )
                 } else if (jsonStr === '0') {
                     that.setState({
                             availableName: false,
-                            checkNameStyle: {color: 'red'},
-                            checkNameText: '이미 사용중인 id'
+                            checkNameStyle: {display: "block", float: "right", color: "red"},
+                            checkNameText: '이미 사용중인 아이디입니다'
                         }
                     )
                 } else {
                     that.setState({
                             availableName: false,
-                            checkNameStyle: {color: 'red'},
-                            checkNameText: '서버 오류 발생'
+                            checkNameStyle: {display: "block", float: "right", color: 'red'},
+                            checkNameText: '서버 오류가 발생했습니다'
                         }
                     )
                 }
@@ -109,28 +117,25 @@ class SignupComponent extends Component {
             password, password2
         } = this.state;
 
-        // 비밀번호를 입력안했거나 둘 중 하나의 값이 입력 상태가 아닐 때에
-        if (password.length < 1 || password2.length < 1) {
+        if (!/(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{1,50}).{8,50}$/.test(password)) {
             this.setState({
                 availablePwd: false,
-                checkPwdStyle: {color: 'red'},
-                checkPwdText: '비말번호를 입력하세요.'
+                checkPwdStyle: {display: "block", float: "right", color: 'red'},
+                checkPwdText: '올바르지 않은 비밀번호 형식입니다'
             });
         }
-        // 비밀번호가 같다면
         else if (password === password2) {
             this.setState({
                 availablePwd: true,
-                checkPwdStyle: {color: 'green'},
-                checkPwdText: '일치'
+                checkPwdStyle: {display: "block", float: "right", color: 'green'},
+                checkPwdText: '비밀번호가 일치합니다'
             });
         }
-        // 비밀번호가 같지 않다면
         else {
             this.setState({
                 availablePwd: false,
-                checkPwdStyle: {color: 'red'},
-                checkPwdText: '불일치'
+                checkPwdStyle: {display: "block", float: "right", color: 'red'},
+                checkPwdText: '비밀번호가 일치하지 않습니다'
             });
         }
     }// checkPWD
@@ -139,17 +144,21 @@ class SignupComponent extends Component {
     isJoinPossible = () => {
         const {
             memberName, availableName,
-            password, availablePwd
+            password, availablePwd, email
         } = this.state;
 
         if (memberName.length < 1 || password.length < 1) {
             alert('아이디와 비밀번호는 필수 입력값입니다.');
             return false;
         } else if (availableName === false) {
-            alert('사용 불가능한 아이디를 입력하셨습니다.');
+            alert('사용 불가능한 아이디입니다.');
             return false;
         } else if (availablePwd === false) {
             alert('비밀번호가 일치하지 않습니다.');
+            return false;
+        } else if (email
+            && !/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(email)) {
+            alert('올바르지 않은 이메일 형식입니다.');
             return false;
         }
         return true;
@@ -210,42 +219,43 @@ class SignupComponent extends Component {
             <div className="outer">
                 <div className="inner">
                     <div>
-                        <h3>회원가입</h3>
-                        <h5
-                            style={{paddingBottom: "10px", color: "red"}}>필수입력사항
-                        </h5>
+                        <h3>회원가입</h3><br/>
                         <div className="form-group">
                             <label>아이디<span
                                 style={{paddingLeft: "2px", color: "red", fontSize: "initial"}}>*</span></label>
-                            <input type="text" className="form-control" placeholder="아이디" id="memberName"
-                                   name="memberName" value={memberName} onChange={this.changeHandler}/>
+                            <br/>
+                            <input type="text" className="form-control" placeholder="영문/숫자를 포함하여 6자리 이상" id="memberName"
+                                   name="memberName" value={memberName} onChange={this.changeHandler}
+                                   style={{width: "70%", float: "left", position: "static", display: "block"}}/>
                             <button onClick={this.validateName} className="btn btn-dark" id="validate-id-btn">중복확인
                             </button>
                             <span className="custom-check" style={checkNameStyle}>{checkNameText}</span>
                         </div>
+                        <br/>
+                        <br/>
                         <div className="form-group">
-                            <label>비밀번호 <span style={{color: "red", fontSize: "initial"}}>*</span></label>
-                            <input type="password" className="form-control" placeholder="비밀번호"
+                            <label style={{float: "left", display: "inline-block"}}>비밀번호 <span
+                                style={{color: "red", fontSize: "initial"}}>*</span></label>
+                            <input type="password" className="form-control" placeholder="영문/숫자/특수문자를 포함하여 8자리 이상"
                                    name="password" value={password} onChange={this.changeHandler}
                                    onKeyUp={this.checkPWD}/>
                         </div>
                         <div className="form-group">
                             <label>비밀번호 확인<span style={{paddingLeft: "2px", color: "red", fontSize: "initial"}}>*</span></label>
-                            <input type="password" className="form-control" placeholder="비밀번호 확인"
+                            <input type="password" className="form-control" placeholder="영문/숫자/특수문자를 포함하여 8자리 이상"
                                    name="password2" value={password2} onChange={this.changeHandler}
                                    onKeyUp={this.checkPWD}/>
                             <span style={checkPwdStyle}>{checkPwdText}</span>
                         </div>
 
-                        {/*기타정보*/}
-                        <br/>
+                        <br/><br/>
                         <h5>추가입력사항</h5>
                         <ImageUploader
                             singleImage={true}
                             withIcon={false}
                             withPreview={true}
                             onChange={this.onDrop}
-                            buttonText="프로필 이미지"
+                            buttonText="프로필 이미지를 선택하세요"
                             imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                             maxFileSize={5242880}
                         />
