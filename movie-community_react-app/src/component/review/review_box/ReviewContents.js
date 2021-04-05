@@ -18,14 +18,13 @@ import {Favorite, FavoriteBorder } from "@material-ui/icons";
 
 //Review 게시물 상단
 function ReviewHeader(props) {
-
     const [contentModified, setContent] = useState(props.data.reviewData.content);
-
     const [addImageList, setImageList] = useState([]);
-
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
 
+    console.log("===================")
+    console.log(props.data.writer.profileImg);
     const handleContentShow = () => {
         setContentShow(!contentModalShow);
     }
@@ -93,7 +92,9 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
+                    <img
+                        src={IMAGE_RESOURCE_URL + props.data.writer.profileImg}
+                        style={{width : 50, height : 50, borderRadius : 25}}/>
                 </div>
                 <div className="col-9">
                     <div className="row">

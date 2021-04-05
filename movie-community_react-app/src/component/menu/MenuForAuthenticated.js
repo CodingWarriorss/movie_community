@@ -7,7 +7,8 @@ import {Link} from 'react-router-dom';
 
 const Menu = (props) => {
     const [isShow, setShow] = useState(false);
-
+    console.log('+++++++++++++++++++++++++++++')
+    console.log(localStorage.getItem('profileImg'));
     const handleShow = () => {
         setShow(!isShow);
     }
