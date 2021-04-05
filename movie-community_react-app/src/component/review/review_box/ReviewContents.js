@@ -14,6 +14,7 @@ import ReactImageUploadComponent from "react-images-upload";
 
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
+import {Favorite, FavoriteBorder } from "@material-ui/icons";
 
 
 
@@ -237,10 +238,23 @@ function ReviewBody(props) {
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    <button className={"btn " + ((like) ? "btn-primary" : "btn-outline-primary")} like={false} onClick={handleLike}>Like</button>
+                    {like ?
+                        <Favorite style={{
+                            color: 'red',
+                            fontSize: 40,
+                            marginLeft : 10,
+                        }} onClick={handleLike}/>
+                        : <FavoriteBorder style={{
+                            color: 'red',
+                            fontSize : 40,
+                            marginLeft : 10,
+                        }} onClick={handleLike}/>
+                    }
                 </div>
                 <div className="col">
-                    <div className="review-like">{likeCount}명이 좋아합니다</div>
+                    <div className="review-like" style={{
+                        marginRight : 15,
+                    }}>{likeCount}명이 좋아합니다</div>
                 </div>
             </div>
         </div>
