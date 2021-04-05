@@ -101,10 +101,10 @@ class HeaderSearchComponent extends Component {
         const { input, preview,  } = this.state;
 
         return (
-            <div style={{ width: 450 }}>
+            <div className='search-bar-header'>
                 <button
-                    onClick={this.clearState}>
-                    X
+                    onClick={this.clearState} className='cancel-btn-header'>
+                    검색 초기화
                 </button>
                 <input
                     className="search w-100 `"
@@ -117,7 +117,8 @@ class HeaderSearchComponent extends Component {
                 {input ?
                     <div className="search-results" style={{
                         backgroundColor : "white",
-                        width : 450
+                        width : 450,
+                        marginBottom : 30,
                     }}>{preview}</div> : ''
                 }
             </div>
