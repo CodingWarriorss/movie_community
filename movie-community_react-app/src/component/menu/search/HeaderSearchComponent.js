@@ -97,16 +97,6 @@ class HeaderSearchComponent extends Component {
         this.props.movieTitleSelected('');
     }
 
-    onMouseEnter(direction) {
-        let scrollToken = setInterval(() => {
-            if (direction = "down") {
-                console.log("scroll down");
-            } else {
-                console.log("scroll up");
-            }
-        });
-    }
-
     render() {
         const { input, preview,  } = this.state;
 
