@@ -54,6 +54,7 @@ public class ReviewService {
     private List<Review> getReviewsByMemberId(Pageable pageable, long memberId) throws IllegalStateException {
         if (memberRepository.findById(memberId).isEmpty())
             throw new IllegalStateException("존재하지 않는 회원");
+        // Member member = memberRepository.findById(memberId).orElseThrow(IllegalStateException::new);
 
         return reviewRepository.findByMemberId(pageable, memberId).getContent();
     }
