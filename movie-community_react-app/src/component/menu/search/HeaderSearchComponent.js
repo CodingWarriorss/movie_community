@@ -97,11 +97,25 @@ class HeaderSearchComponent extends Component {
         this.props.movieTitleSelected('');
     }
 
+    onMouseEnter(direction) {
+        let scrollToken = setInterval(() => {
+            if (direction = "down") {
+                console.log("scroll down");
+            } else {
+                console.log("scroll up");
+            }
+        });
+    }
+
     render() {
         const { input, preview,  } = this.state;
 
         return (
             <div style={{ width: 450 }}>
+                <button
+                    onClick={this.clearState}>
+                    X
+                </button>
                 <input
                     className="search w-100 `"
                     placeholder="영화 검색"
@@ -111,14 +125,11 @@ class HeaderSearchComponent extends Component {
                     onKeyUp={this.update}
                 />
                 {input ?
-                    <div className="search-direction" style={{
-                        backgroundColor : "white"
+                    <div className="search-results" style={{
+                        backgroundColor : "white",
+                        width : 450
                     }}>{preview}</div> : ''
                 }
-                <button
-                            onClick={this.clearState}>
-                    X
-                </button>
             </div>
         )
     }
