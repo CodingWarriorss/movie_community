@@ -1,11 +1,14 @@
 logging:
   level: 
     root: info
-
   pattern:
       console: "%d %-5level %logger : %msg%n"
       file: "%d %-5level [%thread] %logger : %msg%n"
-    
+
+  file:
+    path: C:/movie_community/log/
+
+
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -17,7 +20,8 @@ spring:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+    show-sql: true
 
   mvc:
     static-path-pattern: /image/**

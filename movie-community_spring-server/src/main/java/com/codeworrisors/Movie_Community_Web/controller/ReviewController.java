@@ -100,7 +100,7 @@ public class ReviewController {
             reviewService.deleteReview(userDetail.getMember(), reviewId);
         } catch (IllegalStateException | NoSuchElementException e) {
             logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
+            throw new NoSuchElementException(FAIL + "/" + e.getMessage());
         }
 
         return response;

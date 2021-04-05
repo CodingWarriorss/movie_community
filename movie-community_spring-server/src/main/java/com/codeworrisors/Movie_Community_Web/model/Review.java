@@ -2,6 +2,7 @@ package com.codeworrisors.Movie_Community_Web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -40,7 +41,7 @@ public class Review {
     private int likeCount;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne()
     @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 

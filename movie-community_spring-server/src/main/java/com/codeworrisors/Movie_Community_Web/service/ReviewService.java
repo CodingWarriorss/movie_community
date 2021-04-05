@@ -14,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,7 +55,7 @@ public class ReviewService {
 
     private List<Review> getReviewsByMemberId(Pageable pageable, long memberId) throws IllegalStateException {
         if (memberRepository.findById(memberId).isEmpty())
-            throw new IllegalStateException("존재하지 않는 회원");
+            throw new NoSuchElementException("존재하지 않는 회원");
 
         return reviewRepository.findByMemberId(pageable, memberId).getContent();
     }
@@ -89,7 +91,7 @@ public class ReviewService {
         reviewRepository.findById(updateReviewDto.getReviewId())
                 .ifPresentOrElse(review -> {
                     if (review.getMember().getId() != member.getId())
-                        throw new IllegalStateException("권한 없는 리뷰에 대한 수정 요청");
+                        throw new AuthorizationServiceException("권한 없는 리뷰에 대한 수정 요청");
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 리뷰에 대한 수정 요청");
                 });
@@ -145,11 +147,11 @@ public class ReviewService {
         }
     }
 
-    public void deleteReview(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
+    public void deleteReview(Member member, long reviewId) {
         reviewRepository.findById(reviewId).ifPresentOrElse(
                 review -> {
                     if (review.getMember().getId() != member.getId())
-                        throw new IllegalStateException("권한 없는 리뷰에 대한 삭제 요청");
+                        throw new AuthorizationServiceException("권한 없는 리뷰에 대한 삭제 요청");
 
                     review.getImageList().forEach(image -> removeFile(image.getFileName()));
                     reviewRepository.delete(review);
@@ -189,7 +191,7 @@ public class ReviewService {
         commentRepository.findById(updateCommentDto.getCommentId())
                 .ifPresentOrElse(comment -> {
                     if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 수정 요청");
+                        throw new AuthorizationServiceException("권한 없는 댓글에 대한 수정 요청");
                     comment.setContent(updateCommentDto.getContent());
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
@@ -202,7 +204,7 @@ public class ReviewService {
         commentRepository.findById(commentId)
                 .ifPresentOrElse(comment -> {
                     if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요청");
+                        throw new AuthorizationServiceException("권한 없는 댓글에 대한 삭제 요청");
                     commentRepository.delete(comment);
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
