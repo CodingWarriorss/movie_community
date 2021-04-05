@@ -26,52 +26,52 @@ export default class ReviewList extends Component {
     /*
         Review Data를 갱신하는 Method
     */
-        loadReview() {
-            const requestUrl = REST_API_SERVER_URL + '/api/review'
-            const token = localStorage.getItem("token");
-    
-            let config = {
-                headers : {
-                    'Authorization': 'Bearer ' + token
-                },
-                params : {
-                    pageIndex : this.state.page
-                }
+    loadReview() {
+        const requestUrl = REST_API_SERVER_URL + '/api/review'
+        const token = localStorage.getItem("token");
+
+        let config = {
+            headers : {
+                'Authorization': 'Bearer ' + token
+            },
+            params : {
+                pageIndex : this.state.page
             }
-    
-            let configWithMovieTitle = {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                params : {
-                    pageIndex : this.state.page,
-                    movieTitle : this.props.movieTitle
-                }
-            }
-    
-            if (this.props.movieTitle === "") {
-                axios.get(requestUrl, config)
-                    .then((response) => {
-                        this.setState({
-                            reviewList: [...this.state.reviewList, ...response.data],
-                            page: (this.state.page + 1)
-                        })
-                    }).catch((error) => {
-    
-                    })
-            } else {
-                axios.get(requestUrl, configWithMovieTitle)
-                    .then((response) => {
-                        this.setState({
-                            reviewList: [...this.state.reviewList, ...response.data],
-                            page: (this.state.page + 1)
-                        })
-                    }).catch((error) => {
-    
-                    })
-            }
-    
         }
+
+        let configWithMovieTitle = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            params : {
+                pageIndex : this.state.page,
+                movieTitle : this.props.movieTitle
+            }
+        }
+
+        if (this.props.movieTitle === "") {
+            axios.get(requestUrl, config)
+                .then((response) => {
+                    this.setState({
+                        reviewList: [...this.state.reviewList, ...response.data],
+                        page: (this.state.page + 1)
+                    })
+                }).catch((error) => {
+
+            })
+        } else {
+            axios.get(requestUrl, configWithMovieTitle)
+                .then((response) => {
+                    this.setState({
+                        reviewList: [...this.state.reviewList, ...response.data],
+                        page: (this.state.page + 1)
+                    })
+                }).catch((error) => {
+
+            })
+        }
+
+    }
 
     modifyReview = ( data ) => {
         const requestUrl = REST_API_SERVER_URL+ '/api/review' ;
@@ -87,11 +87,11 @@ export default class ReviewList extends Component {
         formData.append("content" , data.content);
 
         axios.put( requestUrl , formData, config)
-        .then( response => {
-            this.setState({
-                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
-            })
-        }).catch( error => console.log( error ));
+            .then( response => {
+                this.setState({
+                    reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+                })
+            }).catch( error => console.log( error ));
     }
 
     addImage = ( data ) => {
@@ -111,11 +111,11 @@ export default class ReviewList extends Component {
         });
 
         axios.put( requestUrl , formData, config)
-        .then( response => {
-            this.setState({
-                // reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
-            })
-        }).catch( error => console.log( error ));
+            .then( response => {
+                this.setState({
+                    // reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+                })
+            }).catch( error => console.log( error ));
     }
 
     deleteReview = ( data ) => {
@@ -132,9 +132,9 @@ export default class ReviewList extends Component {
 
 
         axios.delete( requestUrl, config)
-        .then( response => {
-            this.deleteReviewSet(data.reviewId);
-        }).catch( error => console.log( error ));
+            .then( response => {
+                this.deleteReviewSet(data.reviewId);
+            }).catch( error => console.log( error ));
     }
 
     deleteReviewSet = ( id ) => {
@@ -181,9 +181,9 @@ export default class ReviewList extends Component {
                 {this.state.reviewList.map(
                     (reviewData) => {
                         return <ReviewContent reviewData={reviewData} key={reviewData.id}
-                            modifyReview={this.modifyReview}
-                            deleteReview={this.deleteReview}
-                            addImage={this.addImage}
+                                              modifyReview={this.modifyReview}
+                                              deleteReview={this.deleteReview}
+                                              addImage={this.addImage}
                         />;
                     }
                 )}

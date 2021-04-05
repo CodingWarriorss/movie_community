@@ -41,7 +41,7 @@ class HeaderSearchComponent extends Component {
                         }
                     )
                 }
-             });
+            });
     }
 
     setResult(results) {

@@ -1,24 +1,24 @@
 logging:
-  level: 
+  level:
     root: info
 
   pattern:
-      console: "%d %-5level %logger : %msg%n"
-      file: "%d %-5level [%thread] %logger : %msg%n"
-    
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
+    password: 1234
     url: jdbc:oracle:thin:@localhost:1521/xe
     username: develop
-    password: 1234
   jpa:
     database: oracle
     database-platform: org.hibernate.dialect.Oracle10gDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+    show-sql: true
 
   mvc:
     static-path-pattern: /image/**
-

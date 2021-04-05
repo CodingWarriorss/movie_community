@@ -31,7 +31,7 @@ class MainTest extends Component {
     render() {
         console.log("MainTest");
         console.log(this.props.movieTitle);
-        
+
         return (
             <div className="main-container">
                 <ReviewList movieTitle = {this.state.movieTitle}/>

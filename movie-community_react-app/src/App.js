@@ -1,4 +1,4 @@
-import React, {Component,} from 'react'
+import React, {Component, useState, useEffect} from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
@@ -8,7 +8,7 @@ import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
-
+import ProfileComponent from "./component/mypage/ProfileComponent";
 
 class App extends Component {
     constructor(props) {
@@ -21,7 +21,6 @@ class App extends Component {
     }
 
     setMovieTitle = (movieTitle) => {
-        // console.log("App.js");
         this.setState({
             movieTitle: movieTitle
         });
@@ -32,8 +31,6 @@ class App extends Component {
         const access = localStorage.getItem('token');
         (access === null) ? console.log('[로그인 안됨]') : console.log('[로그인 상태]' + access);
 
-        console.log("App.js");
-        console.log(this.state.movieTitle);
         return (
             <Router>
 
@@ -42,8 +39,9 @@ class App extends Component {
                     <nav className="navbar-expand-lg navbar-light fixed-top"
                          style={{height: "70px"}}>
                         <div className="container fixed-top">
-                            <div className="collapse navbar-collapse" style={{marginTop : "10px"}} id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}><h2 className={"title-fix"}>Movie Community</h2></Link>
+                            <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
+                                 id="navbarTogglerDemo02">
+                                <Link className="navbar-brand" to={"/"}><h2 className="title-fix">Movie Community</h2></Link>
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
                                     <MenuForUnauthenticated/> :
@@ -53,6 +51,7 @@ class App extends Component {
                     </nav>
 
                     <Switch>
+                        <Route path="/mypage" component={ProfileComponent}/>
                         <Route path="/logout" component={LogoutComponent}/>
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>

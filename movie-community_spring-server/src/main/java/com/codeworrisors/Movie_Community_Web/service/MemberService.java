@@ -1,24 +1,44 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
+import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
+import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.model.RoleType;
+import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
+import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
+import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
 public class MemberService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
+    private final ImageRepository imageRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     public void validateDuplicateMemberId(String memberName) throws IllegalStateException {
         memberRepository.findByMemberName(memberName)
@@ -27,52 +47,119 @@ public class MemberService {
                 });
     }
 
-    public int createMember(Member member) throws IllegalStateException {
-        validateDuplicateMemberId(member.getMemberName());// 한번 더 중복체크
+    public int createMember(CreateMemberDto createMemberDto) throws IllegalStateException {
+        validateDuplicateMemberId(createMemberDto.getMemberName());// 한번 더 중복체크
 
-        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+        Member member = new Member();
+        member.setMemberName(createMemberDto.getMemberName());
+        member.setPassword(bCryptPasswordEncoder.encode(createMemberDto.getPassword()));
+        member.setName(createMemberDto.getName());
+        member.setEmail(createMemberDto.getEmail());
+        member.setBio(createMemberDto.getBio());
+        member.setWebsite(createMemberDto.getWebsite());
+        if (createMemberDto.getProfileImg() != null) {
+            member.setProfileImg(saveImg(createMemberDto.getProfileImg()));
+        }
         member.setRole(RoleType.ROLE_USER);
         memberRepository.save(member);
         return 1;
     }
 
-    public JSONObject selectMember(String memberName) throws NoSuchElementException {
-        JSONObject member = new JSONObject();
+    private String saveImg(MultipartFile file) {
+        UUID uuid = UUID.randomUUID();
+        String uuidFilename = uuid + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
+        try {
+            Files.write(filePath, file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uuidFilename;
+    }
 
-        memberRepository.findByMemberName(memberName)
+    public JSONObject selectMember(Member member) throws NoSuchElementException {
+        JSONObject result = new JSONObject();
+
+        memberRepository.findById(member.getId())
                 .ifPresentOrElse(m -> {
-                            member.put("memberName", m.getMemberName());
-                            member.put("name", m.getName());
-                            member.put("email", m.getEmail());
-                            member.put("address", m.getAddress());
-                            member.put("gender", m.getGender());
-                            member.put("birth", m.getBirth());
-                            member.put("phone", m.getPhone());
+                            result.put("name", m.getName());
+                            result.put("email", m.getEmail());
+                            result.put("website", m.getWebsite());
+                            result.put("bio", m.getBio());
+                            result.put("profileImg", m.getProfileImg());
                         },
                         () -> {
                             throw new NoSuchElementException("존재하지 않는 회원에 대한 정보조회 요청");
                         });
 
-        return member;
+        return result;
     }
 
-    public void updateMember(Member member) throws NoSuchElementException {
-        memberRepository.findByMemberName(member.getMemberName())
+    public JSONObject updateMember(Member member, UpdateMemberDto updateMemberDto) throws NoSuchElementException {
+        JSONObject result = new JSONObject();
+
+        memberRepository.findById(member.getId())
                 .ifPresentOrElse(m -> {
-                    m.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-                    m.setName(member.getName());
-                    m.setEmail(member.getEmail());
-                    m.setAddress(member.getAddress());
-                    m.setGender(member.getGender());
-                    m.setPhone(member.getPhone());
+                    m.setName(updateMemberDto.getName());
+                    m.setEmail(updateMemberDto.getEmail());
+                    m.setWebsite(updateMemberDto.getWebsite());
+                    m.setBio(updateMemberDto.getBio());
+                    if (updateMemberDto.getProfileImg() != null) {
+                        removeImg(member.getProfileImg());
+                        String profileImg = saveImg(updateMemberDto.getProfileImg());
+                        m.setProfileImg(profileImg);
+                    }
+                    result.put("name", m.getName());
+                    result.put("email", m.getEmail());
+                    result.put("website", m.getWebsite());
+                    result.put("bio", m.getBio());
+                    result.put("profileImg", m.getProfileImg());
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 회원에 대한 정보수정 요청");
                 });
+
+        return result;
     }
 
-    public void deleteMember(String memberName) {
-        memberRepository.findByMemberName(memberName)
+    private void removeImg(String uuidFilename) {
+        try {
+            Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
+            Files.delete(filePath);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void removeFile(String uuidFilename) {
+        try {
+            Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
+            Files.delete(filePath);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void deleteImages(Review review){
+        List<Image> imagesByReviewId = imageRepository.findImagesByReviewId(review.getId());
+        imagesByReviewId.forEach(image -> {
+            imageRepository.delete(image);
+        });
+    }
+
+    private void deleteCascades(Member member) {
+        reviewRepository.findById(member.getId())
+                .ifPresent(review -> {
+                    review.getImageList().forEach(image -> removeFile(image.getFileName()));
+                    deleteImages(review);
+                    reviewRepository.delete(review);
+                });
+    }
+
+    public void deleteMember(Member member) {
+        memberRepository.findById(member.getId())
                 .ifPresentOrElse(m -> {
+                            removeImg(member.getProfileImg());
+                            deleteCascades(member);
                             memberRepository.delete(m);
                         },
                         () -> {

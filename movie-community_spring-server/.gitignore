@@ -38,6 +38,3 @@ out/
 
 ### DS_STORE
 .DS_Store
-
-### Application.yml
-./src/main/resources/application.yml

@@ -122,16 +122,16 @@ function ReviewHeader(props) {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Form.Control as="textarea" value={contentModified}
-                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
+                                                      rows={8} onChange={(e) => { setContent(e.target.value); }} />
 
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleContentShow}>
                                             Close
-                                    </Button>
+                                        </Button>
                                         <Button variant="primary" onClick={modifyReview}>
                                             Save Changes
-                                    </Button>
+                                        </Button>
                                     </Modal.Footer>
                                 </Modal>
 
@@ -154,10 +154,10 @@ function ReviewHeader(props) {
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleImageShow}>
                                             Close
-                                    </Button>
+                                        </Button>
                                         <Button variant="primary" onClick={addImage}>
                                             Save Changes
-                                    </Button>
+                                        </Button>
                                     </Modal.Footer>
                                 </Modal>
 
@@ -227,7 +227,7 @@ function ReviewBody(props) {
                             imageUrlList.map(image => {
                                 return (
                                     <div className="each-slide">
-                                      <img alt="no image" src={image.url}></img>
+                                        <img alt="no image" src={image.url}></img>
                                     </div>
                                 )
                             })
@@ -434,9 +434,9 @@ export default class ReviewContent extends Component {
             <div className="review-box">
                 <div className="card">
                     <ReviewHeader data={this.state.headerInfo}
-                        modifyReview={this.props.modifyReview}
-                        deleteReview={this.props.deleteReview}
-                        addImage={this.props.addImage} />
+                                  modifyReview={this.props.modifyReview}
+                                  deleteReview={this.props.deleteReview}
+                                  addImage={this.props.addImage} />
                     <ReviewBody data={this.state.bodyData} />
                     <ReviewFooter data={this.state.footerData} />
                 </div>
