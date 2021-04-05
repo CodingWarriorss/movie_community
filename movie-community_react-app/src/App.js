@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react'
+import React, {Component,} from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
@@ -42,9 +42,8 @@ class App extends Component {
                     <nav className="navbar-expand-lg navbar-light fixed-top"
                          style={{height: "70px"}}>
                         <div className="container fixed-top">
-                            <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
-                                 id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
+                            <div className="collapse navbar-collapse" style={{marginTop : "10px"}} id="navbarTogglerDemo02">
+                                <Link className="navbar-brand" to={"/"}><h2 className={"title-fix"}>Movie Community</h2></Link>
                                 {/*로그인 상태별 네비게이션 메뉴 분리*/}
                                 {access === null ?
                                     <MenuForUnauthenticated/> :

@@ -98,7 +98,7 @@ class HeaderSearchComponent extends Component {
     }
 
     render() {
-        const { input, preview, selected } = this.state;
+        const { input, preview,  } = this.state;
 
         return (
             <div style={{ width: 450 }}>

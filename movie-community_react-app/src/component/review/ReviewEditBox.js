@@ -112,7 +112,7 @@ export default class ReviewEditBox extends Component {
         axios.post(url, formData, config)
             .then(response => {
                 alert("게시물이 성공적으로 등록되었습니다.");
-                this.handleClose();
+                this.props.handleShow();
             })
             .catch(error => {
                 console.log('게시물 등록에 실패하였습니다.', error)

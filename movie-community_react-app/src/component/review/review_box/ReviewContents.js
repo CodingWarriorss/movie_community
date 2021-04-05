@@ -1,20 +1,29 @@
-import React, { Component, useRef, useState } from "react";
-import SimpleImageSlider from "react-simple-image-slider";
-import { Accordion, Button, Dropdown, Modal,Form } from "react-bootstrap";
+import React, { Component, useState } from "react";
+import { Accordion, Button, Dropdown, Modal, Form } from "react-bootstrap";
 
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
-import './ReviewContens.css';
+import './ReviewContents.css';
 import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
 
+
+
+import editImage from "img/button/edit.png";
+import closeImage from "img/button/close.png";
+
+
+
+
 //Review 게시물 상단
 function ReviewHeader(props) {
 
-    const [contentModified , setContent] = useState(props.data.reviewData.content);
+    const [contentModified, setContent] = useState(props.data.reviewData.content);
 
-    const [ addImageList, setImageLIst] = useState([]);
+    const [addImageList, setImageList] = useState([]);
 
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
@@ -28,33 +37,54 @@ function ReviewHeader(props) {
     }
 
     function onDrop(pictureFiles) {
-        this.setState({
-            pictures: this.state.pictures.concat(pictureFiles)
-        });
+        console.log(pictureFiles)
+        setImageList(addImageList.concat(pictureFiles));
     }
 
     const convertDateFormet = (dateStr) => {
         let date = new Date(dateStr);
-        console.log(date);
         return date.toLocaleString();
     }
 
     const modifyReview = () => {
         let dataModified = {
-            reviewId : props.data.reviewId,
-            content : contentModified,
+            reviewId: props.data.reviewId,
+            content: contentModified,
         }
         props.modifyReview(dataModified);
         handleContentShow();
     }
 
     const addImage = () => {
-        props.addImage();
+
+        let addImageData = {
+            reviewId: props.data.reviewId,
+            imageList: addImageList.concat(),
+            content: props.data.reviewData.content
+        }
+        props.addImage(addImageData);
     }
 
     const deleteReview = () => {
-        props.deleteReview()
+        const data = {
+            reviewId: props.data.reviewId
+        }
+        props.deleteReview(data)
     }
+
+    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+        <img
+            ref={ref}
+            alt={editImage}
+            src={editImage}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e);
+            }}
+        >
+            {children}
+        </img>
+    ));
 
     return (
         <div className="card-header">
@@ -65,7 +95,7 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img className="member-thumnail" src={props.data.thumnailUri} />
+                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -76,61 +106,65 @@ function ReviewHeader(props) {
                     </div>
                 </div>
                 <div className="col-1 contents-center">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            edit
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
-                            <Modal show={contentModalShow} onHide={handleContentShow}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>내용변경</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <Form.Control as="textarea" value={contentModified}
-                                                  rows={8} onChange={(e) => { setContent( e.target.value); }} />
+                    {(props.data.changeable) ? (
+                        <Dropdown>
+                            <Dropdown.Toggle as={CustomToggle} id="dropdown-basic">
 
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleContentShow}>
-                                        Close
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={handleContentShow}>내용수정</Dropdown.Item>
+                                <Modal show={contentModalShow} onHide={handleContentShow}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>내용변경</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Form.Control as="textarea" value={contentModified}
+                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleContentShow}>
+                                            Close
                                     </Button>
-                                    <Button variant="primary" onClick={modifyReview}>
-                                        Save Changes
+                                        <Button variant="primary" onClick={modifyReview}>
+                                            Save Changes
                                     </Button>
-                                </Modal.Footer>
-                            </Modal>
+                                    </Modal.Footer>
+                                </Modal>
 
 
-                            <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
-                            <Modal show={imageModalShow} onHide={handleImageShow}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>이미지 추가</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <ReactImageUploadComponent
-                                        withIcon={true}
-                                        withPreview={true}
-                                        buttonText="사진 추가"
-                                        onChange={onDrop}
-                                        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                                        maxFileSize={5242880}>
-                                    </ReactImageUploadComponent>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleImageShow}>
-                                        Close
+                                <Dropdown.Item onClick={handleImageShow}>사진추가</Dropdown.Item>
+                                <Modal show={imageModalShow} onHide={handleImageShow}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>이미지 추가</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <ReactImageUploadComponent
+                                            withIcon={true}
+                                            withPreview={true}
+                                            buttonText="사진 추가"
+                                            onChange={onDrop}
+                                            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                                            maxFileSize={5242880}>
+                                        </ReactImageUploadComponent>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleImageShow}>
+                                            Close
                                     </Button>
-                                    <Button variant="primary" onClick={addImage}>
-                                        Save Changes
+                                        <Button variant="primary" onClick={addImage}>
+                                            Save Changes
                                     </Button>
-                                </Modal.Footer>
-                            </Modal>
+                                    </Modal.Footer>
+                                </Modal>
 
-                            <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                                <Dropdown.Item onClick={deleteReview}>삭제</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    ) : null}
+
                 </div>
             </div>
 
@@ -186,10 +220,19 @@ function ReviewBody(props) {
                 <p>{props.data.content}</p>
             </div>
             <div className="review-images">
-                {(imageUrlList.length < 1) ? null : <SimpleImageSlider width={"100%"}
-                                                                       height={400} images={imageUrlList} showNavs={true} showBullets={true} />
-
-                }
+                <div className="slide-container">
+                    <Slide autoplay={false} >
+                        {(imageUrlList.length < 1) ? null :
+                            imageUrlList.map(image => {
+                                return (
+                                    <div className="each-slide">
+                                      <img alt="no image" src={image.url}></img>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Slide>
+                </div>
 
             </div>
             <div className="row">
@@ -228,7 +271,6 @@ function ReviewFooter(props) {
             content: inputValue,
         }
 
-
         setValue("")
 
         const token = localStorage.getItem("token");
@@ -247,20 +289,20 @@ function ReviewFooter(props) {
                 reviewCommentList: [...reviewComments.reviewCommentList, newComment]
             })
         }).catch(error => console.log(error));
-
     }
 
-    const deleteComment = (event) => {
-        const commentId = event.target.value;
+    const deleteComment = (commentId) => {
         const token = localStorage.getItem("token");
         const config = {
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': token
             },
             params: {
                 commentId: commentId,
             }
         }
+
+        console.log(JSON.stringify(config, null, 4));
         axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
             if (response.data.result === "SUCCESS") {
                 let delCommentList = [...reviewComments.reviewCommentList];
@@ -269,6 +311,7 @@ function ReviewFooter(props) {
                 setReviewComments({
                     reviewCommentList: [...delCommentList]
                 });
+
             }
         }).catch(error => console.log(error));
     }
@@ -294,10 +337,16 @@ function ReviewFooter(props) {
                                 return (
                                     <div className="bg-white comment" key={comment.id}>
                                         <div className="comment-top">
+
                                             <h5 className="comment-name">{comment.member.memberName}</h5>
-                                            {(comment.isPossibleRemove) ? <button onClick={deleteComment} value={comment.id}>X</button> : null}
+
+                                            {(comment.isPossibleRemove) ? <img className="x-btn" alt={closeImage} src={closeImage} onClick={() => { deleteComment(comment.id) }}></img> : null}
+
                                         </div>
-                                        <p className="comment-content">{comment.content}</p>
+                                        <br></br>
+                                        <div>
+                                            <p className="comment-content">{comment.content}</p>
+                                        </div>
 
                                     </div>
                                 )
@@ -322,14 +371,10 @@ export default class ReviewContent extends Component {
     constructor(props) {
         super(props);
 
-        //자기가 좋아요 했는지 체크?
-
-
         let likePressed = false;
         let myName = localStorage.getItem("authenticatedMember");
         console.log("ReviewContents is rendering!");
         for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
-            console.log(this.props.reviewData.likesList[i].member.memberName + " == " + myName)
             if (this.props.reviewData.likesList[i].member.memberName === myName) {
                 likePressed = true;
                 console.log("is Pressed!!!!!!!!!!!");
@@ -344,10 +389,10 @@ export default class ReviewContent extends Component {
             }
         })
 
-
         this.state = {
             headerInfo: {
                 reviewId: this.props.reviewData.id,
+                changeable: (this.props.reviewData.member.memberName === localStorage.getItem("authenticatedMember")),
                 movieTitle: this.props.reviewData.movieTitle,
                 writer: this.props.reviewData.member,
                 createDate: this.props.reviewData.createDate,
@@ -358,14 +403,14 @@ export default class ReviewContent extends Component {
                 content: this.props.reviewData.content,
                 images: this.props.reviewData.imageList,
                 likeCount: this.props.reviewData.likeCount,
-                likesList: this.props.reviewData.likesList,
+                likesList: [...this.props.reviewData.likesList],
                 likePressed: likePressed,
                 rating: this.props.reviewData.rating,
             },
             footerData: {
                 reviewId: this.props.reviewData.id,
                 member: this.props.reviewData.member,
-                commentsList: this.props.reviewData.commentsList,
+                commentsList: [...this.props.reviewData.commentsList]
             }
         }
     }
@@ -375,9 +420,9 @@ export default class ReviewContent extends Component {
             <div className="review-box">
                 <div className="card">
                     <ReviewHeader data={this.state.headerInfo}
-                                  modifyReview={this.props.modifyReview}
-                                  deleteReview={this.props.deleteReview}
-                                  addImage={this.props.addImage} />
+                        modifyReview={this.props.modifyReview}
+                        deleteReview={this.props.deleteReview}
+                        addImage={this.props.addImage} />
                     <ReviewBody data={this.state.bodyData} />
                     <ReviewFooter data={this.state.footerData} />
                 </div>

@@ -27,7 +27,7 @@ class RankingCommponent extends Component {
     render() {
         return (
             <div className="ranking-box">
-                <table class="table">
+                <table className="table">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
@@ -39,7 +39,7 @@ class RankingCommponent extends Component {
                         {
                             this.state.movieRangking.map(movie => {
                                 return (
-                                    <tr>
+                                    <tr key={movie.rank}>
                                         <th scope="row">{movie.rank}</th>
                                         <td>{movie.movieNm}</td>
                                         <td>{movie.rankInten}</td>

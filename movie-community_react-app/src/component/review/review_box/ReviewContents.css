@@ -20,6 +20,26 @@
     margin-right: 5px;
 }
 
+.review-images{
+    height: 300px;
+}
+
+
+.each-slide {
+    height: 300px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.each-slide img {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    height: 300px;
+}
+
+
 .review-like{
     text-align: right;
     margin-right: 10px;
@@ -34,20 +54,15 @@
     box-shadow: 10px 10px 1cm;
     margin: 0%;
     margin-bottom: 35px;
-    /* display: inline-flex;     */
+    width: 750px;
+    
 }
-/* 
-div{
-    border: #343434 1px solid;
-} */
+
 
 .start-margin{
     margin-top: 80px;
 }
 
-/* div{
-    border: 1px solid black;
-} */
 .comment-area{
     margin-top: 10px;
     text-align: left;
@@ -76,3 +91,31 @@ div{
     margin-right: 10px;
     margin-bottom: 2px;
 }
+
+.Nav_modal {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    position: fixed;
+    opacity: 0.9;
+  }
+  
+  .Nav_modalin {
+    width: 186px;
+    height: 186px;
+    background-color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    border-radius: 14px;
+    font-family: "Jalnan";
+  }
+  
+  .Nav_modbtn {
+    border: 0px;
+    background-color: white;
+  }

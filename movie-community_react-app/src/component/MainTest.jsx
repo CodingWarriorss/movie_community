@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import ReviewList from './review/review-list';
+import ReviewList from './review/ReviewList';
 import "./MainTest.css";
 import RankingComponent from "component/ranking/RankingComponent";
 
@@ -29,12 +29,11 @@ class MainTest extends Component {
         console.log(this.state.movieTitle);
     }
     render() {
-        const access = localStorage.getItem('token');
         console.log("MainTest");
         console.log(this.props.movieTitle);
         
         return (
-            <div>
+            <div className="main-container">
                 <ReviewList movieTitle = {this.state.movieTitle}/>
                 <RankingComponent></RankingComponent>
             </div>
