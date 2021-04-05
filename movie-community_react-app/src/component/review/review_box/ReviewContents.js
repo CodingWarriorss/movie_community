@@ -18,13 +18,18 @@ import {Favorite, FavoriteBorder } from "@material-ui/icons";
 
 //Review 게시물 상단
 function ReviewHeader(props) {
-    const [contentModified, setContent] = useState(props.data.reviewData.content);
-    const [addImageList, setImageList] = useState([]);
+
+    //수정될 택스트
+    const [contentModified, setContent] = useState(props.reviewData.content);
+
+    //내용 수정 Modal handle flag
     const [contentModalShow, setContentShow] = useState(false);
+
+    //이미지 추가 Modal handle flag
     const [imageModalShow, setImageShow] = useState(false);
 
-    console.log("===================")
-    console.log(props.data.writer.profileImg);
+    let addImageList = [];
+
     const handleContentShow = () => {
         setContentShow(!contentModalShow);
     }
@@ -34,8 +39,7 @@ function ReviewHeader(props) {
     }
 
     function onDrop(pictureFiles) {
-        console.log(pictureFiles)
-        setImageList(addImageList.concat(pictureFiles));
+        addImageList = pictureFiles;
     }
 
     const convertDateFormet = (dateStr) => {
@@ -45,7 +49,7 @@ function ReviewHeader(props) {
 
     const modifyReview = () => {
         let dataModified = {
-            reviewId: props.data.reviewId,
+            reviewId: props.reviewData.id,
             content: contentModified,
         }
         props.modifyReview(dataModified);
@@ -55,16 +59,17 @@ function ReviewHeader(props) {
     const addImage = () => {
 
         let addImageData = {
-            reviewId: props.data.reviewId,
+            reviewId: props.reviewData.id,
             imageList: addImageList.concat(),
-            content: props.data.reviewData.content
+            content: props.reviewData.content
         }
         props.addImage(addImageData);
+        handleImageShow();
     }
 
     const deleteReview = () => {
         const data = {
-            reviewId: props.data.reviewId
+            reviewId: props.reviewData.id
         }
         props.deleteReview(data)
     }
@@ -87,26 +92,26 @@ function ReviewHeader(props) {
         <div className="card-header">
             <div className="row justify-content-md-center">
                 <div className="h5 col-md-auto">
-                    <p>{props.data.movieTitle}</p>
+                    <p>{props.reviewData.movieTitle}</p>
                 </div>
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
                     <img
-                        src={IMAGE_RESOURCE_URL + props.data.writer.profileImg}
+                        src={IMAGE_RESOURCE_URL + props.reviewData.member.profileImg}
                         style={{width : 50, height : 50, borderRadius : 25}}/>
                 </div>
                 <div className="col-9">
                     <div className="row">
-                        <div className="col">{props.data.writer.memberName}</div>
+                        <div className="col">{props.reviewData.member.memberName}</div>
                     </div>
                     <div className="row">
-                        <div className="col">{convertDateFormet(props.data.createDate)}</div>
+                        <div className="col">{convertDateFormet(props.reviewData.createDate)}</div>
                     </div>
                 </div>
                 <div className="col-1 contents-center">
 
-                    {(props.data.changeable) ? (
+                    {(props.reviewData.member.memberName === localStorage.getItem("authenticatedMember")) ? (
                         <Dropdown>
                             <Dropdown.Toggle as={CustomToggle} id="dropdown-basic">
 
@@ -175,57 +180,54 @@ function ReviewHeader(props) {
 //Review 게시물 중앙
 function ReviewBody(props) {
 
-    const imageUrlList = [];
-
-    const [like, setLike] = useState(props.data.likePressed);
-    const [likeCount, setCount] = useState(props.data.likeCount);
-
-    props.data.images.forEach(image => {
-        imageUrlList.push({ url: IMAGE_RESOURCE_URL + image.fileName })
-    })
-
     const handleLike = (event) => {
-        const params = {
-            reviewId: parseInt(props.data.reviewId)
-        }
+        // const params = {
+        //     reviewId: parseInt(props.data.reviewId)
+        // }
 
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
 
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        }
+        // let config = {
+        //     headers: {
+        //         'Authorization': 'Bearer ' + token
+        //     }
+        // }
 
-        if (!like) {
-            axios.post(REST_API_SERVER_URL + "/api/review/like", params, config).then(response => {
-                setLike(!like);
-                setCount(likeCount + 1);
-            });
-        } else {
-            config["params"] = params;
-            axios.delete(REST_API_SERVER_URL + "/api/review/like", config).then(response => {
-                setLike(!like);
-                setCount(likeCount - 1);
-            });
+        // if (!like) {
+        //     axios.post(REST_API_SERVER_URL + "/api/review/like", params, config).then(response => {
+        //         setLike(!like);
+        //         setCount(likeCount + 1);
+        //     });
+        // } else {
+        //     config["params"] = params;
+        //     axios.delete(REST_API_SERVER_URL + "/api/review/like", config).then(response => {
+        //         setLike(!like);
+        //         setCount(likeCount - 1);
+        //     });
 
-        }
+        // }
 
     }
+
+    let like = false;
+    
+    props.reviewData.likesList.forEach( likeinfo =>{
+        if( likeinfo.member.memberName === localStorage.getItem("authenticatedMember") ) like = true;
+    });
 
     return (
         <div className="card-body">
             <div className="review-content">
-                <p>{props.data.content}</p>
+                <p>{props.reviewData.content}</p>
             </div>
             <div className="review-images">
                 <div className="slide-container">
                     <Slide autoplay={false} >
-                        {(imageUrlList.length < 1) ? null :
-                            imageUrlList.map(image => {
+                        {(props.reviewData.imageList.length < 1) ? null :
+                            props.reviewData.imageList.map(image => {
                                 return (
-                                    <div className="each-slide">
-                                        <img alt="no image" src={image.url}></img>
+                                    <div className="each-slide" key={image.id}>
+                                        <img alt="no image" src={ IMAGE_RESOURCE_URL+ image.fileName}></img>
                                     </div>
                                 )
                             })
@@ -236,7 +238,7 @@ function ReviewBody(props) {
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    {like ?
+                    {(like) ?
                         <Favorite style={{
                             color: 'indianred',
                             fontSize: 40,
@@ -252,7 +254,7 @@ function ReviewBody(props) {
                 <div className="col">
                     <div className="review-like" style={{
                         marginRight : 15,
-                    }}>{likeCount}명이 좋아합니다</div>
+                    }}>{props.reviewData.likesList.length}명이 좋아합니다</div>
                 </div>
             </div>
         </div>
@@ -262,9 +264,6 @@ function ReviewBody(props) {
 //Review 하단
 function ReviewFooter(props) {
     const [inputValue, setValue] = useState("");
-    const [reviewComments, setReviewComments] = useState({
-        reviewCommentList: [...props.data.commentsList]
-    });
 
     const setComment = (event) => {
         const { value } = event.target
@@ -272,60 +271,44 @@ function ReviewFooter(props) {
     }
     const writeComment = () => {
 
-        let myName = localStorage.getItem("authenticatedMember");
         const newComment = {
-            reviewId: props.data.reviewId,
-            isPossibleRemove: true,
-            id: null,
-            member: {
-                memberName: myName,
-            },
-            content: inputValue,
+                reviewId : props.reviewData.id,
+                id: null,
+                member: {
+                    memberName: localStorage.getItem("authenticatedMember"),
+                },
+                content: inputValue,
         }
 
+        props.addComment( newComment );
         setValue("")
-
-        const token = localStorage.getItem("token");
-
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        }
-
-        axios.post(REST_API_SERVER_URL + "/api/review/comment", newComment, config).then(response => {
-            console.log(response.data);
-
-            newComment.id = response.data.comment.commentId;
-            setReviewComments({
-                reviewCommentList: [...reviewComments.reviewCommentList, newComment]
-            })
-        }).catch(error => console.log(error));
     }
 
     const deleteComment = (commentId) => {
-        const token = localStorage.getItem("token");
-        const config = {
-            headers: {
-                'Authorization': token
-            },
-            params: {
-                commentId: commentId,
-            }
-        }
 
-        console.log(JSON.stringify(config, null, 4));
-        axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
-            if (response.data.result === "SUCCESS") {
-                let delCommentList = [...reviewComments.reviewCommentList];
-                let delIndex = delCommentList.findIndex(data => data.id === commentId)
-                delCommentList.splice(delIndex, 1);
-                setReviewComments({
-                    reviewCommentList: [...delCommentList]
-                });
+        this.props.deleteComment( commentId );
+        // const token = localStorage.getItem("token");
+        // const config = {
+        //     headers: {
+        //         'Authorization': token
+        //     },
+        //     params: {
+        //         commentId: commentId,
+        //     }
+        // }
 
-            }
-        }).catch(error => console.log(error));
+        // console.log(JSON.stringify(config, null, 4));
+        // axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
+        //     if (response.data.result === "SUCCESS") {
+        //         let delCommentList = [...reviewComments.reviewCommentList];
+        //         let delIndex = delCommentList.findIndex(data => data.id === commentId)
+        //         delCommentList.splice(delIndex, 1);
+        //         setReviewComments({
+        //             reviewCommentList: [...delCommentList]
+        //         });
+
+        //     }
+        // }).catch(error => console.log(error));
     }
 
     const handleKeyPress = (event) => {
@@ -345,26 +328,22 @@ function ReviewFooter(props) {
                 <Accordion.Collapse eventKey="0">
                     <div>
                         <div className="comment-area">
-                            {reviewComments.reviewCommentList.map(comment => {
+                            {props.reviewData.commentsList.map(comment => {
+                                const myComment = ( comment.member.memberName === localStorage.getItem("authenticatedMember") );
                                 return (
                                     <div className="bg-white comment" key={comment.id}>
                                         <div className="comment-top">
-
                                             <h5 className="comment-name">{comment.member.memberName}</h5>
-
-                                            {(comment.isPossibleRemove) ? <img className="x-btn" alt={closeImage} src={closeImage} onClick={() => { deleteComment(comment.id) }}></img> : null}
-
+                                            {(myComment) ? <img className="x-btn" alt={closeImage} src={closeImage} onClick={() => { deleteComment(comment.id) }}></img> : null}
                                         </div>
                                         <br></br>
                                         <div>
                                             <p className="comment-content">{comment.content}</p>
                                         </div>
-
                                     </div>
                                 )
                             })}
                         </div>
-
                         <div className="input-group mt-3">
                             <input className="form-control" maxLength={100} value={inputValue} onChange={setComment} onKeyPress={handleKeyPress}></input>
                             <button className="btn btn-outline-secondary" type="button" onClick={writeComment} >작성</button>
@@ -431,12 +410,18 @@ export default class ReviewContent extends Component {
         return (
             <div className="review-box">
                 <div className="card">
-                    <ReviewHeader data={this.state.headerInfo}
+                    <ReviewHeader reviewData={this.props.reviewData}
                                   modifyReview={this.props.modifyReview}
                                   deleteReview={this.props.deleteReview}
                                   addImage={this.props.addImage} />
-                    <ReviewBody data={this.state.bodyData} />
-                    <ReviewFooter data={this.state.footerData} />
+                    <ReviewBody reviewData={this.props.reviewData} 
+                                likeReview={this.props.likeReview}
+                                unlikeReview={this.props.unlikeReview}
+                    />
+                    <ReviewFooter reviewData={this.props.reviewData} 
+                                addComment={this.props.addComment}
+                                deleteComment={this.props.deleteComment}
+                    />
                 </div>
             </div>
         )

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,11 +59,12 @@ public class ReviewService {
         return reviews;
     }
 
-    private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) throws IllegalStateException {
-        if (memberRepository.findByMemberName(memberName).isEmpty())
-            throw new IllegalStateException("존재하지 않는 회원입니다.");
+    private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
+        memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
+
+
         if (! member.getMemberName().equals(memberName))
-            throw new IllegalStateException("올바른 접근이 아닙니다.");
+            throw new AuthorizationServiceException("Access to unauthorized resources");
 
         List<Review> reviews = reviewRepository.findByMemberId(pageable, member.getId()).getContent();
         reviews.forEach(review -> {
@@ -84,27 +86,25 @@ public class ReviewService {
 
 
 
-    public JSONObject createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
-        Review saved = reviewRepository.save(
+    public Review createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
+        Review review = reviewRepository.save(
                 new Review(createReviewDto.getMovieTitle().replaceAll("\n", ""),
                         createReviewDto.getContent(),
                         createReviewDto.getRating(),
                         member));
 
-        JSONObject result = new JSONObject();
-        result.put("reviewId", saved.getId());
         if (createReviewDto.getFiles() != null) {
-            result.put("imageIds", saveImages(saved, createReviewDto.getFiles()));
+            saveImages(review, createReviewDto.getFiles());
         }
-        return result;
+        return review;
     }
 
 
-    public JSONObject updateReview(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
+    public Review updateReview(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
         reviewRepository.findById(updateReviewDto.getReviewId())
                 .ifPresentOrElse(review -> {
                     if (review.getMember().getId() != member.getId())
-                        throw new IllegalStateException("권한 없는 리뷰에 대한 수정 요청");
+                        throw new AuthorizationServiceException("권한 없는 리뷰에 대한 수정 요청");
                 }, () -> {
                     throw new NoSuchElementException("존재하지 않는 리뷰에 대한 수정 요청");
                 });
@@ -113,15 +113,13 @@ public class ReviewService {
         review.setContent(updateReviewDto.getContent());
         review.setRating(updateReviewDto.getRating());
 
-        JSONObject result = new JSONObject();
         if (updateReviewDto.getNewFiles() != null) {
-            JSONArray res_array = saveImages(review, updateReviewDto.getNewFiles());
-            result.put("imageIds", res_array);
+            saveImages(review, updateReviewDto.getNewFiles());
         }
         if (updateReviewDto.getDeletedFiles() != null) {
             deleteImages(review.getId(), updateReviewDto.getDeletedFiles());
         }
-        return result;
+        return review;
     }
 
     public void deleteReview(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
@@ -139,7 +137,7 @@ public class ReviewService {
     }
 
 
-    private JSONArray saveImages(Review review, List<MultipartFile> newFiles) throws IOException {
+    private void saveImages(Review review, List<MultipartFile> newFiles) throws IOException {
         JSONArray imageIds = new JSONArray();
 
         for (MultipartFile file : newFiles) {
@@ -148,7 +146,6 @@ public class ReviewService {
             imageIds.add(saved.getId());
         }
 
-        return imageIds;
     }
 
     private void deleteImages(long reviewId, List<Long> deletedFiles) {

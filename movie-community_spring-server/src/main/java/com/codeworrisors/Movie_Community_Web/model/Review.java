@@ -47,7 +47,7 @@ public class Review {
 
     @NonNull
     @ManyToOne()
-    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
+    @JsonIgnoreProperties({"password", "name", "email", "phone", "role", "bio" , "website"})
     private Member member;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
