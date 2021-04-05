@@ -17,7 +17,7 @@ spring:
     database-platform: org.hibernate.dialect.Oracle10gDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
   mvc:
     static-path-pattern: /image/**
