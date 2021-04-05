@@ -9,25 +9,22 @@ import axios from "axios";
 import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
-
-
-
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
+import {Favorite, FavoriteBorder } from "@material-ui/icons";
 
 
 
 
 //Review 게시물 상단
 function ReviewHeader(props) {
-
     const [contentModified, setContent] = useState(props.data.reviewData.content);
-
     const [addImageList, setImageList] = useState([]);
-
     const [contentModalShow, setContentShow] = useState(false);
     const [imageModalShow, setImageShow] = useState(false);
 
+    console.log("===================")
+    console.log(props.data.writer.profileImg);
     const handleContentShow = () => {
         setContentShow(!contentModalShow);
     }
@@ -95,7 +92,9 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img alt="" className="member-thumnail" src={props.data.thumnailUri} />
+                    <img
+                        src={IMAGE_RESOURCE_URL + props.data.writer.profileImg}
+                        style={{width : 50, height : 50, borderRadius : 25}}/>
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -121,16 +120,16 @@ function ReviewHeader(props) {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Form.Control as="textarea" value={contentModified}
-                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
+                                                      rows={8} onChange={(e) => { setContent(e.target.value); }} />
 
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleContentShow}>
                                             Close
-                                    </Button>
+                                        </Button>
                                         <Button variant="primary" onClick={modifyReview}>
                                             Save Changes
-                                    </Button>
+                                        </Button>
                                     </Modal.Footer>
                                 </Modal>
 
@@ -153,10 +152,10 @@ function ReviewHeader(props) {
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleImageShow}>
                                             Close
-                                    </Button>
+                                        </Button>
                                         <Button variant="primary" onClick={addImage}>
                                             Save Changes
-                                    </Button>
+                                        </Button>
                                     </Modal.Footer>
                                 </Modal>
 
@@ -226,7 +225,7 @@ function ReviewBody(props) {
                             imageUrlList.map(image => {
                                 return (
                                     <div className="each-slide">
-                                      <img alt="no image" src={image.url}></img>
+                                        <img alt="no image" src={image.url}></img>
                                     </div>
                                 )
                             })
@@ -237,10 +236,23 @@ function ReviewBody(props) {
             </div>
             <div className="row">
                 <div className="col review-like-btn">
-                    <button className={"btn " + ((like) ? "btn-primary" : "btn-outline-primary")} like={false} onClick={handleLike}>Like</button>
+                    {like ?
+                        <Favorite style={{
+                            color: 'indianred',
+                            fontSize: 40,
+                            marginLeft : 10,
+                        }} onClick={handleLike}/>
+                        : <FavoriteBorder style={{
+                            color: 'indianred',
+                            fontSize : 40,
+                            marginLeft : 10,
+                        }} onClick={handleLike}/>
+                    }
                 </div>
                 <div className="col">
-                    <div className="review-like">{likeCount}명이 좋아합니다</div>
+                    <div className="review-like" style={{
+                        marginRight : 15,
+                    }}>{likeCount}명이 좋아합니다</div>
                 </div>
             </div>
         </div>
@@ -420,9 +432,9 @@ export default class ReviewContent extends Component {
             <div className="review-box">
                 <div className="card">
                     <ReviewHeader data={this.state.headerInfo}
-                        modifyReview={this.props.modifyReview}
-                        deleteReview={this.props.deleteReview}
-                        addImage={this.props.addImage} />
+                                  modifyReview={this.props.modifyReview}
+                                  deleteReview={this.props.deleteReview}
+                                  addImage={this.props.addImage} />
                     <ReviewBody data={this.state.bodyData} />
                     <ReviewFooter data={this.state.footerData} />
                 </div>

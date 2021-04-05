@@ -1,5 +1,4 @@
 
-
 .col{
     margin: auto;
 }
@@ -55,7 +54,7 @@
     margin: 0%;
     margin-bottom: 35px;
     width: 750px;
-    
+
 }
 
 
@@ -101,9 +100,9 @@
     background-color: gray;
     position: fixed;
     opacity: 0.9;
-  }
-  
-  .Nav_modalin {
+}
+
+.Nav_modalin {
     width: 186px;
     height: 186px;
     background-color: white;
@@ -113,9 +112,9 @@
     position: fixed;
     border-radius: 14px;
     font-family: "Jalnan";
-  }
-  
-  .Nav_modbtn {
+}
+
+.Nav_modbtn {
     border: 0px;
     background-color: white;
-  }
+}

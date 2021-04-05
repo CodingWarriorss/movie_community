@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @SequenceGenerator(
         name = "member_seq_gen",
         sequenceName = "member_seq",
@@ -28,13 +30,11 @@ public class Member {
     @Setter
     private String email;
     @Setter
-    private String address;
+    private String bio;
     @Setter
-    private String gender;
+    private String website;
     @Setter
-    private String birth;
-    @Setter
-    private String phone;
+    private String profileImg;
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType role;

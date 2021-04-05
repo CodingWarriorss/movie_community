@@ -28,5 +28,4 @@ public class BoxOfficeRanking {
     private String rankInten;
     @NonNull
     private LocalDate targetDt;
-
 }

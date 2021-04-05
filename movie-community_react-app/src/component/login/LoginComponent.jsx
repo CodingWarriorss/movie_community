@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import AuthenticationService from "./AuthenticationService.js";
+import {REST_API_SERVER_URL} from '../constants/APIConstants';
 /*
 https://ko.reactjs.org/docs/react-component.html
 <마운트>
@@ -53,12 +54,11 @@ class LoginComponent extends Component {
             .executeJwtAuthenticationService(this.state.memberName, this.state.password)
             .then((response) => {
                 // 토큰저장
-                const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response.headers['authorization']);
-                if (res.startsWith('success')){ // 로그인 성공
-                    // this.props.history.push(`/`);
-                    window.location.replace('/'); // SPA의 페이지 이동방식
-                } else if (res.startsWith('failure')){ // 로그인 실패 (아이디 오류, 비밀번호 오류)
-                    const msg = res.split('/')[1] === 'memberName'?
+                const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response);
+                if (res.startsWith('success')) { // 로그인 성공
+                    AuthenticationService.setMemberInfo();
+                } else if (res.startsWith('failure')) { // 로그인 실패 (아이디 오류, 비밀번호 오류)
+                    const msg = res.split('/')[1] === 'memberName' ?
                         '존재하지 않는 아이디입니다.' : '비밀번호가 틀렸습니다.';
                     alert(msg);
                     return;
@@ -80,38 +80,38 @@ class LoginComponent extends Component {
     render() {
         return (
             <div className="outer">
-                        <div className="inner">
-            <div>
-                <h3>로그인</h3>
+                <div className="inner">
+                    <div>
+                        <h3>로그인</h3>
 
-                <div className="form-group">
-                    <label>아이디</label>
-                    <input type="text" className="form-control" placeholder="아이디"
-                           name="memberName" value={this.state.memberName}
-                           onChange={this.handleChange}/>
-                </div>
+                        <div className="form-group">
+                            <label>아이디</label>
+                            <input type="text" className="form-control" placeholder="아이디"
+                                   name="memberName" value={this.state.memberName}
+                                   onChange={this.handleChange}/>
+                        </div>
 
-                <div className="form-group">
-                    <label>비밀번호</label>
-                    <input type="password" className="form-control" placeholder="비밀번호"
-                           name="password" value={this.state.password}
-                           onChange={this.handleChange}/>
-                </div>
+                        <div className="form-group">
+                            <label>비밀번호</label>
+                            <input type="password" className="form-control" placeholder="비밀번호"
+                                   name="password" value={this.state.password}
+                                   onChange={this.handleChange}/>
+                        </div>
 
-                <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1"/>
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                        <div className="form-group">
+                            <div className="custom-control custom-checkbox">
+                                <input type="checkbox" className="custom-control-input" id="customCheck1"/>
+                                <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                            </div>
+                        </div>
+
+                        <button className="btn btn-dark btn-lg btn-block" onClick={this.loginClicked}>로그인</button>
+                        {/*<p className="forgot-password text-right">Forgot*/}
+                        {/*    <a href="#"> password?</a>*/}
+                        {/*</p>*/}
                     </div>
+
                 </div>
-
-                <button className="btn btn-dark btn-lg btn-block" onClick={this.loginClicked}>로그인</button>
-                {/*<p className="forgot-password text-right">Forgot*/}
-                {/*    <a href="#"> password?</a>*/}
-                {/*</p>*/}
-            </div>
-
-            </div>
             </div>
         )
     }

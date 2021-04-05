@@ -34,11 +34,12 @@ public class BoxOfficeRankingScheduledTask {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final BoxOfficeRankingRepository boxOfficeRankingRepository;
-//
-//    @PostConstruct
-//    public void initRankingData(){
-//        recordBoxOfficeRanking();
-//    }
+
+    @PostConstruct
+    public void initRankingData() {
+        if (boxOfficeRankingRepository.findAllByTargetDt(LocalDate.now().minusDays(1)).isEmpty())
+            recordBoxOfficeRanking();
+    }
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void updateRankingData() {

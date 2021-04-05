@@ -33,7 +33,7 @@ public class MovieCommunityWebApplicationTests {
 	@Test
 	public void reviewCountTest(){
 		Member member = new Member();
-		member.setId(1);
+		//member.setId(1);
 		int count = reviewRepository.countReviewByMember(member);
 		System.out.println( member.getId() +" 가 쓴 계시물 개수 : " + count );
 	}

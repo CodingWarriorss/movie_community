@@ -51,8 +51,8 @@ export default class ReviewEditBox extends Component {
     // 평점 세팅 (자식에서 number로 변환해도 string으로 세팅되기 때문에 여기서 number로 변환하여 저장.)
     setStar = (star) => {
         this.setState({
-                rating: parseInt(star)
-            })
+            rating: parseInt(star)
+        })
     }
 
     isSummitPossible() {
@@ -125,52 +125,52 @@ export default class ReviewEditBox extends Component {
         else console.log("등록모드");
 
         const testText = ( this.props.isModify ) ? "수정모드" : "등록모드";
-        
+
         return (
-                <Modal
-                    size="lg"
-                    show={this.props.isShow}
-                    onHide={this.props.handleShow}>
-                    {/*header*/}
-                    <Modal.Header closeButton style={this.state.style}>
-                            <div>{testText}</div>
-                        </Modal.Header>
+            <Modal
+                size="lg"
+                show={this.props.isShow}
+                onHide={this.props.handleShow}>
+                {/*header*/}
+                <Modal.Header closeButton style={this.state.style}>
+                    <div>{testText}</div>
+                </Modal.Header>
 
-                    {/*body*/}
-                    <Modal.Body style={this.state.style}>
-                        {/*검색바*/}
-                        <SearchbarComponent callbackFromParent={this.setMovieTitle}/>
-                        <Form>
-                            {/*평점 라디오 버튼*/}
-                            <Form.Group controlId="reviewRating">
-                                <StarBoxComponent callbackFromParent={this.setStar}/>
-                            </Form.Group>
-                            <Form.Group controlId="reviewContent">
-                                <Form.Control as="textarea" placeholder={this.state.memberName + "님 관람하신 영화는 어떠셨나요?"}
-                                              rows={8} ref={this.comment}/>
-                            </Form.Group>
-                            {/*이미지 업로드*/}
-                            <ImageUploader
-                                withIcon={true}
-                                withPreview={true}
-                                buttonText="사진 추가"
-                                onChange={this.onDrop}
-                                imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                                maxFileSize={5242880}
-                            />
-                        </Form>
-                    </Modal.Body>
+                {/*body*/}
+                <Modal.Body style={this.state.style}>
+                    {/*검색바*/}
+                    <SearchbarComponent callbackFromParent={this.setMovieTitle}/>
+                    <Form>
+                        {/*평점 라디오 버튼*/}
+                        <Form.Group controlId="reviewRating">
+                            <StarBoxComponent callbackFromParent={this.setStar}/>
+                        </Form.Group>
+                        <Form.Group controlId="reviewContent">
+                            <Form.Control as="textarea" placeholder={this.state.memberName + "님 관람하신 영화는 어떠셨나요?"}
+                                          rows={8} ref={this.comment}/>
+                        </Form.Group>
+                        {/*이미지 업로드*/}
+                        <ImageUploader
+                            withIcon={true}
+                            withPreview={true}
+                            buttonText="사진 추가"
+                            onChange={this.onDrop}
+                            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                            maxFileSize={5242880}
+                        />
+                    </Form>
+                </Modal.Body>
 
-                    {/*footer*/}
-                    <Modal.Footer style={this.state.style}>
-                        <Button variant="secondary" onClick={this.props.handleShow}>
-                            취소
-                        </Button>
-                        <Button variant="primary" onClick={this.handleSummit}>
-                            등록
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                {/*footer*/}
+                <Modal.Footer style={this.state.style}>
+                    <Button variant="secondary" onClick={this.props.handleShow}>
+                        취소
+                    </Button>
+                    <Button variant="primary" onClick={this.handleSummit}>
+                        등록
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         )
     }
 

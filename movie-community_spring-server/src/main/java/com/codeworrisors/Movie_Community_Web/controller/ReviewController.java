@@ -41,23 +41,25 @@ public class ReviewController {
      * 리뷰 CRUD
      * */
     @GetMapping
-    public List<Review> seeReview(@RequestParam int pageIndex,
+    public List<Review> seeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                  @RequestParam int pageIndex,
                                   @RequestParam(required = false) String movieTitle,
-                                  @RequestParam(required = false) Long memberId) {
+                                  @RequestParam(required = false) String memberName) {
         try {
             return reviewService.getReviews(
                     PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
                     movieTitle,
-                    memberId);
+                    memberName,
+                    userDetail.getMember());
         } catch (IllegalStateException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException("존재하지 않는 회원");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @PostMapping
     public JSONObject uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   CreateReviewDto createReviewDto) {
+                                   @ModelAttribute CreateReviewDto createReviewDto) {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
@@ -72,10 +74,9 @@ public class ReviewController {
     }
 
     @PutMapping
-    public JSONObject modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail, UpdateReviewDto updateReviewDto) {
+    public JSONObject modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   @ModelAttribute UpdateReviewDto updateReviewDto) {
         JSONObject response = new JSONObject();
-
-        logger.info("Receive update called");
         response.put(RESULT, SUCCESS);
 
         try {
@@ -86,14 +87,12 @@ public class ReviewController {
         }
 
         return response;
-    };
+    }
 
     @DeleteMapping
     public JSONObject deleteReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                    @RequestParam("reviewId") long reviewId) {
         JSONObject response = new JSONObject();
-
-        logger.info( " Delete review Called - delete reivewId : {}"  , reviewId);
         response.put(RESULT, SUCCESS);
 
         try {
@@ -114,11 +113,7 @@ public class ReviewController {
     public JSONObject postComment(@AuthenticationPrincipal PrincipalDetails userDetail,
                                   @RequestBody CreateCommentDto createCommentDto) {
         JSONObject response = new JSONObject();
-
-        logger.info("Comment write called - Comment content : {}" , createCommentDto.getContent());
         response.put(RESULT, SUCCESS);
-
-
 
         try {
             response.put(COMMENT, reviewService.createComment(userDetail.getMember(), createCommentDto));
@@ -133,9 +128,8 @@ public class ReviewController {
 
     @PutMapping("/comment")
     public JSONObject modifyComment(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                    UpdateCommentDto updateCommentDto) {
+                                    @ModelAttribute UpdateCommentDto updateCommentDto) {
         JSONObject response = new JSONObject();
-
         response.put(RESULT, SUCCESS);
 
         try {
@@ -151,7 +145,6 @@ public class ReviewController {
     @DeleteMapping("/comment")
     public JSONObject deleteComment(@AuthenticationPrincipal PrincipalDetails userDetail,
                                     @RequestParam long commentId) {
-        logger.info( " Comment delete Called - commentId : {}"  , commentId);
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
@@ -173,8 +166,6 @@ public class ReviewController {
     public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                  @RequestBody Map<String, Long> params) {
         JSONObject response = new JSONObject();
-
-        logger.info( " Like Called - like reivewId : {}"  , params.get("reviewId"));
         response.put(RESULT, SUCCESS);
 
         try {
@@ -193,8 +184,6 @@ public class ReviewController {
                                    @RequestParam("reviewId") long reviewId) {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
-
-        logger.info( " Like Delete Called - delete reivewId : {}"  , reviewId);
 
         try {
             reviewService.deleteLike(userDetail.getMember(), reviewId);

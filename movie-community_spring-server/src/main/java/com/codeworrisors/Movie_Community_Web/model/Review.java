@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -39,6 +41,9 @@ public class Review {
     @Setter
     @Transient
     private int likeCount;
+    @Setter
+    @Transient
+    private int commentCount;
 
     @NonNull
     @ManyToOne()
