@@ -5,8 +5,7 @@ import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 import './ReviewContents.css';
-import axios from "axios";
-import { REST_API_SERVER_URL, IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
+import { IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
 import editImage from "img/button/edit.png";
@@ -97,7 +96,7 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img
+                    <img alt="NoImage"
                         src={IMAGE_RESOURCE_URL + props.reviewData.member.profileImg}
                         style={{width : 50, height : 50, borderRadius : 25}}/>
                 </div>
@@ -181,31 +180,16 @@ function ReviewHeader(props) {
 function ReviewBody(props) {
 
     const handleLike = (event) => {
-        // const params = {
-        //     reviewId: parseInt(props.data.reviewId)
-        // }
+        const likeData = {
+            reviewId : props.reviewData.id,
+        }
 
-        // const token = localStorage.getItem("token");
 
-        // let config = {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + token
-        //     }
-        // }
-
-        // if (!like) {
-        //     axios.post(REST_API_SERVER_URL + "/api/review/like", params, config).then(response => {
-        //         setLike(!like);
-        //         setCount(likeCount + 1);
-        //     });
-        // } else {
-        //     config["params"] = params;
-        //     axios.delete(REST_API_SERVER_URL + "/api/review/like", config).then(response => {
-        //         setLike(!like);
-        //         setCount(likeCount - 1);
-        //     });
-
-        // }
+        if( !like ){
+            props.likeReview( likeData );
+        }else{
+            props.unlikeReview( likeData );
+        }
 
     }
 
@@ -227,7 +211,7 @@ function ReviewBody(props) {
                             props.reviewData.imageList.map(image => {
                                 return (
                                     <div className="each-slide" key={image.id}>
-                                        <img alt="no image" src={ IMAGE_RESOURCE_URL+ image.fileName}></img>
+                                        <img alt="NotFound" src={ IMAGE_RESOURCE_URL+ image.fileName}></img>
                                     </div>
                                 )
                             })
@@ -286,29 +270,13 @@ function ReviewFooter(props) {
 
     const deleteComment = (commentId) => {
 
-        this.props.deleteComment( commentId );
-        // const token = localStorage.getItem("token");
-        // const config = {
-        //     headers: {
-        //         'Authorization': token
-        //     },
-        //     params: {
-        //         commentId: commentId,
-        //     }
-        // }
+        const commentData = {
+            reviewId : props.reviewData.id,
+            commentId : commentId
+        }
 
-        // console.log(JSON.stringify(config, null, 4));
-        // axios.delete(REST_API_SERVER_URL + "/api/review/comment", config).then(response => {
-        //     if (response.data.result === "SUCCESS") {
-        //         let delCommentList = [...reviewComments.reviewCommentList];
-        //         let delIndex = delCommentList.findIndex(data => data.id === commentId)
-        //         delCommentList.splice(delIndex, 1);
-        //         setReviewComments({
-        //             reviewCommentList: [...delCommentList]
-        //         });
-
-        //     }
-        // }).catch(error => console.log(error));
+        props.deleteComment( commentData );
+        
     }
 
     const handleKeyPress = (event) => {
@@ -316,8 +284,6 @@ function ReviewFooter(props) {
             writeComment();
         }
     }
-
-
     return (
 
         <div className="card-footer">
@@ -359,52 +325,6 @@ function ReviewFooter(props) {
 
 //ReviewBox Component
 export default class ReviewContent extends Component {
-    constructor(props) {
-        super(props);
-
-        let likePressed = false;
-        let myName = localStorage.getItem("authenticatedMember");
-        console.log("ReviewContents is rendering!");
-        for (let i = 0; i < this.props.reviewData.likesList.length; i++) {
-            if (this.props.reviewData.likesList[i].member.memberName === myName) {
-                likePressed = true;
-                console.log("is Pressed!!!!!!!!!!!");
-            }
-        }
-
-        this.props.reviewData.commentsList.forEach(data => {
-            if (data.member.memberName === myName) {
-                data["isPossibleRemove"] = true;
-            } else {
-                data["isPossibleRemove"] = false;
-            }
-        })
-
-        this.state = {
-            headerInfo: {
-                reviewId: this.props.reviewData.id,
-                changeable: (this.props.reviewData.member.memberName === localStorage.getItem("authenticatedMember")),
-                movieTitle: this.props.reviewData.movieTitle,
-                writer: this.props.reviewData.member,
-                createDate: this.props.reviewData.createDate,
-                reviewData: this.props.reviewData,
-            },
-            bodyData: {
-                reviewId: this.props.reviewData.id,
-                content: this.props.reviewData.content,
-                images: this.props.reviewData.imageList,
-                likeCount: this.props.reviewData.likeCount,
-                likesList: [...this.props.reviewData.likesList],
-                likePressed: likePressed,
-                rating: this.props.reviewData.rating,
-            },
-            footerData: {
-                reviewId: this.props.reviewData.id,
-                member: this.props.reviewData.member,
-                commentsList: [...this.props.reviewData.commentsList]
-            }
-        }
-    }
 
     render() {
         return (

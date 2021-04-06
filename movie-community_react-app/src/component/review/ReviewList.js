@@ -1,9 +1,6 @@
-import axios from "axios";
 import React, { Component } from "react";
 
 import ReviewContent from './review_box/ReviewContents';
-
-import {REST_API_SERVER_URL} from '../constants/APIConstants';
 
 import "./ReviewList.css";
 
@@ -49,46 +46,6 @@ export default class ReviewList extends Component {
 
     }
 
-    modifyReview = ( data ) => {
-
-        ReviewAPI.modify(data)
-        .then(response => {
-            this.setState({
-                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
-            })
-        }).catch( error => console.log(error) );
-
-    }
-
-    addImage = ( data ) => {
-
-        ReviewAPI.addImage( data )
-        .then( response => {
-            const updateReviewData = response.data.review;
-            const updateList = this.state.reviewList.map( review =>
-                (review.id === updateReviewData.id) ? updateReviewData : review
-            );
-            this.setState({
-                reviewList : updateList,
-            })
-        }).catch( error => console.log( error ));
-
-    }
-
-    deleteReview = ( data ) => {
-
-        ReviewAPI.delete( data )
-        .then( response =>{
-            console.log( JSON.stringify( response.data , null ,4) )
-            let id = response.data.id;
-            this.setState({
-                reviewList : this.state.reviewList.filter( review => ( review.id !== id )),
-            })
-        }).catch( error => console.log( error ));
-
-    }
-  
-
     scrollCheck() {
         let scrollHeight = Math.max(
             document.documentElement.scrollHeight,
@@ -121,23 +78,58 @@ export default class ReviewList extends Component {
         }
     }
 
+    modifyReview = ( data ) => {
+
+        ReviewAPI.modify(data)
+        .then(response => {
+            this.setState({
+                reviewList : this.state.reviewList.map( review => (review.id === data.reviewId) ? { ...review, ...data } : review ),
+            })
+        }).catch( error => console.log(error) );
+
+    }
+
+    addImage = ( data ) => {
+
+        ReviewAPI.addImage( data )
+        .then( response => {
+            const updateReviewData = response.data.review;
+            const updateList = this.state.reviewList.map( review =>
+                (review.id === updateReviewData.id) ? updateReviewData : review
+            );
+            this.setState({
+                reviewList : updateList,
+            })
+        }).catch( error => console.log( error ));
+
+    }
+
+    deleteReview = ( data ) => {
+
+        ReviewAPI.delete( data )
+        .then( response =>{
+            let id = data.reviewId;
+            this.setState({
+                reviewList : this.state.reviewList.filter( review => ( review.id !== id )),
+            })
+        }).catch( error => console.log( error ));
+
+    }
+  
+
+    
+
     addComment( commentData ){
 
         CommentAPI.add( commentData )
         .then(response => {
-            console.log(response.data);
-
             commentData.id = response.data.comment.commentId;
-
             let updateList = this.state.reviewList.map( review =>{
                 if( review.id === commentData.reviewId){
                     review.commentsList = review.commentsList.concat(commentData);
                 }
                 return review;
             })
-
-            console.log( JSON.stringify(updateList, null,4));
-
             this.setState({
                 reviewList : updateList
             })
@@ -145,15 +137,68 @@ export default class ReviewList extends Component {
     }
 
     deleteComment( commentData ){
+        CommentAPI.delete( commentData )
+        .then( response => {
+                if (response.data.result === "SUCCESS") {
+                    let updateList = this.state.reviewList.map( review =>{
+                        if( review.id === commentData.reviewId){
+                            review.commentsList = review.commentsList.filter( comment => (comment.id !== commentData.commentId));
+                        }
+                        return review;
+                    })
+                    
+                    this.setState({
+                        reviewList: updateList
+                    });
+    
+                }
+            }).catch(error => console.log(error));
 
     }
 
     likeReview( likeData ){
+        LikeAPI.likeReview(likeData)
+        .then( response =>{
+            console.log( JSON.stringify( response.data , null , 4));
 
+            let updateList = this.state.reviewList.map( review => {
+                if( review.id === likeData.reviewId){
+                    review.likesList = review.likesList.concat( 
+                        {
+                            id : response.data.likeId,
+                            member : {
+                                memberName : localStorage.getItem("authenticatedMember")
+                            },
+                        }
+                    )
+                }
+                return review;
+            })
+
+            this.setState({
+                reviewList : updateList
+            })
+
+        }).catch( error => console.log(error) );
     }
 
     unlikeReview( likeData ){
 
+        LikeAPI.unlikeReview(likeData)
+        .then( response =>{
+            console.log( JSON.stringify( response.data , null ,4 ));
+            let updateList = this.state.reviewList.map( review => {
+                if( review.id === likeData.reviewId){
+                    review.likesList = review.likesList.filter( like => ( like.id !== response.data.likeId));
+                }
+                return review;
+            })
+
+            this.setState({
+                reviewList : updateList
+            })
+
+        }).catch( error => console.log(error) );
     }
 
     render() {

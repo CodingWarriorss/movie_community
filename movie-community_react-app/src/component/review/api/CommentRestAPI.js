@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IMAGE_RESOURCE_URL, REST_API_SERVER_URL } from 'component/constants/APIConstants';
+import { REST_API_SERVER_URL } from 'component/constants/APIConstants';
 
 const requestUrl = REST_API_SERVER_URL + '/api/review/comment'
 
@@ -15,17 +15,16 @@ class CommentRestAPI{
         return axios.post(requestUrl, commentData, config);
     }
 
-    delete( commentId ){
+    delete( commentData ){
         const token = localStorage.getItem("token");
         const config = {
             headers: {
                 'Authorization': token
             },
             params: {
-                commentId: commentId,
+                commentId: commentData.commentId,
             }
         }
-
         return axios.delete(requestUrl, config);
     }
 }

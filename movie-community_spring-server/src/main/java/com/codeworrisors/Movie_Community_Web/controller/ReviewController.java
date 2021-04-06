@@ -169,8 +169,9 @@ public class ReviewController {
         response.put(RESULT, SUCCESS);
 
         try {
-            reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
+            Long pressedLike = reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
             response.put("status", "LIKE");
+            response.put("likeId" , pressedLike);
         } catch (IllegalStateException | NoSuchElementException e) {
             logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());
@@ -186,8 +187,9 @@ public class ReviewController {
         response.put(RESULT, SUCCESS);
 
         try {
-            reviewService.deleteLike(userDetail.getMember(), reviewId);
+            Long deletedLikeId = reviewService.deleteLike(userDetail.getMember(), reviewId);
             response.put("status", "UNLIKE");
+            response.put("likeId" , deletedLikeId);
         } catch (IllegalStateException | NoSuchElementException e) {
             logger.error(e.getMessage());
             response.put(RESULT, FAIL + "/" + e.getMessage());

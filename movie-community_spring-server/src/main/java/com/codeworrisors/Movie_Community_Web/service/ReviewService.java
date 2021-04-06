@@ -226,27 +226,28 @@ public class ReviewService {
     /*
      * 좋아요
      * */
-    public void createLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
+    public Long createLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
         if (reviewRepository.findById(reviewId).isEmpty())
             throw new NoSuchElementException("존재하지 않는 리뷰");
 
-        likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
-                .ifPresentOrElse(like -> {
-                    throw new IllegalStateException("이미 like한 상태");
-                }, () -> {
-                    likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
-                });
+        if( likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId).isPresent() )
+            throw new IllegalStateException("이미 like 상태");
+
+        Likes pressedLike = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
+        return pressedLike.getId();
     }
 
-    public void deleteLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
+    public Long deleteLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
+        Long deletedLikeId = null;
         if (reviewRepository.findById(reviewId).isEmpty())
             throw new NoSuchElementException("존재하지 않는 리뷰");
 
-        likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
-                .ifPresentOrElse(like -> {
-                    likeRepository.delete(like);
-                }, () -> {
+        Likes deletedLike = likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
+                .orElseThrow(() -> {
                     throw new IllegalStateException("이미 unlike 상태");
                 });
+
+        likeRepository.delete(deletedLike);
+        return deletedLike.getId();
     }
 }

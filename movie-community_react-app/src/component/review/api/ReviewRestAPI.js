@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IMAGE_RESOURCE_URL, REST_API_SERVER_URL } from 'component/constants/APIConstants';
+import { REST_API_SERVER_URL } from 'component/constants/APIConstants';
 
 const requestUrl = REST_API_SERVER_URL + '/api/review'
 
