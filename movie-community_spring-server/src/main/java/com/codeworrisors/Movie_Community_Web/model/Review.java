@@ -50,12 +50,12 @@ public class Review {
     @JsonIgnoreProperties({"password", "name", "email", "phone", "role", "bio" , "website"})
     private Member member;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> imageList;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Likes> likesList;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Comments> commentsList;
 }
