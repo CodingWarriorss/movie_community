@@ -51,9 +51,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             authentication = authenticationManager.authenticate(authenticationToken); // UserDetailsService로 ㄱ
         } catch (BadCredentialsException e) {
+            // 비밀번호 틀린거
             logger.error("[로그인 실패] 비밀번호가 틀림");
             response.addHeader(JwtProperties.HEADER_STRING, "failure/password");
         } catch (AuthenticationException e) {
+            // 아이디 없는거
             response.addHeader(JwtProperties.HEADER_STRING, "failure/memberName");
         }
 
