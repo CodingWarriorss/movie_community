@@ -5,7 +5,6 @@ import {IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants
 import ImageUploader from "react-images-upload";
 
 class EditProfileComponent extends Component {
-
     constructor(props) {
         super(props);
 
