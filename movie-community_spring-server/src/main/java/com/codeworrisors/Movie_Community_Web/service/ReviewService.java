@@ -221,33 +221,4 @@ public class ReviewService {
                     throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
                 });
     }
-
-
-    /*
-     * 좋아요
-     * */
-    public Long createLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        if (reviewRepository.findById(reviewId).isEmpty())
-            throw new NoSuchElementException("존재하지 않는 리뷰");
-
-        if( likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId).isPresent() )
-            throw new IllegalStateException("이미 like 상태");
-
-        Likes pressedLike = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
-        return pressedLike.getId();
-    }
-
-    public Long deleteLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        Long deletedLikeId = null;
-        if (reviewRepository.findById(reviewId).isEmpty())
-            throw new NoSuchElementException("존재하지 않는 리뷰");
-
-        Likes deletedLike = likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("이미 unlike 상태");
-                });
-
-        likeRepository.delete(deletedLike);
-        return deletedLike.getId();
-    }
 }
