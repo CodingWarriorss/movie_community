@@ -157,44 +157,4 @@ public class ReviewController {
 
         return response;
     }
-
-
-    /*
-     * 좋아요 CD
-     * */
-    @PostMapping("/like")
-    public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                 @RequestBody Map<String, Long> params) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            Long pressedLike = reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
-            response.put("status", "LIKE");
-            response.put("likeId" , pressedLike);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-    @DeleteMapping("/like")
-    public JSONObject unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @RequestParam("reviewId") long reviewId) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            Long deletedLikeId = reviewService.deleteLike(userDetail.getMember(), reviewId);
-            response.put("status", "UNLIKE");
-            response.put("likeId" , deletedLikeId);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
 }
