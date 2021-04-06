@@ -2,6 +2,7 @@ package com.codeworrisors.Movie_Community_Web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -46,7 +47,7 @@ public class Review {
 
     @NonNull
     @ManyToOne
-    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
+    @JsonIgnoreProperties({"password", "name", "email", "phone", "role", "bio" , "website"})
     private Member member;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
