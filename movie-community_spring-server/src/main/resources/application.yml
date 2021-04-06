@@ -21,8 +21,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
-
   mvc:
     static-path-pattern: /image/**
 

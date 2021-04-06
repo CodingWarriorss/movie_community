@@ -112,7 +112,7 @@ export default class ReviewEditBox extends Component {
             .then(response => {
                 alert("게시물이 성공적으로 등록되었습니다.");
                 this.props.handleShow();
-                this.props.refresh();
+                window.location.replace("/")
             })
             .catch(error => {
                 console.log('게시물 등록에 실패하였습니다.', error)
