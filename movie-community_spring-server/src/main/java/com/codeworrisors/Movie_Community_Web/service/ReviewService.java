@@ -180,45 +180,4 @@ public class ReviewService {
             logger.error(e.getMessage());
         }
     }
-
-
-    /*
-     * 댓글
-     * */
-    public JSONObject createComment(Member member, CreateCommentDto createCommentDto) throws EntityNotFoundException {
-        if (reviewRepository.findById(createCommentDto.getReviewId()).isEmpty())
-            throw new EntityNotFoundException("존재하지 않는 리뷰에 대한 댓글 추가 요청");
-        Comments saved = commentRepository.save(
-                new Comments(createCommentDto.getContent(), member, reviewRepository.getOne(createCommentDto.getReviewId())));
-
-        JSONObject result = new JSONObject();
-        result.put("commentId", saved.getId());
-        return result;
-    }
-
-    public JSONObject updateComment(Member member, UpdateCommentDto updateCommentDto) throws IllegalStateException, NoSuchElementException {
-        JSONObject result = new JSONObject();
-
-        commentRepository.findById(updateCommentDto.getCommentId())
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 수정 요청");
-                    comment.setContent(updateCommentDto.getContent());
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
-                });
-
-        return result;
-    }
-
-    public void deleteComment(Member member, long commentId) throws IllegalStateException, NoSuchElementException {
-        commentRepository.findById(commentId)
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요청");
-                    commentRepository.delete(comment);
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
-                });
-    }
 }
