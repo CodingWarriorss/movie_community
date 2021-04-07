@@ -55,4 +55,19 @@ public class CommentService {
                 });
         return result;
     }
+
+    public void deleteComment(Member member, long commentId)
+            throws  IllegalStateException, NoSuchElementException {
+        commentRepository
+                .findById(commentId)
+                .ifPresentOrElse(comment -> {
+                    if (member.getId() != comment.getMember().getId()) {
+                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요창");
+                    }
+
+                    commentRepository.delete(comment);
+                }, () -> {
+                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
+                });
+    }
 }

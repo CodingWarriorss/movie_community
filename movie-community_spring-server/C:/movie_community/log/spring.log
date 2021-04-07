@@ -1,29 +1,259 @@
-2021-04-06 15:53:15,914 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 19776 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 15:53:15,916 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 15:53:16,607 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 15:53:16,668 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 6 JPA repository interfaces.
-2021-04-06 15:53:17,105 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 15:53:17,114 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 15:53:17,115 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 15:53:17,207 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 15:53:17,207 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1246 ms
-2021-04-06 15:53:17,452 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 15:53:17,492 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 15:53:17,616 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 15:53:17,700 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 15:53:17,703 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 15:53:17,939 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 15:53:17,950 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 15:53:19,309 ERROR [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-2021-04-06 15:53:19,310 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-2021-04-06 15:53:19,310 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 15:53:19,362 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 15:53:19,365 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
-2021-04-06 15:53:19,376 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener : 
+2021-04-07 19:47:16,484 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 3052 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
+2021-04-07 19:47:16,491 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
+2021-04-07 19:47:17,389 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-04-07 19:47:17,474 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72 ms. Found 6 JPA repository interfaces.
+2021-04-07 19:47:18,117 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
+2021-04-07 19:47:18,128 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2021-04-07 19:47:18,129 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-04-07 19:47:18,229 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2021-04-07 19:47:18,230 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1681 ms
+2021-04-07 19:47:18,524 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-04-07 19:47:18,593 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-04-07 19:47:18,774 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-07 19:47:18,904 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2021-04-07 19:47:18,907 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2021-04-07 19:47:20,058 ERROR [main] com.zaxxer.hikari.pool.HikariPool : HikariPool-1 - Exception during pool initialization.
+java.sql.SQLRecoverableException: IO 오류: The Network Adapter could not establish the connection
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:858)
+	at oracle.jdbc.driver.PhysicalConnection.connect(PhysicalConnection.java:793)
+	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:57)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:747)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:562)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1224)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1255)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1153)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:907)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:582)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:767)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
+	at com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication.main(MovieCommunityWebApplication.java:12)
+Caused by: oracle.net.ns.NetException: The Network Adapter could not establish the connection
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:571)
+	at oracle.net.resolver.AddrResolution.resolveAndExecute(AddrResolution.java:548)
+	at oracle.net.ns.NSProtocol.establishConnection(NSProtocol.java:682)
+	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:309)
+	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1600)
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:591)
+	... 51 common frames omitted
+Caused by: java.io.IOException: Connection refused, socket connect lapse 1 ms. /0:0:0:0:0:0:0:1 1521 30000 1 true
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:233)
+	at oracle.net.nt.ConnOption.connect(ConnOption.java:174)
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:510)
+	... 56 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:476)
+	at java.base/sun.nio.ch.Net.connect(Net.java:468)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694)
+	at java.base/java.nio.channels.SocketChannel.open(SocketChannel.java:194)
+	at oracle.net.nt.TimeoutSocketChannel.connect(TimeoutSocketChannel.java:99)
+	at oracle.net.nt.TimeoutSocketChannel.<init>(TimeoutSocketChannel.java:77)
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:192)
+	... 58 common frames omitted
+2021-04-07 19:47:20,064 WARN  [main] org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator : HHH000342: Could not obtain connection to query metadata
+java.sql.SQLRecoverableException: IO 오류: The Network Adapter could not establish the connection
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:858)
+	at oracle.jdbc.driver.PhysicalConnection.connect(PhysicalConnection.java:793)
+	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:57)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:747)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:562)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1224)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1255)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1153)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:907)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:582)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:767)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
+	at com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication.main(MovieCommunityWebApplication.java:12)
+Caused by: oracle.net.ns.NetException: The Network Adapter could not establish the connection
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:571)
+	at oracle.net.resolver.AddrResolution.resolveAndExecute(AddrResolution.java:548)
+	at oracle.net.ns.NSProtocol.establishConnection(NSProtocol.java:682)
+	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:309)
+	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1600)
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:591)
+	... 51 common frames omitted
+Caused by: java.io.IOException: Connection refused, socket connect lapse 1 ms. /0:0:0:0:0:0:0:1 1521 30000 1 true
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:233)
+	at oracle.net.nt.ConnOption.connect(ConnOption.java:174)
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:510)
+	... 56 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:476)
+	at java.base/sun.nio.ch.Net.connect(Net.java:468)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694)
+	at java.base/java.nio.channels.SocketChannel.open(SocketChannel.java:194)
+	at oracle.net.nt.TimeoutSocketChannel.connect(TimeoutSocketChannel.java:99)
+	at oracle.net.nt.TimeoutSocketChannel.<init>(TimeoutSocketChannel.java:77)
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:192)
+	... 58 common frames omitted
+2021-04-07 19:47:20,082 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+2021-04-07 19:47:21,130 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2021-04-07 19:47:21,131 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2021-04-07 19:47:22,141 ERROR [main] com.zaxxer.hikari.pool.HikariPool : HikariPool-1 - Exception during pool initialization.
+java.sql.SQLRecoverableException: IO 오류: The Network Adapter could not establish the connection
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:858)
+	at oracle.jdbc.driver.PhysicalConnection.connect(PhysicalConnection.java:793)
+	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:57)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:747)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:562)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:43)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:60)
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:40)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:65)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:59)
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:155)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:96)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:318)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1259)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1153)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:907)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:582)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:767)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
+	at com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication.main(MovieCommunityWebApplication.java:12)
+Caused by: oracle.net.ns.NetException: The Network Adapter could not establish the connection
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:571)
+	at oracle.net.resolver.AddrResolution.resolveAndExecute(AddrResolution.java:548)
+	at oracle.net.ns.NSProtocol.establishConnection(NSProtocol.java:682)
+	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:309)
+	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1600)
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:591)
+	... 49 common frames omitted
+Caused by: java.io.IOException: Connection refused, socket connect lapse 0 ms. /0:0:0:0:0:0:0:1 1521 30000 1 true
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:233)
+	at oracle.net.nt.ConnOption.connect(ConnOption.java:174)
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:510)
+	... 54 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:476)
+	at java.base/sun.nio.ch.Net.connect(Net.java:468)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694)
+	at java.base/java.nio.channels.SocketChannel.open(SocketChannel.java:194)
+	at oracle.net.nt.TimeoutSocketChannel.connect(TimeoutSocketChannel.java:99)
+	at oracle.net.nt.TimeoutSocketChannel.<init>(TimeoutSocketChannel.java:77)
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:192)
+	... 56 common frames omitted
+2021-04-07 19:47:22,145 WARN  [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper : SQL Error: 17002, SQLState: 08006
+2021-04-07 19:47:22,145 ERROR [main] org.hibernate.engine.jdbc.spi.SqlExceptionHelper : IO 오류: The Network Adapter could not establish the connection
+2021-04-07 19:47:22,159 ERROR [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
+2021-04-07 19:47:22,161 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
+2021-04-07 19:47:22,165 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+2021-04-07 19:47:22,188 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener : 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2021-04-06 15:53:19,402 ERROR [main] org.springframework.boot.SpringApplication : Application run failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
+2021-04-07 19:47:22,241 ERROR [main] org.springframework.boot.SpringApplication : Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
@@ -42,885 +272,100 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
 	at com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication.main(MovieCommunityWebApplication.java:12)
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
 	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421)
 	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
 	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
 	... 17 common frames omitted
-Caused by: org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-	at org.hibernate.loader.plan.exec.internal.AbstractLoadQueryDetails.generate(AbstractLoadQueryDetails.java:193)
-	at org.hibernate.loader.plan.exec.internal.EntityLoadQueryDetails.<init>(EntityLoadQueryDetails.java:85)
-	at org.hibernate.loader.plan.exec.internal.BatchingLoadQueryDetailsFactory.makeEntityLoadQueryDetails(BatchingLoadQueryDetailsFactory.java:64)
-	at org.hibernate.loader.entity.plan.AbstractLoadPlanBasedEntityLoader.<init>(AbstractLoadPlanBasedEntityLoader.java:97)
-	at org.hibernate.loader.entity.plan.AbstractLoadPlanBasedEntityLoader.<init>(AbstractLoadPlanBasedEntityLoader.java:112)
-	at org.hibernate.loader.entity.plan.EntityLoader.<init>(EntityLoader.java:117)
-	at org.hibernate.loader.entity.plan.EntityLoader.<init>(EntityLoader.java:30)
-	at org.hibernate.loader.entity.plan.EntityLoader$Builder.byUniqueKey(EntityLoader.java:82)
-	at org.hibernate.loader.entity.plan.EntityLoader$Builder.byPrimaryKey(EntityLoader.java:75)
-	at org.hibernate.loader.entity.plan.AbstractBatchingEntityLoaderBuilder.buildNonBatchingLoader(AbstractBatchingEntityLoaderBuilder.java:30)
-	at org.hibernate.loader.entity.BatchingEntityLoaderBuilder.buildLoader(BatchingEntityLoaderBuilder.java:61)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createEntityLoader(AbstractEntityPersister.java:2611)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createEntityLoader(AbstractEntityPersister.java:2633)
-	at org.hibernate.persister.entity.AbstractEntityPersister.generateDelayedEntityLoader(AbstractEntityPersister.java:4385)
-	at org.hibernate.internal.util.collections.LazyIndexedMap.lockedComputeIfAbsent(LazyIndexedMap.java:77)
-	at org.hibernate.internal.util.collections.LazyIndexedMap.computeIfAbsent(LazyIndexedMap.java:63)
-	at org.hibernate.persister.entity.EntityLoaderLazyCollection.getOrBuildByLockMode(EntityLoaderLazyCollection.java:34)
-	at org.hibernate.persister.entity.AbstractEntityPersister.getLoaderByLockMode(AbstractEntityPersister.java:4376)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createLoaders(AbstractEntityPersister.java:4363)
-	at org.hibernate.persister.entity.AbstractEntityPersister.postInstantiate(AbstractEntityPersister.java:4338)
-	at org.hibernate.metamodel.internal.MetamodelImpl.initialize(MetamodelImpl.java:257)
-	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:303)
+Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:112)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:69)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:60)
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:40)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:65)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:59)
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:155)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:96)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:318)
 	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468)
 	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1259)
 	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
 	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
 	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
 	... 21 common frames omitted
-2021-04-06 15:53:34,632 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 19823 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 15:53:34,635 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 15:53:35,215 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 15:53:35,277 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 6 JPA repository interfaces.
-2021-04-06 15:53:35,666 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 15:53:35,672 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 15:53:35,673 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 15:53:35,754 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 15:53:35,754 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1059 ms
-2021-04-06 15:53:35,950 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 15:53:35,980 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 15:53:36,058 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 15:53:36,118 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 15:53:36,120 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 15:53:36,342 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 15:53:36,352 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 15:53:36,971 ERROR [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-2021-04-06 15:53:36,972 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-2021-04-06 15:53:36,972 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 15:53:37,003 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 15:53:37,005 INFO  [main] org.apache.catalina.core.StandardService : Stopping service [Tomcat]
-2021-04-06 15:53:37,016 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener : 
-
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2021-04-06 15:53:37,033 ERROR [main] org.springframework.boot.SpringApplication : Application run failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1153)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:907)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:582)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:767)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication.main(MovieCommunityWebApplication.java:12)
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
-	... 17 common frames omitted
-Caused by: org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.codeworrisors.Movie_Community_Web.model.Review.commentsList, com.codeworrisors.Movie_Community_Web.model.Review.likesList]
-	at org.hibernate.loader.plan.exec.internal.AbstractLoadQueryDetails.generate(AbstractLoadQueryDetails.java:193)
-	at org.hibernate.loader.plan.exec.internal.EntityLoadQueryDetails.<init>(EntityLoadQueryDetails.java:85)
-	at org.hibernate.loader.plan.exec.internal.BatchingLoadQueryDetailsFactory.makeEntityLoadQueryDetails(BatchingLoadQueryDetailsFactory.java:64)
-	at org.hibernate.loader.entity.plan.AbstractLoadPlanBasedEntityLoader.<init>(AbstractLoadPlanBasedEntityLoader.java:97)
-	at org.hibernate.loader.entity.plan.AbstractLoadPlanBasedEntityLoader.<init>(AbstractLoadPlanBasedEntityLoader.java:112)
-	at org.hibernate.loader.entity.plan.EntityLoader.<init>(EntityLoader.java:117)
-	at org.hibernate.loader.entity.plan.EntityLoader.<init>(EntityLoader.java:30)
-	at org.hibernate.loader.entity.plan.EntityLoader$Builder.byUniqueKey(EntityLoader.java:82)
-	at org.hibernate.loader.entity.plan.EntityLoader$Builder.byPrimaryKey(EntityLoader.java:75)
-	at org.hibernate.loader.entity.plan.AbstractBatchingEntityLoaderBuilder.buildNonBatchingLoader(AbstractBatchingEntityLoaderBuilder.java:30)
-	at org.hibernate.loader.entity.BatchingEntityLoaderBuilder.buildLoader(BatchingEntityLoaderBuilder.java:61)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createEntityLoader(AbstractEntityPersister.java:2611)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createEntityLoader(AbstractEntityPersister.java:2633)
-	at org.hibernate.persister.entity.AbstractEntityPersister.generateDelayedEntityLoader(AbstractEntityPersister.java:4385)
-	at org.hibernate.internal.util.collections.LazyIndexedMap.lockedComputeIfAbsent(LazyIndexedMap.java:77)
-	at org.hibernate.internal.util.collections.LazyIndexedMap.computeIfAbsent(LazyIndexedMap.java:63)
-	at org.hibernate.persister.entity.EntityLoaderLazyCollection.getOrBuildByLockMode(EntityLoaderLazyCollection.java:34)
-	at org.hibernate.persister.entity.AbstractEntityPersister.getLoaderByLockMode(AbstractEntityPersister.java:4376)
-	at org.hibernate.persister.entity.AbstractEntityPersister.createLoaders(AbstractEntityPersister.java:4363)
-	at org.hibernate.persister.entity.AbstractEntityPersister.postInstantiate(AbstractEntityPersister.java:4338)
-	at org.hibernate.metamodel.internal.MetamodelImpl.initialize(MetamodelImpl.java:257)
-	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:303)
-	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1259)
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
-	... 21 common frames omitted
-2021-04-06 15:55:28,246 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 19965 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 15:55:28,249 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 15:55:28,871 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 15:55:28,931 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 6 JPA repository interfaces.
-2021-04-06 15:55:29,371 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 15:55:29,381 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 15:55:29,381 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 15:55:29,459 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 15:55:29,460 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1175 ms
-2021-04-06 15:55:29,656 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 15:55:29,696 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 15:55:29,820 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 15:55:29,898 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 15:55:29,903 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 15:55:30,098 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 15:55:30,109 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 15:55:31,812 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 15:55:31,824 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 15:55:32,344 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 15:55:32,607 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b286640, org.springframework.security.web.context.SecurityContextPersistenceFilter@3962b216, org.springframework.security.web.header.HeaderWriterFilter@7ef3aa21, org.springframework.web.filter.CorsFilter@6e31d989, org.springframework.security.web.authentication.logout.LogoutFilter@69ae7632, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@294a12b5, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@628aea61, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31a80c88, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@61d527ac, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3606eee9, org.springframework.security.web.session.SessionManagementFilter@49392256, org.springframework.security.web.access.ExceptionTranslationFilter@7b43f95c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@670aac24]
-2021-04-06 15:55:32,896 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 15:55:32,946 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 15:55:32,962 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.046 seconds (JVM running for 5.757)
-2021-04-06 17:23:27,503 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:23:27,508 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:23:27,514 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:23:27,544 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:23:32,494 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 25924 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:23:32,498 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:23:33,169 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:23:33,231 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:23:33,648 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:23:33,656 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:23:33,657 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:23:33,738 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:23:33,738 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1192 ms
-2021-04-06 17:23:33,983 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:23:34,033 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:23:34,154 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:23:34,256 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:23:34,259 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:23:34,463 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:23:34,475 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:23:36,309 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:23:36,327 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:23:37,074 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:23:37,361 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1977b0df, org.springframework.security.web.context.SecurityContextPersistenceFilter@7b43f95c, org.springframework.security.web.header.HeaderWriterFilter@7b6b99c5, org.springframework.web.filter.CorsFilter@2ed71727, org.springframework.security.web.authentication.logout.LogoutFilter@b9c9bf5, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@4a490518, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@7890fbf9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7ef3aa21, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@75566f4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@32ae11c9, org.springframework.security.web.session.SessionManagementFilter@72d7afff, org.springframework.security.web.access.ExceptionTranslationFilter@c7a1db6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1164990a]
-2021-04-06 17:23:37,657 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:23:37,716 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:23:37,730 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.576 seconds (JVM running for 6.221)
-2021-04-06 17:23:44,888 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:23:44,889 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:23:44,890 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:23:44,954 ERROR [http-nio-8080-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:23:45,389 ERROR [http-nio-8080-exec-3] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:23:45,908 ERROR [http-nio-8080-exec-4] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:23:46,255 ERROR [http-nio-8080-exec-5] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:23:46,637 ERROR [http-nio-8080-exec-6] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:23:47,004 ERROR [http-nio-8080-exec-7] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-com.auth0.jwt.exceptions.TokenExpiredException: The Token has expired on Tue Apr 06 17:03:36 KST 2021.
-	at com.auth0.jwt.JWTVerifier.assertDateIsFuture(JWTVerifier.java:379)
-	at com.auth0.jwt.JWTVerifier.assertValidDateClaim(JWTVerifier.java:370)
-	at com.auth0.jwt.JWTVerifier.verifyClaims(JWTVerifier.java:295)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:278)
-	at com.auth0.jwt.JWTVerifier.verify(JWTVerifier.java:261)
-	at com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter.doFilterInternal(JwtAuthorizationFilter.java:47)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218)
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110)
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-2021-04-06 17:24:08,725 INFO  [http-nio-8080-exec-9] com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter : 'master123' 로그인 성공
-2021-04-06 17:24:11,587 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:12,317 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:12,815 WARN  [http-nio-8080-exec-4] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:13,218 WARN  [http-nio-8080-exec-5] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:32,396 WARN  [http-nio-8080-exec-1] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:36,686 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:24:58,802 WARN  [http-nio-8080-exec-4] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:25:52,670 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:25:52,672 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:25:52,677 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:25:52,717 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:25:57,403 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 26098 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:25:57,407 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:25:58,190 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:25:58,247 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:25:58,680 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:25:58,689 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:25:58,689 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:25:58,777 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:25:58,777 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1323 ms
-2021-04-06 17:25:59,011 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:25:59,052 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:25:59,170 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:25:59,246 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:25:59,251 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:25:59,462 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:25:59,473 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:26:01,127 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:26:01,141 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:26:01,678 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:26:01,946 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3606eee9, org.springframework.security.web.context.SecurityContextPersistenceFilter@7602c65d, org.springframework.security.web.header.HeaderWriterFilter@5a23b9d1, org.springframework.web.filter.CorsFilter@2eda072, org.springframework.security.web.authentication.logout.LogoutFilter@48a61e38, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1e34840f, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@6792f2c6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7668f8fd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@576323ff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@52fed5b7, org.springframework.security.web.session.SessionManagementFilter@3183a37c, org.springframework.security.web.access.ExceptionTranslationFilter@2dd4a7a9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4a490518]
-2021-04-06 17:26:02,225 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:26:02,270 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:26:02,288 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.254 seconds (JVM running for 5.867)
-2021-04-06 17:26:32,297 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:26:32,298 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:26:32,299 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:26:32,400 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:27:45,114 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:27:45,123 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:27:45,128 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:27:45,166 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:27:49,292 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 26244 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:27:49,295 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:27:49,978 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:27:50,037 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:27:50,463 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:27:50,472 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:27:50,472 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:27:50,550 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:27:50,551 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1221 ms
-2021-04-06 17:27:50,760 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:27:50,805 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:27:50,906 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:27:50,975 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:27:50,978 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:27:51,182 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:27:51,195 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:27:52,908 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:27:52,923 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:27:53,643 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:27:53,995 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1164990a, org.springframework.security.web.context.SecurityContextPersistenceFilter@67216c33, org.springframework.security.web.header.HeaderWriterFilter@7a74672, org.springframework.web.filter.CorsFilter@46e3559f, org.springframework.security.web.authentication.logout.LogoutFilter@7ab2e018, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@549404e7, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@29c76d75, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c7a1db6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@49392256, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@346a2799, org.springframework.security.web.session.SessionManagementFilter@664083f6, org.springframework.security.web.access.ExceptionTranslationFilter@6bb71265, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4efa7d2f]
-2021-04-06 17:27:54,325 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:27:54,375 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:27:54,392 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.471 seconds (JVM running for 6.134)
-2021-04-06 17:27:55,309 INFO  [http-nio-8080-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:27:55,310 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:27:55,311 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:30:35,736 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:30:35,740 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:30:35,743 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:30:35,775 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:30:39,772 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 26500 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:30:39,777 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:30:40,410 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:30:40,462 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:30:40,859 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:30:40,866 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:30:40,866 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:30:40,943 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:30:40,943 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1133 ms
-2021-04-06 17:30:41,126 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:30:41,167 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:30:41,248 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:30:41,313 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:30:41,314 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:30:41,525 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:30:41,533 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:30:43,119 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:30:43,126 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:30:43,544 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:30:43,762 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c0035dd, org.springframework.security.web.context.SecurityContextPersistenceFilter@664083f6, org.springframework.security.web.header.HeaderWriterFilter@6bb71265, org.springframework.web.filter.CorsFilter@3135bf25, org.springframework.security.web.authentication.logout.LogoutFilter@3777fc44, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@5089a72b, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@1164990a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@67216c33, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7ef3aa21, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@549404e7, org.springframework.security.web.session.SessionManagementFilter@7a74672, org.springframework.security.web.access.ExceptionTranslationFilter@6d6d81c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@50aa9a91]
-2021-04-06 17:30:44,018 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:30:44,077 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:30:44,094 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.633 seconds (JVM running for 5.335)
-2021-04-06 17:30:47,945 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:30:47,946 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:30:47,947 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:31:20,737 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:31:20,741 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:31:20,743 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:31:20,803 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:31:26,070 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 26570 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:31:26,073 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:31:27,629 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:31:27,683 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:31:28,065 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:31:28,072 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:31:28,072 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:31:28,149 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:31:28,150 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1919 ms
-2021-04-06 17:31:28,368 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:31:28,406 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:31:28,491 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:31:28,554 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:31:28,556 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:31:28,783 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:31:28,792 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:31:30,407 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:31:30,415 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:31:30,820 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:31:31,097 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2041c9a3, org.springframework.security.web.context.SecurityContextPersistenceFilter@6bb71265, org.springframework.security.web.header.HeaderWriterFilter@16602333, org.springframework.web.filter.CorsFilter@3135bf25, org.springframework.security.web.authentication.logout.LogoutFilter@380e3122, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@36e358de, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@2bed5828, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a74672, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@72d7afff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@52a2e2fb, org.springframework.security.web.session.SessionManagementFilter@6d6d81c, org.springframework.security.web.access.ExceptionTranslationFilter@3e3bf77b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1a1e38ab]
-2021-04-06 17:31:31,496 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:31:31,551 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:31:31,570 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 6.101 seconds (JVM running for 6.786)
-2021-04-06 17:31:43,543 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:31:43,544 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:31:43,545 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:31:43,645 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:36:01,511 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:36:01,514 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:36:01,518 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:36:01,553 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:36:06,080 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 26895 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:36:06,083 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:36:06,690 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:36:06,747 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:36:07,174 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:36:07,183 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:36:07,184 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:36:07,266 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:36:07,266 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1147 ms
-2021-04-06 17:36:07,488 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:36:07,530 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:36:07,652 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:36:07,730 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:36:07,735 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:36:07,936 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:36:07,947 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:36:09,690 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:36:09,706 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:36:10,458 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:36:10,763 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ef7faa9, org.springframework.security.web.context.SecurityContextPersistenceFilter@2dec57c5, org.springframework.security.web.header.HeaderWriterFilter@572db5ee, org.springframework.web.filter.CorsFilter@3fa7df1, org.springframework.security.web.authentication.logout.LogoutFilter@7602c65d, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1b901f7b, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@2c9aeec6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31e9d94f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@37816ea6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a1e38ab, org.springframework.security.web.session.SessionManagementFilter@31ab75a5, org.springframework.security.web.access.ExceptionTranslationFilter@4889fbba, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57abe94d]
-2021-04-06 17:36:11,096 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:36:11,149 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:36:11,169 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.519 seconds (JVM running for 6.424)
-2021-04-06 17:36:15,182 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:36:15,183 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:36:15,184 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:36:15,281 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:38:34,909 WARN  [http-nio-8080-exec-4] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:39:17,998 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:39:19,708 WARN  [http-nio-8080-exec-9] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:40:02,592 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:40:02,596 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:40:02,608 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:40:02,668 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:40:06,934 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 27179 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:40:06,936 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:40:07,575 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:40:07,633 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:40:08,041 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:40:08,049 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:40:08,050 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:40:08,139 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:40:08,139 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1164 ms
-2021-04-06 17:40:08,377 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:40:08,417 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:40:08,537 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:40:08,617 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:40:08,620 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:40:08,821 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:40:08,832 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:40:10,498 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:40:10,511 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:40:10,952 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:40:11,196 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14980819, org.springframework.security.web.context.SecurityContextPersistenceFilter@5a23b9d1, org.springframework.security.web.header.HeaderWriterFilter@311453ab, org.springframework.web.filter.CorsFilter@2eda072, org.springframework.security.web.authentication.logout.LogoutFilter@69988d42, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@6b286640, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@294a12b5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3183a37c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@d7c4fcb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@628aea61, org.springframework.security.web.session.SessionManagementFilter@2dd4a7a9, org.springframework.security.web.access.ExceptionTranslationFilter@5c41f6a0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@75b4db22]
-2021-04-06 17:40:11,451 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:40:11,510 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:40:11,532 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.979 seconds (JVM running for 5.611)
-2021-04-06 17:40:16,536 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:40:16,537 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:40:16,540 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 2 ms
-2021-04-06 17:40:20,322 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:41:15,628 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:41:15,631 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:41:15,634 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:41:15,670 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:41:19,689 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 27280 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:41:19,691 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:41:20,355 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:41:20,418 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:41:20,850 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:41:20,859 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:41:20,859 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:41:20,945 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:41:20,945 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1218 ms
-2021-04-06 17:41:21,147 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:41:21,194 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:41:21,318 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:41:21,397 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:41:21,399 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:41:21,593 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:41:21,604 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:41:23,347 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:41:23,354 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:41:23,793 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:41:24,026 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@36e358de, org.springframework.security.web.context.SecurityContextPersistenceFilter@37816ea6, org.springframework.security.web.header.HeaderWriterFilter@67376bae, org.springframework.web.filter.CorsFilter@22ad1bae, org.springframework.security.web.authentication.logout.LogoutFilter@576323ff, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@2bed5828, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@52a2e2fb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@35b79b1f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c41f6a0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7c0035dd, org.springframework.security.web.session.SessionManagementFilter@7c59cf66, org.springframework.security.web.access.ExceptionTranslationFilter@41e76252, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5bfdabf3]
-2021-04-06 17:41:24,276 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:41:24,316 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:41:24,333 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.994 seconds (JVM running for 5.633)
-2021-04-06 17:41:28,474 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:41:28,475 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:41:28,477 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 2 ms
-2021-04-06 17:41:30,467 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:44:07,976 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:44:07,984 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:44:07,988 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:44:08,022 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:44:10,670 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 27486 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:44:10,673 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:44:11,313 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:44:11,379 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:44:11,797 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:44:11,805 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:44:11,805 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:44:11,869 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:44:11,869 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1156 ms
-2021-04-06 17:44:12,072 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:44:12,118 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:44:12,246 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:44:12,328 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:44:12,331 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:44:12,551 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:44:12,566 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:44:14,536 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:44:14,550 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:44:15,015 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:44:15,254 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e34840f, org.springframework.security.web.context.SecurityContextPersistenceFilter@5a5c2889, org.springframework.security.web.header.HeaderWriterFilter@3962b216, org.springframework.web.filter.CorsFilter@416d56f2, org.springframework.security.web.authentication.logout.LogoutFilter@52a3eef8, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@6792f2c6, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@52fed5b7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@75566f4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1fc386f8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@530e08a7, org.springframework.security.web.session.SessionManagementFilter@31a80c88, org.springframework.security.web.access.ExceptionTranslationFilter@49392256, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7890fbf9]
-2021-04-06 17:44:15,525 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:44:15,585 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:44:15,600 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 5.265 seconds (JVM running for 5.927)
-2021-04-06 17:44:22,190 INFO  [http-nio-8080-exec-3] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:44:22,191 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:44:22,193 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 2 ms
-2021-04-06 17:44:26,984 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:47:01,410 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:47:01,412 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:47:01,414 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:47:01,459 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:47:05,039 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 27719 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:47:05,041 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:47:05,628 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:47:05,690 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:47:06,069 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:47:06,077 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:47:06,077 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:47:06,162 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:47:06,163 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1092 ms
-2021-04-06 17:47:06,363 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:47:06,403 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:47:06,483 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:47:06,544 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:47:06,546 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:47:06,771 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:47:06,780 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:47:08,373 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:47:08,380 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:47:08,778 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:47:09,038 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@23909b3, org.springframework.security.web.context.SecurityContextPersistenceFilter@5c41f6a0, org.springframework.security.web.header.HeaderWriterFilter@17c72ffa, org.springframework.web.filter.CorsFilter@414f87a9, org.springframework.security.web.authentication.logout.LogoutFilter@2809e38a, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1977b0df, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@4a490518, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@311453ab, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7668f8fd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7890fbf9, org.springframework.security.web.session.SessionManagementFilter@2e1c8027, org.springframework.security.web.access.ExceptionTranslationFilter@6ec77cab, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5089a72b]
-2021-04-06 17:47:09,288 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:47:09,346 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:47:09,365 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.646 seconds (JVM running for 5.278)
-2021-04-06 17:47:15,186 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:47:15,186 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:47:15,187 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:47:15,277 WARN  [http-nio-8080-exec-2] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:47:15,584 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:47:24,236 WARN  [http-nio-8080-exec-7] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:49:57,142 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:49:57,144 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:49:57,148 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:49:57,181 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:49:59,874 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 27937 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:49:59,877 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:50:00,395 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:50:00,469 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:50:00,882 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:50:00,889 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:50:00,889 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:50:00,966 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:50:00,967 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1056 ms
-2021-04-06 17:50:01,137 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:50:01,167 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:50:01,251 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:50:01,325 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:50:01,327 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:50:01,565 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:50:01,574 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:50:03,120 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:50:03,128 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:50:03,563 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:50:03,790 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3da30ce5, org.springframework.security.web.context.SecurityContextPersistenceFilter@41f61188, org.springframework.security.web.header.HeaderWriterFilter@75566f4, org.springframework.web.filter.CorsFilter@2ed71727, org.springframework.security.web.authentication.logout.LogoutFilter@6b6939e1, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1e4b70c6, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@7054c068, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@61d527ac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@468eff41, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@48301bfe, org.springframework.security.web.session.SessionManagementFilter@5c261c74, org.springframework.security.web.access.ExceptionTranslationFilter@5a5c2889, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@628aea61]
-2021-04-06 17:50:04,017 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:50:04,061 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:50:04,079 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.521 seconds (JVM running for 5.381)
-2021-04-06 17:50:08,139 INFO  [http-nio-8080-exec-3] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:50:08,140 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:50:08,141 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:50:10,352 WARN  [http-nio-8080-exec-8] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:50:34,231 WARN  [http-nio-8080-exec-10] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:50:42,624 WARN  [http-nio-8080-exec-3] org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.json.simple.JSONObject com.codeworrisors.Movie_Community_Web.controller.LikeController.unlikeReview(com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails,java.util.Map<java.lang.String, java.lang.Long>)]
-2021-04-06 17:52:18,002 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:52:18,004 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:52:18,007 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:52:18,041 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:52:22,488 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 28101 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:52:22,490 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:52:23,041 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:52:23,096 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:52:23,480 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:52:23,487 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:52:23,487 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:52:23,543 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:52:23,544 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1024 ms
-2021-04-06 17:52:23,721 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:52:23,756 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:52:23,846 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:52:23,907 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:52:23,909 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:52:24,121 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:52:24,130 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:52:25,700 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:52:25,708 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:52:26,120 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:52:26,336 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ef7faa9, org.springframework.security.web.context.SecurityContextPersistenceFilter@2dec57c5, org.springframework.security.web.header.HeaderWriterFilter@572db5ee, org.springframework.web.filter.CorsFilter@4e224df5, org.springframework.security.web.authentication.logout.LogoutFilter@7602c65d, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1b901f7b, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@2c9aeec6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31e9d94f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@37816ea6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a1e38ab, org.springframework.security.web.session.SessionManagementFilter@31ab75a5, org.springframework.security.web.access.ExceptionTranslationFilter@4889fbba, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57abe94d]
-2021-04-06 17:52:26,569 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:52:26,625 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:52:26,643 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.508 seconds (JVM running for 5.447)
-2021-04-06 17:52:30,092 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:52:30,093 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:52:30,094 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
-2021-04-06 17:53:27,209 INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
-2021-04-06 17:53:27,211 INFO  [SpringContextShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:53:27,214 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown initiated...
-2021-04-06 17:53:27,249 INFO  [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Shutdown completed.
-2021-04-06 17:53:31,046 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 28203 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
-2021-04-06 17:53:31,050 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
-2021-04-06 17:53:31,618 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-04-06 17:53:31,674 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 6 JPA repository interfaces.
-2021-04-06 17:53:32,038 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
-2021-04-06 17:53:32,046 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
-2021-04-06 17:53:32,046 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
-2021-04-06 17:53:32,122 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
-2021-04-06 17:53:32,123 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1042 ms
-2021-04-06 17:53:32,307 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-04-06 17:53:32,337 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
-2021-04-06 17:53:32,419 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-04-06 17:53:32,483 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
-2021-04-06 17:53:32,485 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
-2021-04-06 17:53:32,671 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
-2021-04-06 17:53:32,680 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-2021-04-06 17:53:34,670 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-04-06 17:53:34,677 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-04-06 17:53:35,075 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-04-06 17:53:35,276 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52fed5b7, org.springframework.security.web.context.SecurityContextPersistenceFilter@75566f4, org.springframework.security.web.header.HeaderWriterFilter@31a80c88, org.springframework.web.filter.CorsFilter@2ed71727, org.springframework.security.web.authentication.logout.LogoutFilter@19656e21, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@530e08a7, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@6920fa35, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5c261c74, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3777fc44, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@19542115, org.springframework.security.web.session.SessionManagementFilter@5a5c2889, org.springframework.security.web.access.ExceptionTranslationFilter@3962b216, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@167bae0b]
-2021-04-06 17:53:35,523 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
-2021-04-06 17:53:35,572 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
-2021-04-06 17:53:35,589 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 4.845 seconds (JVM running for 5.442)
-2021-04-06 17:53:44,489 INFO  [http-nio-8080-exec-3] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-06 17:53:44,493 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
-2021-04-06 17:53:44,496 INFO  [http-nio-8080-exec-3] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 2 ms
+Caused by: java.sql.SQLRecoverableException: IO 오류: The Network Adapter could not establish the connection
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:858)
+	at oracle.jdbc.driver.PhysicalConnection.connect(PhysicalConnection.java:793)
+	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:57)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:747)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:562)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:43)
+	... 35 common frames omitted
+Caused by: oracle.net.ns.NetException: The Network Adapter could not establish the connection
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:571)
+	at oracle.net.resolver.AddrResolution.resolveAndExecute(AddrResolution.java:548)
+	at oracle.net.ns.NSProtocol.establishConnection(NSProtocol.java:682)
+	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:309)
+	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1600)
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:591)
+	... 49 common frames omitted
+Caused by: java.io.IOException: Connection refused, socket connect lapse 0 ms. /0:0:0:0:0:0:0:1 1521 30000 1 true
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:233)
+	at oracle.net.nt.ConnOption.connect(ConnOption.java:174)
+	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:510)
+	... 54 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:476)
+	at java.base/sun.nio.ch.Net.connect(Net.java:468)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:694)
+	at java.base/java.nio.channels.SocketChannel.open(SocketChannel.java:194)
+	at oracle.net.nt.TimeoutSocketChannel.connect(TimeoutSocketChannel.java:99)
+	at oracle.net.nt.TimeoutSocketChannel.<init>(TimeoutSocketChannel.java:77)
+	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:192)
+	... 56 common frames omitted
+2021-04-07 19:49:45,235 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Starting MovieCommunityWebApplication using Java 11.0.10 on heesangui-MacBookPro.local with PID 3244 (/Users/heesang/dev/dev_web/movie_community/movie-community_spring-server/build/classes/java/main started by heesang in /Users/heesang/dev/dev_web/movie_community/movie-community_spring-server)
+2021-04-07 19:49:45,238 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : No active profile set, falling back to default profiles: default
+2021-04-07 19:49:46,389 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-04-07 19:49:46,544 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 129 ms. Found 6 JPA repository interfaces.
+2021-04-07 19:49:47,123 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8080 (http)
+2021-04-07 19:49:47,134 INFO  [main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2021-04-07 19:49:47,134 INFO  [main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-04-07 19:49:47,233 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2021-04-07 19:49:47,234 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1948 ms
+2021-04-07 19:49:47,620 INFO  [main] org.hibernate.jpa.internal.util.LogHelper : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-04-07 19:49:47,686 INFO  [main] org.hibernate.Version : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-04-07 19:49:47,873 INFO  [main] org.hibernate.annotations.common.Version : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-07 19:49:48,004 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+2021-04-07 19:49:48,008 WARN  [main] com.zaxxer.hikari.util.DriverDataSource : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2021-04-07 19:49:48,348 INFO  [main] com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+2021-04-07 19:49:48,364 INFO  [main] org.hibernate.dialect.Dialect : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+2021-04-07 19:49:54,383 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-07 19:49:54,399 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-04-07 19:49:54,936 INFO  [main] com.codeworrisors.Movie_Community_Web.component.BoxOfficeRankingScheduledTask : Box Office Ranking API call
+2021-04-07 19:49:56,209 INFO  [main] com.codeworrisors.Movie_Community_Web.component.BoxOfficeRankingScheduledTask : ranking save - date: 2021-04-06
+2021-04-07 19:49:56,270 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-04-07 19:49:56,607 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71c74011, org.springframework.security.web.context.SecurityContextPersistenceFilter@7fba492e, org.springframework.security.web.header.HeaderWriterFilter@5b4b6f3b, org.springframework.web.filter.CorsFilter@22ad1bae, org.springframework.security.web.authentication.logout.LogoutFilter@7dda5b25, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter@1d884a19, com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthorizationFilter@62d21afd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@17635531, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@16e5c19f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ee07d7f, org.springframework.security.web.session.SessionManagementFilter@35198da3, org.springframework.security.web.access.ExceptionTranslationFilter@2a15bbf3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@779136bf]
+2021-04-07 19:49:56,924 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
+2021-04-07 19:49:56,972 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
+2021-04-07 19:49:56,991 INFO  [main] com.codeworrisors.Movie_Community_Web.MovieCommunityWebApplication : Started MovieCommunityWebApplication in 12.247 seconds (JVM running for 13.185)
+2021-04-07 19:50:25,226 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-07 19:50:25,227 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet'
+2021-04-07 19:50:25,228 INFO  [http-nio-8080-exec-1] org.springframework.web.servlet.DispatcherServlet : Completed initialization in 1 ms
+2021-04-07 19:50:25,470 INFO  [http-nio-8080-exec-2] com.codeworrisors.Movie_Community_Web.security.jwt.JwtAuthenticationFilter : 'master123' 로그인 성공
