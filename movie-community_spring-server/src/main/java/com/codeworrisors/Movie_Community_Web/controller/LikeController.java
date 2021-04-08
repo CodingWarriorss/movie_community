@@ -1,5 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
+import com.codeworrisors.Movie_Community_Web.dto.LikeResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.ResponseDto;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.service.LikeService;
 import org.json.simple.JSONObject;
@@ -14,12 +16,6 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping(value = "/api/review/like")
 public class LikeController {
-    public static final String RESULT = "result";
-    public static final String SUCCESS = "success";
-    public static final String FAIL = "fail";
-    public static final String ERROR_MESSAGE_DELIMITER = "/";
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final LikeService likeService;
 
     public LikeController(LikeService likeService) {
@@ -27,34 +23,17 @@ public class LikeController {
     }
 
     @PostMapping
-    public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                 @RequestBody Map<String, Long> params) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        Long pressedLike = likeService.createLike(userDetail.getMember(), params.get("reviewId"));
-        response.put("status", "LIKE");
-        response.put("likeId" , pressedLike);
-
+    public LikeResponseDto likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                      @RequestBody Map<String, Long> params) {
+        LikeResponseDto response = likeService.createLike(userDetail.getMember(), params.get("reviewId"));
 
         return response;
     }
 
     @DeleteMapping
-    public JSONObject unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+    public LikeResponseDto unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                    @RequestParam("reviewId") long reviewId) {
-        JSONObject response  = new JSONObject();
-
-        response.put(RESULT, SUCCESS);
-
-        try {
-            Long deleteLike = likeService.deleteLike(userDetail.getMember(), reviewId);
-            response.put("status", "UNLIKE");
-            response.put("likeId", deleteLike);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + ERROR_MESSAGE_DELIMITER + e.getMessage());
-        }
+        LikeResponseDto response = likeService.deleteLike(userDetail.getMember(), reviewId);
 
         return response;
     }
