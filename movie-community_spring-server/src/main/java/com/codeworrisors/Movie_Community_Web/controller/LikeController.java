@@ -30,17 +30,12 @@ public class LikeController {
     public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                  @RequestBody Map<String, Long> params) {
         JSONObject response = new JSONObject();
-
         response.put(RESULT, SUCCESS);
 
-        try {
-            Long pressedLike = likeService.createLike(userDetail.getMember(), params.get("reviewId"));
-            response.put("status", "LIKE");
-            response.put("likeId" , pressedLike);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + ERROR_MESSAGE_DELIMITER + e.getMessage());
-        }
+        Long pressedLike = likeService.createLike(userDetail.getMember(), params.get("reviewId"));
+        response.put("status", "LIKE");
+        response.put("likeId" , pressedLike);
+
 
         return response;
     }

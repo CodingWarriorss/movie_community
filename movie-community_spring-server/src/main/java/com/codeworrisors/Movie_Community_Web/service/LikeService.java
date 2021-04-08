@@ -1,5 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
+import com.codeworrisors.Movie_Community_Web.dto.ResponseDto;
+import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Likes;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.LikeRepository;
@@ -22,9 +24,7 @@ public class LikeService {
     public Long createLike(Member member, Long reviewId)
             throws NoSuchElementException, IllegalStateException{
         reviewRepository.findById(reviewId)
-                .orElseThrow(() -> {
-                   throw new NoSuchElementException("존재하지 않는 리뷰");
-                });
+                .orElseThrow(NoReviewElementException::new);
 
         likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
                 .ifPresent(like -> {
@@ -33,6 +33,15 @@ public class LikeService {
 
         Likes pressedLike = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
         return pressedLike.getId();
+    }
+    public ResponseDto createLike(Member member, Long reviewId, int status) {
+        ResponseDto responseDto = ResponseDto
+                .builder()
+                .result("success")
+                .build();
+
+
+        return responseDto;
     }
 
     public Long deleteLike(Member member, Long reviewId)
