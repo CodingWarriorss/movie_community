@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import ReviewEditBox from "../review/ReviewEditBox";
 import LogoutComponent from "../login/LogoutComponent";
 import HeaderSearchComponent from './search/HeaderSearchComponent';
-import {Link} from "react-router-dom";
+import {AddCircle} from "@material-ui/icons";
+import {Link} from 'react-router-dom';
 
 const Menu = (props) => {
     const [isShow, setShow] = useState(false);
@@ -12,7 +13,6 @@ const Menu = (props) => {
     }
 
     const movieTitleSelected = (data) => {
-        console.log(data);
         props.getMovieTitle(data);
     }
 
@@ -20,15 +20,17 @@ const Menu = (props) => {
         <div className="navbar-nav d-flex align-items-ceter justify-content-end w-100 mr-2">
             <ul className="navbar-nav">
                 <HeaderSearchComponent movieTitleSelected = {movieTitleSelected}/>
-                <li className="nav-item">
+                <li className="nav-item" style={{marginRight : 5}}>
                     <LogoutComponent/>
                 </li>
                 <li className="nav-item">
-                    <button className="btn btn-primary" onClick={handleShow}>
-                        +
-                    </button>
+                    <AddCircle onClick={handleShow} style={{
+                        fontSize : 46,
+                        color : '#009688',
+                    }}/>
                     <ReviewEditBox handleShow={handleShow} isShow={isShow} isModify={false} />
                 </li>
+
                 <li className="nav-item">
                     <Link className="nav-link" to={
                         {

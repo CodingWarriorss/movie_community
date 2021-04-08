@@ -99,7 +99,6 @@ export default class ReviewEditBox extends Component {
             })
         }
 
-        // cofig 세팅
         const token = localStorage.getItem("token");
         let config = {
             headers: {
@@ -113,19 +112,16 @@ export default class ReviewEditBox extends Component {
             .then(response => {
                 alert("게시물이 성공적으로 등록되었습니다.");
                 this.props.handleShow();
+                window.location.replace("/")
             })
             .catch(error => {
                 console.log('게시물 등록에 실패하였습니다.', error)
             })
+
+            
     }
 
     render() {
-
-        if( this.props.isModify ) console.log("수정모드");
-        else console.log("등록모드");
-
-        const testText = ( this.props.isModify ) ? "수정모드" : "등록모드";
-
         return (
             <Modal
                 size="lg"
@@ -133,7 +129,6 @@ export default class ReviewEditBox extends Component {
                 onHide={this.props.handleShow}>
                 {/*header*/}
                 <Modal.Header closeButton style={this.state.style}>
-                    <div>{testText}</div>
                 </Modal.Header>
 
                 {/*body*/}

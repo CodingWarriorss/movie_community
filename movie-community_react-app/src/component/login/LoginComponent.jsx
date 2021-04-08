@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import AuthenticationService from "./AuthenticationService.js";
-import {REST_API_SERVER_URL} from '../constants/APIConstants';
 /*
 https://ko.reactjs.org/docs/react-component.html
 <마운트>

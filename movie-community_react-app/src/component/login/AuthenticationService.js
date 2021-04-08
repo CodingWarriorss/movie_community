@@ -37,7 +37,7 @@ class AuthenticationService {
             headers: {
                 'Authorization': localStorage.getItem('token')
             },
-            params : {
+            params: {
                 memberName: memberName
             }
         }
