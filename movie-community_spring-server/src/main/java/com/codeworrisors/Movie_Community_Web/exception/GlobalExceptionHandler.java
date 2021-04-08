@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND).build();
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-    
+
     @ExceptionHandler(IllegalStateException.class)
     protected ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
         ErrorResponse errorResponse = ErrorResponse

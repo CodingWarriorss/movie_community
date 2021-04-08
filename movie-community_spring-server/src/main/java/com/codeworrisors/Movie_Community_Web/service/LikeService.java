@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.ResponseDto;
+import com.codeworrisors.Movie_Community_Web.exception.AlreadyPressedLikeStateException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Likes;
 import com.codeworrisors.Movie_Community_Web.model.Member;
@@ -27,9 +28,7 @@ public class LikeService {
                 .orElseThrow(NoReviewElementException::new);
 
         likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
-                .ifPresent(like -> {
-                    throw new IllegalStateException("이미 좋아요를 누른 상태");
-                });
+                .ifPresent(AlreadyPressedLikeStateException::new);
 
         Likes pressedLike = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
         return pressedLike.getId();
