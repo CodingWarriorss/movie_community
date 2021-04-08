@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import '../css/Profile.css';
 import EditProfileComponent from "./EditProfileComponent";
-import {REST_API_SERVER_URL} from "../constants/APIConstants";
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants";
 import axios from "axios";
 import ProfileReviewComponent from "./ProfileReviewComponent";
 import DeleteMemberComponent from "./DeleteMemberComponent";
@@ -14,9 +14,17 @@ class ProfileComponent extends Component {
         this.state = {
             isModalEditOpen: false,
             isModalWithdrawOpen: false,
+
+            memberName: '',
+            name: '',
+            website: '',
+            bio: '',
+            profileImg: '',
+
             reviewList: [],
         }
 
+        this.loadMemberInfo = this.loadMemberInfo.bind(this);
         this.loadReview = this.loadReview.bind(this);
         this.openEditModal = this.openEditModal.bind(this);
         this.closeEditModal = this.closeEditModal.bind(this);
@@ -25,7 +33,8 @@ class ProfileComponent extends Component {
     }
 
     componentDidMount() {
-        this.loadReview();
+        this.loadMemberInfo(this.props.location.memberName);
+        this.loadReview(this.props.location.memberName);
     }
 
     openEditModal() {
@@ -44,14 +53,41 @@ class ProfileComponent extends Component {
         this.setState({isModalWithdrawOpen: false});
     }
 
-    loadReview() {
-        const requestUrl = REST_API_SERVER_URL + '/api/review'
+    loadMemberInfo(memberName) {
+        const requestUrl = REST_API_SERVER_URL + '/api/member';
         let config = {
             headers: {
                 'Authorization': localStorage.getItem('token')
             },
             params: {
-                memberName: localStorage.getItem('authenticatedMember'),
+                memberName: memberName
+            }
+        }
+        axios.get(requestUrl, config)
+            .then((response) => {
+                console.log(response.data);
+                const member = response.data.member;
+                this.setState({
+                    memberName: memberName,
+                    name: member.name,
+                    website: member.website,
+                    bio: member.bio,
+                    profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                });
+            }).catch((error) => {
+
+        })
+
+    }
+
+    loadReview(memberName) {
+        const requestUrl = REST_API_SERVER_URL + '/api/review';
+        let config = {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
+            params: {
+                memberName: memberName,
                 pageIndex: 0
             }
         }
@@ -67,11 +103,11 @@ class ProfileComponent extends Component {
     }
 
     render() {
-        const memberName = localStorage.getItem('authenticatedMember');
-        const name = localStorage.getItem('name');
-        const website = localStorage.getItem('website');
-        const bio = localStorage.getItem('bio');
-        const profileImg = localStorage.getItem('profileImg');
+        const {
+            isModalEditOpen, isModalWithdrawOpen,
+            memberName, name, website, bio, profileImg,
+            reviewList
+        } = this.state;
 
         return (
             <main id="profile" style={{backgroundColor: "white", padding: "100px 100px"}}>
@@ -93,13 +129,14 @@ class ProfileComponent extends Component {
                                 <button className="profile_edit_btn" onClick={this.openEditModal}>
                                     회원수정
                                 </button>
-                                <EditProfileComponent isOpen={this.state.isModalEditOpen} close={this.closeEditModal}/>
+                                <EditProfileComponent isOpen={isModalEditOpen} close={this.closeEditModal}/>
                             </a>
                             <a href="#">
                                 <button className="profile_follow_btn" onClick={this.openWithdrawModal}>
                                     회원탈퇴
                                 </button>
-                                <DeleteMemberComponent isOpen={this.state.isModalWithdrawOpen} close={this.closeWithdrawModal}/>
+                                <DeleteMemberComponent isOpen={isModalWithdrawOpen}
+                                                       close={this.closeWithdrawModal}/>
                             </a>
                         </div>
 
@@ -111,7 +148,7 @@ class ProfileComponent extends Component {
                     </div>
                 </header>
                 <div className="profile__photo-grid">
-                    {this.state.reviewList.map(
+                    {reviewList.map(
                         reviewData => {
                             return <ProfileReviewComponent reviewData={reviewData} key={reviewData.reviewId}/>
                         }
