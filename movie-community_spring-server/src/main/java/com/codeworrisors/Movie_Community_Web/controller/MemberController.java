@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
@@ -49,12 +50,12 @@ public class MemberController {
     }
 
     @GetMapping("/api/member")
-    public JSONObject readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
+    public JSONObject readMember(@ModelAttribute ReadMemberDto readMemberDto) {
         JSONObject response = new JSONObject();
 
         try {
             response.put("result", SUCCESS);
-            response.put("member", memberService.selectMember(userDetail.getMember()));
+            response.put("member", memberService.selectMember(readMemberDto));
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
             response.put("result", FAIL);
@@ -65,7 +66,7 @@ public class MemberController {
 
     @PutMapping("/api/member")
     public JSONObject modifyMember(@AuthenticationPrincipal PrincipalDetails userDetail,
-                            @ModelAttribute UpdateMemberDto updateMemberDto) {
+                                   @ModelAttribute UpdateMemberDto updateMemberDto) {
         JSONObject response = new JSONObject();
 
         try {

@@ -32,7 +32,12 @@ const Menu = (props) => {
                 </li>
 
                 <li className="nav-item">
-                    <Link className="nav-link" to={"/mypage"}>
+                    <Link className="nav-link" to={
+                        {
+                            pathname: "/mypage",
+                            memberName: localStorage.getItem('authenticatedMember')
+                        }
+                    }>
                         <img
                             src={localStorage.getItem('profileImg')}
                             width={40} height={40} style={{ borderRadius: 50 }} />

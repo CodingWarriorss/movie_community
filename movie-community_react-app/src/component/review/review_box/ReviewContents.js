@@ -5,12 +5,13 @@ import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 import './ReviewContents.css';
-import { IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL} from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
 import {Favorite, FavoriteBorder } from "@material-ui/icons";
+import {Link} from "react-router-dom";
 
 
 
@@ -87,7 +88,10 @@ function ReviewHeader(props) {
         </img>
     ));
 
+    const profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
+
     return (
+
         <div className="card-header">
             <div className="row justify-content-md-center">
                 <div className="h5 col-md-auto">
@@ -96,9 +100,16 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img alt="NoImage"
-                        src={IMAGE_RESOURCE_URL + props.reviewData.member.profileImg}
-                        style={{width : 50, height : 50, borderRadius : 25}}/>
+                    <Link className="nav-link" to={
+                        {
+                            pathname: "/mypage",
+                            memberName: props.reviewData.member.memberName
+                        }
+                    }>
+                        <img
+                             src={profileImg}
+                             style={{width : 50, height : 50, borderRadius : 25}}/>
+                    </Link>
                 </div>
                 <div className="col-9">
                     <div className="row">

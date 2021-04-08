@@ -31,21 +31,20 @@ class AuthenticationService {
         }
     }
 
-    setMemberInfo() {
+    setMemberInfo(memberName) {
         const requestURL = REST_API_SERVER_URL + '/api/member';
         const config = {
             headers: {
                 'Authorization': localStorage.getItem('token')
+            },
+            params: {
+                memberName: memberName
             }
         }
 
         axios.get(requestURL, config)
             .then((response) => {
                 const member = response.data.member;
-                localStorage.setItem('name', member.name ? member.name : '');
-                localStorage.setItem('email', member.email ? member.email : '');
-                localStorage.setItem('website', member.website ? member.website : '');
-                localStorage.setItem('bio', member.bio ? member.bio : '');
                 localStorage.setItem('profileImg', member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL);
                 window.location.replace('/');
             });
@@ -74,11 +73,6 @@ class AuthenticationService {
     logout() {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
-        localStorage.removeItem("name");
-        localStorage.removeItem("email");
-        localStorage.removeItem("birth");
-        localStorage.removeItem("website");
-        localStorage.removeItem("bio");
         localStorage.removeItem("profileImg");
         window.location.replace('/');
     }

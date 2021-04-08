@@ -46,7 +46,7 @@ public class Review {
     private int commentCount;
 
     @NonNull
-    @ManyToOne()
+    @ManyToOne
     @JsonIgnoreProperties({"password", "name", "email", "phone", "role", "bio" , "website"})
     private Member member;
 
