@@ -2,6 +2,8 @@ package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
+import com.codeworrisors.Movie_Community_Web.exception.NoAuthCommentStateException;
+import com.codeworrisors.Movie_Community_Web.exception.NoCommentElementException;
 import com.codeworrisors.Movie_Community_Web.model.Comments;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.CommentRepository;
@@ -48,11 +50,9 @@ public class CommentService {
         commentRepository.findById(updateCommentDto.getCommentId())
                 .ifPresentOrElse(comments -> {
                     if (member.getId() != comments.getMember().getId()) {
-                        throw new IllegalStateException("권한 없는 댓글에 대한 수정 요청");
+                        throw new NoAuthCommentStateException();
                     }
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
-                });
+                }, NoCommentElementException::new);
         return result;
     }
 
@@ -62,12 +62,11 @@ public class CommentService {
                 .findById(commentId)
                 .ifPresentOrElse(comment -> {
                     if (member.getId() != comment.getMember().getId()) {
-                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요창");
+                        throw new NoAuthCommentStateException();
                     }
-
                     commentRepository.delete(comment);
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
-                });
+                }, NoCommentElementException::new);
+
+
     }
 }
