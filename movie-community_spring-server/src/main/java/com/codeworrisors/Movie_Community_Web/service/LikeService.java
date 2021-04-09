@@ -1,14 +1,12 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.LikeResponseDto;
-import com.codeworrisors.Movie_Community_Web.dto.ResponseDto;
 import com.codeworrisors.Movie_Community_Web.exception.AlreadyPressedLikeStateException;
 import com.codeworrisors.Movie_Community_Web.exception.AlreadyUnLikeStateException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Likes;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.LikeRepository;
-import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
