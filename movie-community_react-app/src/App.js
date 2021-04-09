@@ -8,7 +8,8 @@ import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
-import ProfileComponent from "./component/mypage/ProfileComponent";
+import MyProfileComponent from "./component/mypage/MyProfileComponent";
+import OthersProfileComponent from "./component/mypage/OthersProfileComponent";
 
 class App extends Component {
     constructor(props) {
@@ -53,7 +54,8 @@ class App extends Component {
                     </nav>
 
                     <Switch>
-                        <Route path="/mypage" component={ProfileComponent}/>
+                        <Route path="/otherspage" component={OthersProfileComponent}/>
+                        <Route path="/mypage" component={MyProfileComponent}/>
                         <Route path="/logout" component={LogoutComponent}/>
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>
