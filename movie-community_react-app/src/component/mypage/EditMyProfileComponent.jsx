@@ -1,26 +1,57 @@
 import React, {Component} from 'react'
 import {Modal, Button, Form} from "react-bootstrap";
 import axios from "axios";
-import {IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants";
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants";
 import ImageUploader from "react-images-upload";
 
-class EditProfileComponent extends Component {
+class EditMyProfileComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             close: false,
 
-            name: localStorage.getItem('name'),
-            email: localStorage.getItem('email'),
-            website: localStorage.getItem('website'),
-            bio: localStorage.getItem('bio'),
+            name: '',
+            email: '',
+            website: '',
+            bio: '',
+
             picture: [],
         }
 
+        this.loadMemberInfo = this.loadMemberInfo.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSummit = this.handleSummit.bind(this);
         this.onDrop = this.onDrop.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadMemberInfo();
+    }
+
+    loadMemberInfo() {
+        const requestUrl = REST_API_SERVER_URL + '/api/member';
+        let config = {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
+            params: {
+                memberName: localStorage.getItem('authenticatedMember')
+            }
+        }
+        axios.get(requestUrl, config)
+            .then((response) => {
+                const member = response.data.member;
+                this.setState({
+                    name: member.name,
+                    website: member.website,
+                    email: member.email,
+                    bio: member.bio,
+                    profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                });
+            }).catch((error) => {
+
+        })
     }
 
     changeHandler = (e) => {
@@ -69,15 +100,12 @@ class EditProfileComponent extends Component {
         axios.put(url, formData, config)
             .then((response) => {
                 const data = response.data;
-                if (data.result === 1){
+                if (data.result === 1) {
                     const member = data.member;
-                    localStorage.setItem('name', member.name);
-                    localStorage.setItem('email', member.email);
-                    localStorage.setItem('website', member.website);
-                    localStorage.setItem('bio', member.bio);
-                    localStorage.setItem('profileImg', IMAGE_RESOURCE_URL + member.profileImg);
+                    this.props.modifyMemberInfo(member);
                     alert('수정이 완료되었습니다.');
-                    window.location.replace('/mypage');
+                    this.props.close();
+                    // window.location.replace('/mypage');
                 } else {
                     alert('수정에 실패했습니다.');
                 }
@@ -152,4 +180,4 @@ class EditProfileComponent extends Component {
     }
 }
 
-export default EditProfileComponent
+export default EditMyProfileComponent
