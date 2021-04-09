@@ -1,21 +1,23 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
+import com.codeworrisors.Movie_Community_Web.dto.CommentResponseDto;
 import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
-import com.codeworrisors.Movie_Community_Web.exception.NoAuthCommentStateException;
 import com.codeworrisors.Movie_Community_Web.exception.NoCommentElementException;
+import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Comments;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.CommentRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
+
 
 @Service
 public class CommentService {
+    public static final String SUCCESS_CODE = "SUCCESS";
+
     private CommentRepository commentRepository;
     private ReviewRepository reviewRepository;
 
@@ -24,49 +26,54 @@ public class CommentService {
         this.reviewRepository = reviewRepository;
     }
 
-    public JSONObject createComment(Member member, CreateCommentDto createCommentDto)
-            throws EntityNotFoundException{
-        JSONObject result = new JSONObject();
-
+    public CommentResponseDto createComment(Member member, CreateCommentDto createCommentDto)
+            throws NoSuchElementException {
         reviewRepository.findById(createCommentDto.getReviewId())
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException();
-                });
+                .orElseThrow(NoReviewElementException::new);
 
-        Comments savedComments =
-                new Comments(
-                        createCommentDto.getContent(),
-                        member,
-                        reviewRepository.getOne(createCommentDto.getReviewId())
-                );
+        Comments savedComments = commentRepository.save(
+                new Comments(createCommentDto.getContent(), member, reviewRepository.getOne(createCommentDto.getReviewId())));
 
-        result.put("commentId", savedComments.getId());
-        return result;
+        return CommentResponseDto
+                .builder()
+                .commentId(savedComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public JSONObject updateComment(Member member, UpdateCommentDto updateCommentDto) {
-        JSONObject result = new JSONObject();
+    public CommentResponseDto updateComment(Member member, UpdateCommentDto updateCommentDto)
+            throws NoSuchElementException{
+        Comments updateComments = commentRepository
+                .findById(updateCommentDto.getCommentId())
+                .filter(comments -> comments.getMember().getId() == member.getId())
+                .map(comments -> {
+                    comments.setContent(updateCommentDto.getContent());
+                    return comments;
+                })
+                .orElseThrow(NoCommentElementException::new);
 
-        commentRepository.findById(updateCommentDto.getCommentId())
-                .ifPresentOrElse(comments -> {
-                    if (member.getId() != comments.getMember().getId()) {
-                        throw new NoAuthCommentStateException();
-                    }
-                }, NoCommentElementException::new);
-        return result;
+        return CommentResponseDto
+                .builder()
+                .commentId(updateComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public void deleteComment(Member member, long commentId)
+    public CommentResponseDto deleteComment(Member member, long commentId)
             throws  IllegalStateException, NoSuchElementException {
-        commentRepository
+        Comments deleteComments = commentRepository
                 .findById(commentId)
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId()) {
-                        throw new NoAuthCommentStateException();
-                    }
-                    commentRepository.delete(comment);
-                }, NoCommentElementException::new);
+                .filter(comments -> comments.getMember().getId() == member.getId())
+                .map(comments -> {
+                    commentRepository.delete(comments);
+                    return comments;
+                })
+                .orElseThrow(NoCommentElementException::new);
 
-
+        return CommentResponseDto
+                .builder()
+                .commentId(deleteComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 }
