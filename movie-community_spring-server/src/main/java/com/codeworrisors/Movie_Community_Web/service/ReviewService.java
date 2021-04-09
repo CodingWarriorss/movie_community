@@ -60,9 +60,9 @@ public class ReviewService {
     }
 
     private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
-        memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
+        Member m = memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
 
-       List<Review> reviews = reviewRepository.findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).getContent();
+        List<Review> reviews = reviewRepository.findByMemberId(pageable, m.getId()).getContent();
         reviews.forEach(review -> {
             review.setLikeCount(likeRepository.countByReviewId(review.getId()));
             review.setCommentCount(commentRepository.countByReviewId(review.getId()));
