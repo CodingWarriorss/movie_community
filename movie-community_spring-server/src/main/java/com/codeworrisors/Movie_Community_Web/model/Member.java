@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,17 @@ public class Member {
     private String website;
     @Setter
     private String profileImg;
+
+    @Getter
+    @Setter
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    @Getter
+    @Setter
+    private String providerId;
+
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType role;

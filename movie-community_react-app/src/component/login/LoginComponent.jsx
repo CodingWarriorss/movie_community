@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
 import AuthenticationService from "./AuthenticationService.js";
+
+import {GOOGLE_AUTH_URL ,GITHUB_AUTH_URL } from "component/constants/SocialLogin";
+
+import googleLogo from 'img/google-logo.png';
+import githubLogo from 'img/github-logo.png';
 /*
 https://ko.reactjs.org/docs/react-component.html
 <마운트>
@@ -109,6 +114,13 @@ class LoginComponent extends Component {
                         {/*    <a href="#"> password?</a>*/}
                         {/*</p>*/}
                     </div>
+
+                    <div className="social-login">
+                <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                    <img src={googleLogo} alt="Google" /> Log in with Google</a>
+                <a className="btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
+                    <img src={githubLogo} alt="Github" /> Log in with Github</a>
+            </div>
 
                 </div>
             </div>

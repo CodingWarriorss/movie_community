@@ -208,6 +208,15 @@ public class ReviewService {
                     throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
                 });
 
+        Optional<Comments> filter = commentRepository.findById(updateCommentDto.getCommentId())
+                .filter( comment -> ( comment.getMember().getId() == member.getId() ) );
+
+        Optional<Comments> mapFilter = filter.map( comment -> {
+           return comment;
+        });
+
+
+
         return result;
     }
 

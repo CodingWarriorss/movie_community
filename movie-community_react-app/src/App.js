@@ -10,6 +10,8 @@ import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
 import MainTest from "./component/MainTest";
 import ProfileComponent from "./component/mypage/ProfileComponent";
 
+import OAuth2RedirectHandler from "./component/oauth2/OAuth2RedirectHandler"
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -38,6 +40,7 @@ class App extends Component {
 
                 <div className="App">
                     { /*네비게이션 바*/}
+                    
                     <nav className="navbar-expand-lg navbar-light fixed-top"
                          style={{height: "70px"}}>
                         <div className="container fixed-top">
@@ -57,8 +60,8 @@ class App extends Component {
                         <Route path="/logout" component={LogoutComponent}/>
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>
-                        {access === null ? <Route path="/" component={LoginComponent}/> :
-                            <Route path="/" render={() => <MainTest movieTitle={this.state.movieTitle}/>}/>}
+                        <Route path="/oauth2/redirect" component={OAuth2RedirectHandler} ></Route>
+                        <Route path="/review" render={() => <MainTest movieTitle={this.state.movieTitle}/>}/>
                     </Switch>
                 </div>
 
