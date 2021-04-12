@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.dto.review;
+package com.codeworrisors.Movie_Community_Web.dto.review.response;
 
 import lombok.Builder;
 
