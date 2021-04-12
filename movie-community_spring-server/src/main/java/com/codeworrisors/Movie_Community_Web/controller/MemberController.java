@@ -1,8 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.ReadMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.UpdateMemberDto;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;

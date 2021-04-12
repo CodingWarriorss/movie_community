@@ -1,8 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.ReadMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.UpdateMemberDto;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
@@ -19,8 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
