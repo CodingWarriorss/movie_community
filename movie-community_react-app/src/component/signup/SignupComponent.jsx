@@ -74,7 +74,7 @@ class SignupComponent extends Component {
             return;
         }
 
-        fetch(REST_API_SERVER_URL + '/checkid', {
+        fetch(REST_API_SERVER_URL + '/auth/checkid', {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
@@ -175,7 +175,7 @@ class SignupComponent extends Component {
             name, email, bio, website, picture
         } = this.state;
 
-        const url = REST_API_SERVER_URL + '/join';
+        const url = REST_API_SERVER_URL + '/auth/join';
 
         const formData = new FormData();
         formData.append('memberName', memberName);
