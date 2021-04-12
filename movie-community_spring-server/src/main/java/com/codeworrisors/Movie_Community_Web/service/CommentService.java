@@ -59,10 +59,21 @@ public class CommentService {
                 .build();
     }
 
+    public CommentResponseDto updateComment2(Member member, UpdateCommentDto updateCommentDto) {
+        Comments updateComments = commentRepository.findById(updateCommentDto.getCommentId())
+                .map(comments -> comments.updateContents(member.getId(), updateCommentDto.getContent()))
+                .orElseThrow(NoCommentElementException::new);
+
+        return CommentResponseDto
+                .builder()
+                .commentId(updateComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
+    }
+
     public CommentResponseDto deleteComment(Member member, long commentId)
             throws  IllegalStateException, NoSuchElementException {
-        Comments deleteComments = commentRepository
-                .findById(commentId)
+        Comments deleteComments = commentRepository.findById(commentId)
                 .filter(comments -> comments.getMember().getId() == member.getId())
                 .map(comments -> {
                     commentRepository.delete(comments);

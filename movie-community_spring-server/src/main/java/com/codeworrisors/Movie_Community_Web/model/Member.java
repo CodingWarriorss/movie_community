@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class Member {
 
     @Id
+    @Setter
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "member_seq_gen"
@@ -38,4 +39,8 @@ public class Member {
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    public boolean isNotSameMember(Long id) {
+        return !this.id.equals(id);
+    }
 }

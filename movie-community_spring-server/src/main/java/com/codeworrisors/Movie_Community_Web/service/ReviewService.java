@@ -1,5 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
+import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
+import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
@@ -60,13 +62,17 @@ public class ReviewService {
     }
 
     private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
-        memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
+        Member member1 = memberRepository
+                .findByMemberName(memberName)
+                .orElseThrow(NoMemberElementException::new);
 
-       List<Review> reviews = reviewRepository.findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).getContent();
+       List<Review> reviews = reviewRepository
+               .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).getContent();
         reviews.forEach(review -> {
             review.setLikeCount(likeRepository.countByReviewId(review.getId()));
             review.setCommentCount(commentRepository.countByReviewId(review.getId()));
         });
+
         return reviews;
     }
 
@@ -97,25 +103,21 @@ public class ReviewService {
 
 
     public Review updateReview(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
-        reviewRepository.findById(updateReviewDto.getReviewId())
-                .ifPresentOrElse(review -> {
-                    if (review.getMember().getId() != member.getId())
-                        throw new AuthorizationServiceException("권한 없는 리뷰에 대한 수정 요청");
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 리뷰에 대한 수정 요청");
-                });
+        Review updateReview = reviewRepository
+                .findById(updateReviewDto.getReviewId())
+                .filter(review -> review.getMember().getId() == member.getId())
+                .orElseThrow(NoReviewElementException::new);
 
-        Review review = reviewRepository.findById(updateReviewDto.getReviewId()).get();
-        review.setContent(updateReviewDto.getContent());
-        review.setRating(updateReviewDto.getRating());
+        updateReview.setContent(updateReviewDto.getContent());
+        updateReview.setRating(updateReviewDto.getRating());
 
         if (updateReviewDto.getNewFiles() != null) {
-            saveImages(review, updateReviewDto.getNewFiles());
+            saveImages(updateReview, updateReviewDto.getNewFiles());
         }
         if (updateReviewDto.getDeletedFiles() != null) {
-            deleteImages(review.getId(), updateReviewDto.getDeletedFiles());
+            deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
         }
-        return review;
+        return updateReview;
     }
 
     public void deleteReview(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {

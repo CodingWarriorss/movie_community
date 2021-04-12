@@ -35,7 +35,8 @@ export default class ReviewList extends Component {
     loadReview() {
 
         ReviewAPI.getList(this.state.page , this.props.movieTitle)
-        .then( response =>{
+        .then( response => {
+            console.log(response.data);
             this.setState({
                 reviewList: [...this.state.reviewList, ...response.data],
                 page: (this.state.page + 1)
