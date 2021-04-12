@@ -27,10 +27,14 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String memberName)
-            throws UsernameNotFoundException {
+            {
         Member member = memberRepository.findByMemberName(memberName)
-                .orElseThrow(()-> new UsernameNotFoundException("유저가 없음"));
-        logger.error("아이디 '" + memberName + "'가 존재하지 않음");
+                .orElseThrow(()-> {
+                    logger.error("아이디 '" + memberName + "'가 존재하지 않음");
+                    return new UsernameNotFoundException("유저가 없음");
+                }
+                );
+
         return PrincipalDetails.create(member);
     }
 

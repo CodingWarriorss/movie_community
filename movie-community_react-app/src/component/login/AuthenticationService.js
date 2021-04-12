@@ -14,18 +14,15 @@ class AuthenticationService {
     // 2. 로그인 후처리
     // registerSuccessfulLoginForJwt(memberName, token) {
     registerSuccessfulLoginForJwt(memberName, response) {
-        const token = response.headers['authorization'];
+        const token = response.data.accessToken;
 
         // 스토리지에 로그인된 유저의 id(memberName)과 token 저장
-        if (token.startsWith('Bearer')) {
+        if (token) {
             console.log('[로그인 성공]'); // 토큰 확인 완료
             localStorage.setItem('token', token);
             localStorage.setItem('authenticatedMember', memberName);
 
             return 'success';
-        } else if (token.startsWith('failure')) {
-            console.log('[로그인 실패]'); // 토큰 확인 완료
-            return token;
         } else {
             console.log('[로그인 오류 발생]')
         }

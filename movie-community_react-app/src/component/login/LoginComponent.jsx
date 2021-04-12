@@ -59,17 +59,10 @@ class LoginComponent extends Component {
             .then((response) => {
                 // 토큰저장
                 const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response);
-                if (res.startsWith('success')) { // 로그인 성공
-                    AuthenticationService.setMemberInfo();
-                } else if (res.startsWith('failure')) { // 로그인 실패 (아이디 오류, 비밀번호 오류)
-                    const msg = res.split('/')[1] === 'memberName' ?
-                        '존재하지 않는 아이디입니다.' : '비밀번호가 틀렸습니다.';
-                    alert(msg);
-                    return;
-                }
-            }).catch(() => {
-            this.setState({showSuccessMessage: false});
-            this.setState({hasLoginFailed: true});
+                AuthenticationService.setMemberInfo();
+            }).catch((error) => {
+
+                console.log( error );
         });
     }
 
