@@ -61,12 +61,17 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Comments> commentsList;
 
-    public Review updateReview(Long id, String content, int rating) {
-        if (member.isNotSameMember(id)) {
-            throw new NoAuthReviewStateException();
-        }
+    public Review updateReview(Long memberId, String content, int rating) {
+        validateReviewAuth(memberId);
         this.content = content;
         this.rating = rating;
+        return this;
+    }
+
+    public Review validateReviewAuth(Long memberId) {
+        if (member.isNotSameMember(memberId)) {
+            throw new NoAuthReviewStateException();
+        }
         return this;
     }
 }

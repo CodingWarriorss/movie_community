@@ -1,12 +1,9 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
+import com.codeworrisors.Movie_Community_Web.dto.*;
 import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
-import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.model.*;
 import com.codeworrisors.Movie_Community_Web.repository.*;
 
@@ -34,6 +31,7 @@ import java.util.*;
 @Service
 @Transactional
 public class ReviewService {
+    public static final String SUCCESS_CODE = "SUCCESS";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ReviewRepository reviewRepository;
@@ -88,7 +86,7 @@ public class ReviewService {
 
 
 
-    public Review createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
+    public ResponseDto createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
         Review review = reviewRepository.save(
                 new Review(createReviewDto.getMovieTitle().replaceAll("\n", ""),
                         createReviewDto.getContent(),
@@ -98,29 +96,12 @@ public class ReviewService {
         if (createReviewDto.getFiles() != null) {
             saveImages(review, createReviewDto.getFiles());
         }
-        return review;
+        return ResponseDto.builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-
-    public Review updateReview(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
-        Review updateReview = reviewRepository
-                .findById(updateReviewDto.getReviewId())
-                .filter(review -> review.getMember().getId() == member.getId())
-                .orElseThrow(NoReviewElementException::new);
-
-        updateReview.setContent(updateReviewDto.getContent());
-        updateReview.setRating(updateReviewDto.getRating());
-
-        if (updateReviewDto.getNewFiles() != null) {
-            saveImages(updateReview, updateReviewDto.getNewFiles());
-        }
-        if (updateReviewDto.getDeletedFiles() != null) {
-            deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
-        }
-        return updateReview;
-    }
-
-    public Review updateReview2(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
+    public ResponseDto updateReview(Member member, UpdateReviewDto updateReviewDto) throws IOException {
         Review updateReview = reviewRepository.findById(updateReviewDto.getReviewId())
                 .map(review -> review.updateReview(member.getId(), updateReviewDto.getContent(), updateReviewDto.getRating()))
                 .orElseThrow(NoReviewElementException::new);
@@ -133,21 +114,24 @@ public class ReviewService {
             deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
         }
 
-        return updateReview;
+        return ResponseDto
+                .builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public void deleteReview(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        reviewRepository.findById(reviewId).ifPresentOrElse(
-                review -> {
-                    if (review.getMember().getId() != member.getId())
-                        throw new IllegalStateException("권한 없는 리뷰에 대한 삭제 요청");
 
-                    review.getImageList().forEach(image -> removeFile(image.getFileName()));
-                    reviewRepository.delete(review);
-                },
-                () -> {
-                    throw new NoSuchElementException("존재하지 않는 리뷰에 대한 삭제 요청");
-                });
+    public ResponseDto deleteReview(Member member, long reviewId){
+        Review deleteReview = reviewRepository.findById(reviewId)
+                .map(review -> review.validateReviewAuth(member.getId()))
+                .orElseThrow(NoReviewElementException::new);
+
+        reviewRepository.delete(deleteReview);
+
+        return ResponseDto
+                .builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
 

@@ -44,4 +44,21 @@ class ReviewTest {
                 .isInstanceOf(NoAuthReviewStateException.class)
                 .hasMessageContaining("리뷰에 관한 권한이 없음");
     }
+
+    @Test
+    @DisplayName("Review 멤버의 권한을 확인하고 맞으면 객체를 반환합니다.")
+    void validateReviewAuth() {
+        Review validateReview = review.validateReviewAuth(1L);
+
+        assertThat(validateReview.getMember().getId()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("review 멤버의 권한을 확인하고 다르면 예외를 발생시킵니다.")
+    void valdiateReviewAuth_throw_exception() {
+        assertThatThrownBy(() -> review.validateReviewAuth(2L))
+                .isInstanceOf(NoAuthReviewStateException.class)
+                .hasMessageContaining("리뷰에 관한 권한이 없음");
+    }
+
 }
