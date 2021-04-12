@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.codeworrisors.Movie_Community_Web.exception.NoAuthReviewStateException;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -47,6 +48,7 @@ public class Review {
 
     @NonNull
     @ManyToOne
+    @Setter
     @JsonIgnoreProperties({"password", "name", "email", "phone", "role", "bio" , "website"})
     private Member member;
 
@@ -58,4 +60,13 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Comments> commentsList;
+
+    public Review updateReview(Long id, String content, int rating) {
+        if (member.isNotSameMember(id)) {
+            throw new NoAuthReviewStateException();
+        }
+        this.content = content;
+        this.rating = rating;
+        return this;
+    }
 }

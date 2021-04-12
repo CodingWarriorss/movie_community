@@ -67,7 +67,7 @@ public class ReviewService {
                 .orElseThrow(NoMemberElementException::new);
 
        List<Review> reviews = reviewRepository
-               .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).getContent();
+               .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).get().getContent();
         reviews.forEach(review -> {
             review.setLikeCount(likeRepository.countByReviewId(review.getId()));
             review.setCommentCount(commentRepository.countByReviewId(review.getId()));
@@ -117,6 +117,22 @@ public class ReviewService {
         if (updateReviewDto.getDeletedFiles() != null) {
             deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
         }
+        return updateReview;
+    }
+
+    public Review updateReview2(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
+        Review updateReview = reviewRepository.findById(updateReviewDto.getReviewId())
+                .map(review -> review.updateReview(member.getId(), updateReviewDto.getContent(), updateReviewDto.getRating()))
+                .orElseThrow(NoReviewElementException::new);
+
+        if (updateReviewDto.getNewFiles() != null) {
+            saveImages(updateReview, updateReviewDto.getNewFiles());
+        }
+
+        if (updateReviewDto.getDeletedFiles() != null) {
+            deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
+        }
+
         return updateReview;
     }
 
