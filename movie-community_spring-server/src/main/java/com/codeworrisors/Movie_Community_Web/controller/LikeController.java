@@ -20,8 +20,8 @@ public class LikeController {
 
     @PostMapping
     public LikeResponseDto likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                      @RequestBody Map<String, Long> params) {
-        return likeService.createLike(userDetail.getMember(), params.get("reviewId"));
+                                      @RequestParam("reviewId") long reviewId) {
+        return likeService.createLike(userDetail.getMember(), reviewId);
     }
 
     @DeleteMapping

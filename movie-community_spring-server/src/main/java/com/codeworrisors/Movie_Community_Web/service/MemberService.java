@@ -34,6 +34,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class MemberService {
+    public static final int SUCCESS = 1;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MemberRepository memberRepository;
@@ -63,7 +64,7 @@ public class MemberService {
         }
         member.setRole(RoleType.ROLE_USER);
         memberRepository.save(member);
-        return 1;
+        return SUCCESS;
     }
 
     private String saveImg(MultipartFile file) {
