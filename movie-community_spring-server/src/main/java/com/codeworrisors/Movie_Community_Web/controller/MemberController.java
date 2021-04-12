@@ -25,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @PostMapping("checkid")
+    @PostMapping("/auth/checkid")
     public int checkId(@RequestBody Member member) {
         try {
             memberService.validateDuplicateMemberId(member.getMemberName());
@@ -36,7 +36,7 @@ public class MemberController {
         return SUCCESS;
     }
 
-    @PostMapping("join")
+    @PostMapping("/auth/join")
     public int joinMember(CreateMemberDto createMemberDto) {
         try {
             System.out.println();
@@ -51,6 +51,8 @@ public class MemberController {
     @GetMapping("/api/member")
     public JSONObject readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
         JSONObject response = new JSONObject();
+
+        logger.info( userDetail.getEmail() );
 
         try {
             response.put("result", SUCCESS);

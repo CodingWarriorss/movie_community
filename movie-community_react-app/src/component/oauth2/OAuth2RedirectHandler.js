@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 
+import AuthenticationService from 'component/login/AuthenticationService';
+
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
         

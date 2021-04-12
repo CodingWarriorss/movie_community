@@ -37,6 +37,20 @@ public class Member {
     @Setter
     private String profileImg;
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", memberName='" + memberName + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", bio='" + bio + '\'' +
+                ", website='" + website + '\'' +
+                ", profileImg='" + profileImg + '\'' +
+                '}';
+    }
+
     @Getter
     @Setter
     @NotNull

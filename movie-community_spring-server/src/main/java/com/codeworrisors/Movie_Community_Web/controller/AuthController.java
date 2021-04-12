@@ -41,45 +41,45 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(token));
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser( @RequestBody SignUpRequest signUpRequest) {
-        if(memberRepository.existsByMemberName(signUpRequest.getEmail())) {
-            throw new BadRequestException("요청이 그지음");
-        }
-
-        // Creating user's account
-        Member user = new Member();
-        user.setName(signUpRequest.getName());
-        user.setMemberName(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
-        user.setProvider(AuthProvider.local);
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        Member result = memberRepository.save(user);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();
-
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully@"));
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getMemberName(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String token = tokenProvider.createToken(authentication);
+//        return ResponseEntity.ok(new AuthResponse(token));
+//    }
+//
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> registerUser( @RequestBody SignUpRequest signUpRequest) {
+//        if(memberRepository.existsByMemberName(signUpRequest.getEmail())) {
+//            throw new BadRequestException("요청이 그지음");
+//        }
+//
+//        // Creating user's account
+//        Member user = new Member();
+//        user.setName(signUpRequest.getName());
+//        user.setMemberName(signUpRequest.getEmail());
+//        user.setPassword(signUpRequest.getPassword());
+//        user.setProvider(AuthProvider.local);
+//
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//
+//        Member result = memberRepository.save(user);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath().path("/user/me")
+//                .buildAndExpand(result.getId()).toUri();
+//
+//        return ResponseEntity.created(location)
+//                .body(new ApiResponse(true, "User registered successfully@"));
+//    }
 
 }

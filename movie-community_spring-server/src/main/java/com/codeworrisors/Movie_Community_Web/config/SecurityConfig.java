@@ -76,32 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 쿠키와 세션 사용 안함
-//                .and()
-//                .addFilter(corsFilter) // 리소스공유 설정 필터 주입
-//                .formLogin().disable() // 폼 로그인 방식 사용 안함
-//                .httpBasic().disable() // http basic 방식 사용 안함
-//
-//                .authorizeRequests()// Bearer 방식 사용 : `Authorization : jwt(ID,PWD 암호화값)`
-//                .antMatchers("/api/members/**")
-//                .access("hasRole('ROLE_USER')")
-//                .anyRequest()
-//                .permitAll()
-//                .and()
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/oauth2/authorize")
-//                .and()
-//                .redirectionEndpoint()
-//                .baseUri("/oauth2/callback/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(movieCommunityOAuth2UserService)
-//                .and()
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
-//                .failureHandler(oAuth2AuthenticationFailureHandler);
 
         http
                 .cors()
@@ -130,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**")
+                .antMatchers("/auth/**", "/oauth2/**","/resource/image/**","/api/naver/movie")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

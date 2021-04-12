@@ -14,12 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,7 +79,7 @@ public class MemberService {
     public JSONObject selectMember(Member member) throws NoSuchElementException {
         JSONObject result = new JSONObject();
 
-        memberRepository.findById(member.getId())
+        memberRepository.findByMemberName(member.getMemberName())
                 .ifPresentOrElse(m -> {
                             result.put("name", m.getName());
                             result.put("email", m.getEmail());

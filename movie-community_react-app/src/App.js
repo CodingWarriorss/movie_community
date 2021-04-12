@@ -7,7 +7,7 @@ import LogoutComponent from "./component/login/LogoutComponent";
 import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
-import MainTest from "./component/MainTest";
+import MainTest from "./component/Main";
 import ProfileComponent from "./component/mypage/ProfileComponent";
 
 import OAuth2RedirectHandler from "./component/oauth2/OAuth2RedirectHandler"
@@ -46,11 +46,17 @@ class App extends Component {
                         <div className="container fixed-top">
                             <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
                                  id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}><h2 className="title-fix">Movie Community</h2></Link>
-                                {/*로그인 상태별 네비게이션 메뉴 분리*/}
+                                <Link className="navbar-brand" to={"/review"}><h2 className="title-fix">Movie Community</h2></Link>
+                                {/* 로그인 상태별 네비게이션 메뉴 분리
                                 {access === null ?
                                     <MenuForUnauthenticated/> :
-                                    <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}
+                                    <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>} */}
+
+                                <Switch>
+                                    <Route path="/review" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route path="/mypage" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route exact path="/*" component={MenuForUnauthenticated}></Route>
+                                </Switch>
                             </div>
                         </div>
                     </nav>

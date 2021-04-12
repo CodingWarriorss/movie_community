@@ -14,7 +14,14 @@ class RankingCommponent extends Component {
     }
 
     componentDidMount(e) {
-        axios.get(REST_API_SERVER_URL + "/api/ranking").then(response => {
+        const token = localStorage.getItem("token");
+
+        const config = {
+            headers : {
+                'Authorization': 'Bearer ' + token
+            },
+        }
+        axios.get(REST_API_SERVER_URL + "/api/ranking" , config).then(response => {
             let rangkingList = response.data;
             this.setState({
                 movieRangking: [...rangkingList]

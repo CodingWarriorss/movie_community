@@ -5,7 +5,7 @@ class AuthenticationService {
 
     // 1. 로그인 요청 : memberName, password를 서버에 전송
     executeJwtAuthenticationService(memberName, password) {
-        return axios.post(REST_API_SERVER_URL + '/login', {
+        return axios.post(REST_API_SERVER_URL + '/auth/login', {
             memberName,
             password
         });
@@ -35,19 +35,24 @@ class AuthenticationService {
         const requestURL = REST_API_SERVER_URL + '/api/member';
         const config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': 'Bearer ' +localStorage.getItem('token')
             }
         }
 
         axios.get(requestURL, config)
             .then((response) => {
                 const member = response.data.member;
+
+                console.log( JSON.stringify( member , null ,4));
                 localStorage.setItem('name', member.name ? member.name : '');
                 localStorage.setItem('email', member.email ? member.email : '');
                 localStorage.setItem('website', member.website ? member.website : '');
                 localStorage.setItem('bio', member.bio ? member.bio : '');
+
+                let imgUrl = member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL;
+                if( member.provider === "local" ) imgUrl = member.profileImg;
                 localStorage.setItem('profileImg', member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL);
-                window.location.replace('/');
+                window.location.replace('/review');
             });
     }
 

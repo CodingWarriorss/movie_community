@@ -7,6 +7,8 @@ import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.security.oauth2.user.OAuth2UserInfo;
 import com.codeworrisors.Movie_Community_Web.security.oauth2.user.OAuth2UserInfoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -30,6 +32,8 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -64,6 +68,8 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             member = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
+
+        logger.info( member.toString() );
 
 
         return PrincipalDetails.create(member);

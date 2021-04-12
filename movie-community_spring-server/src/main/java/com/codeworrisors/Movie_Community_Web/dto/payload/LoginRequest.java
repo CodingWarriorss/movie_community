@@ -5,16 +5,16 @@ package com.codeworrisors.Movie_Community_Web.dto.payload;
  * Created by rajeevkumarsingh on 02/08/17.
  */
 public class LoginRequest {
-    private String email;
+    private String memberName;
 
     private String password;
 
-    public String getEmail() {
-        return email;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public String getPassword() {

@@ -22,9 +22,21 @@ spring:
     hibernate:
       ddl-auto: update
 
-    show-sql: true
+#    show-sql: true
+
+#여기서 바꾸는걸로 합시다.
   mvc:
-    static-path-pattern: /image/**
+    static-path-pattern: /resource/image/**
+
+  web:
+    resources:
+#      절대경로로 파일경로를 명시할때 앞에 'file:///'를 넣는걸 잊지 맙시다.
+      static-locations: file:///D:/movie_community/image/
+
+
+
+
+
 
   security:
     oauth2:

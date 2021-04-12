@@ -1,11 +1,11 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.model.*;
+import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.repository.*;
 
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AuthorizationServiceException;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
