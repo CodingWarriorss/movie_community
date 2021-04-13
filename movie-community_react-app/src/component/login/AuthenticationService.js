@@ -44,6 +44,7 @@ class AuthenticationService {
 
         axios.get(requestURL, config)
             .then((response) => {
+                console.log(response.data);
                 const member = response.data.member;
                 localStorage.setItem('profileImg', member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL);
                 window.location.replace('/');
