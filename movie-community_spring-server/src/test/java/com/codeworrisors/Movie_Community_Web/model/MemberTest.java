@@ -24,8 +24,7 @@ class MemberTest {
         boolean sameMemberResult = member.isNotSameMember(memberId);
 
         //Then
-        assertThat(sameMemberResult).isEqualTo(expect);
+        //assertThat(sameMemberResult).isEqualTo(expect);
         then(sameMemberResult).isEqualTo(expect);
     }
-
 }

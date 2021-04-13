@@ -36,8 +36,6 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ImageRepository imageRepository;
-    private final LikeRepository likeRepository;
-    private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
 
@@ -53,8 +51,8 @@ public class ReviewService {
     private List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
         List<Review> reviews = reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getCommentsList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
         return reviews;
     }
@@ -67,8 +65,8 @@ public class ReviewService {
        List<Review> reviews = reviewRepository
                .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).get().getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getLikesList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
 
         return reviews;
@@ -77,8 +75,8 @@ public class ReviewService {
     private List<Review> getAll(Pageable pageable) {
         List<Review> reviews = reviewRepository.findAll(pageable).getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getLikesList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
 
         return reviews;
