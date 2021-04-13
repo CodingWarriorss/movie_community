@@ -1,6 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
 import com.codeworrisors.Movie_Community_Web.dto.*;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;

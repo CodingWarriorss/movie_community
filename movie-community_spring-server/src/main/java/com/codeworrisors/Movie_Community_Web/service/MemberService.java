@@ -82,12 +82,17 @@ public class MemberService {
         Member selectMember = memberRepository.findByMemberName(readMemberDto.getMemberName())
                 .orElseThrow(NoSuchElementException::new);
 
-        return MemberSelectResponseDto
-                .builder()
+        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
                 .name(selectMember.getName())
                 .bio(selectMember.getBio())
                 .email(selectMember.getEmail())
                 .profileImg(selectMember.getProfileImg())
+                .build();
+
+        return MemberSelectResponseDto
+                .builder()
+                .result("success")
+                .member(memberResponseDto)
                 .build();
     }
 

@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.LikeResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.like.LikeResponseDto;
 import com.codeworrisors.Movie_Community_Web.exception.AlreadyPressedLikeStateException;
 import com.codeworrisors.Movie_Community_Web.exception.AlreadyUnLikeStateException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
@@ -28,7 +28,12 @@ public class LikeService {
 
         likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
                 .ifPresent(AlreadyPressedLikeStateException::new);
-
+        System.out.println("==============");
+        System.out.println(member.getId());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
         Likes likes = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
 
         return LikeResponseDto

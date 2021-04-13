@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.dto;
+package com.codeworrisors.Movie_Community_Web.dto.boxoffice;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

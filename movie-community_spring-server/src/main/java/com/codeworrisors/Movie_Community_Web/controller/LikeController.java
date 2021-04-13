@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
-import com.codeworrisors.Movie_Community_Web.dto.LikeResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.like.LikeResponseDto;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import com.codeworrisors.Movie_Community_Web.service.LikeService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,13 +20,13 @@ public class LikeController {
 
     @PostMapping
     public LikeResponseDto likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                      @RequestParam("reviewId") long reviewId) {
-        return likeService.createLike(userDetail.getMember(), reviewId);
+                                      @RequestBody Map<String, Long> params) {
+        return likeService.createLike(userDetail.getMember(), params.get("reviewId"));
     }
 
     @DeleteMapping
     public LikeResponseDto unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @RequestParam("reviewId") long reviewId) {
+                                   @RequestParam("reviewId") Long reviewId) {
         return likeService.deleteLike(userDetail.getMember(), reviewId);
     }
 }

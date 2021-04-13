@@ -6,9 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class MemberSelectResponseDto {
-    private String name;
-    private String email;
-    private String website;
-    private String bio;
-    private String profileImg;
+    private String result;
+    private MemberResponseDto member;
 }

@@ -1,6 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.*;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
@@ -9,17 +11,12 @@ import com.codeworrisors.Movie_Community_Web.repository.*;
 
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AuthorizationServiceException;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;

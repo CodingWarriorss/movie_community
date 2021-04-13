@@ -69,7 +69,8 @@ class EditProfileComponent extends Component {
         axios.put(url, formData, config)
             .then((response) => {
                 const data = response.data;
-                if (data.result === 1){
+                console.log(response.data);
+                if (data.result === "success"){
                     const member = data.member;
                     localStorage.setItem('name', member.name);
                     localStorage.setItem('email', member.email);

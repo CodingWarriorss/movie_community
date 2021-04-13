@@ -74,9 +74,9 @@ public class Member {
     }
 
     public String changeProfile(MultipartFile profileImg) {
-        if (!profileImg.isEmpty()) {
+        if (profileImg != null) {
             return this.profileImg = profileImg.getName();
         }
-        return null;
+        return this.profileImg;
     }
 }

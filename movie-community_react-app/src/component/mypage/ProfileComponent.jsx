@@ -63,6 +63,7 @@ class ProfileComponent extends Component {
                 memberName: memberName
             }
         }
+        console.log(memberName);
         axios.get(requestUrl, config)
             .then((response) => {
                 const member = response.data.member;

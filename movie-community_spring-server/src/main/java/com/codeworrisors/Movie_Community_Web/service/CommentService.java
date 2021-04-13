@@ -1,8 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.CommentResponseDto;
-import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.response.CommentResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.request.CreateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.request.UpdateCommentDto;
 import com.codeworrisors.Movie_Community_Web.exception.NoCommentElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Comments;
