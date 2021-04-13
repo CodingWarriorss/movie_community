@@ -65,6 +65,7 @@ class ProfileComponent extends Component {
         }
         axios.get(requestUrl, config)
             .then((response) => {
+                console.log(response.data);
                 const member = response.data.member;
                 this.setState({
                     memberName: memberName,
