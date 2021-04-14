@@ -52,8 +52,8 @@ public class MemberController {
     }
 
     @GetMapping("/api/member")
-    public MemberSelectResponseDto readMember(@ModelAttribute ReadMemberDto readMemberDto) {
-        return memberService.selectMember(readMemberDto);
+    public MemberSelectResponseDto readMember(@AuthenticationPrincipal PrincipalDetails userDetail,@ModelAttribute ReadMemberDto readMemberDto) {
+        return memberService.selectMember(userDetail , readMemberDto );
     }
 
     @PutMapping("/api/member")

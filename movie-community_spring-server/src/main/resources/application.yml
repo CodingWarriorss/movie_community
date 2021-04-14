@@ -28,7 +28,7 @@ spring:
   web:
     resources:
 #      절대경로로 파일경로를 명시할때 앞에 'file:///'를 넣는걸 잊지 맙시다.
-      static-locations: file:///D:/movie_community/image/
+      static-locations: file:///C:/movie_community/image/
 
 
 
@@ -77,5 +77,3 @@ app:
       - myiosapp://oauth2/redirect
 
 
-  mvc:
-    static-path-pattern: /image/**

@@ -58,7 +58,7 @@ class MyProfileComponent extends Component {
         const requestUrl = REST_API_SERVER_URL + '/api/member';
         let config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization':'Bearer ' + localStorage.getItem('token')
             },
             params: {
                 memberName: memberName
@@ -85,7 +85,7 @@ class MyProfileComponent extends Component {
         const requestUrl = REST_API_SERVER_URL + '/api/review';
         let config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization':'Bearer ' + localStorage.getItem('token')
             },
             params: {
                 memberName: memberName,

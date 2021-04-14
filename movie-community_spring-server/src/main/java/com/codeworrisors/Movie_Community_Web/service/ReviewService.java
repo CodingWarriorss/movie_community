@@ -3,6 +3,10 @@ package com.codeworrisors.Movie_Community_Web.service;
 import com.codeworrisors.Movie_Community_Web.dto.*;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewCommentResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewImageResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewLikeResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewResponseDto;
 import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
@@ -131,13 +135,12 @@ public class ReviewService {
 
 
     private void saveImages(Review review, List<MultipartFile> newFiles) throws IOException {
-        JSONArray imageIds = new JSONArray();
-
         for (MultipartFile file : newFiles) {
             String uuidFilename = saveFile(file);
             Image saved = imageRepository.save(new Image(uuidFilename, review));
-            imageIds.add(saved.getId());
+            review.getImageList().add(saved);
         }
+
 
     }
 

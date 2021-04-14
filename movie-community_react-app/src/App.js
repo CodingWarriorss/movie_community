@@ -48,14 +48,11 @@ class App extends Component {
                             <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
                                  id="navbarTogglerDemo02">
                                 <Link className="navbar-brand" to={"/review"}><h2 className="title-fix">Movie Community</h2></Link>
-                                {/* 로그인 상태별 네비게이션 메뉴 분리
-                                {access === null ?
-                                    <MenuForUnauthenticated/> :
-                                    <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>} */}
 
                                 <Switch>
                                     <Route path="/review" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
                                     <Route path="/mypage" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route path="/otherspage" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
                                     <Route exact path="/*" component={MenuForUnauthenticated}></Route>
                                 </Switch>
                             </div>

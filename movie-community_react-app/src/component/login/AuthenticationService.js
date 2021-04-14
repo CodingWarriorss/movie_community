@@ -33,6 +33,9 @@ class AuthenticationService {
         const config = {
             headers: {
                 'Authorization': 'Bearer ' +localStorage.getItem('token')
+            },
+            params :{
+                memberName: memberName
             }
         }
 
