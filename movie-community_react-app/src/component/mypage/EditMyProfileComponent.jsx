@@ -33,7 +33,7 @@ class EditMyProfileComponent extends Component {
         const requestUrl = REST_API_SERVER_URL + '/api/member';
         let config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': "Bearer " + localStorage.getItem('token')
             },
             params: {
                 memberName: localStorage.getItem('authenticatedMember')
@@ -92,7 +92,7 @@ class EditMyProfileComponent extends Component {
 
         const config = {
             headers: {
-                'Authorization': localStorage.getItem('token'),
+                'Authorization': "Bearer " +localStorage.getItem('token'),
                 'Content-Type': "multipart/form-data"
             }
         }
