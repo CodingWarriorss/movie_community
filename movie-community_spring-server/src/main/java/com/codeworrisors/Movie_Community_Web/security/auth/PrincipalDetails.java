@@ -6,60 +6,111 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.nio.file.attribute.UserPrincipal;
+import java.util.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
+    private Long id;
+    private String email;
+    private String password;
+    private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
     private Member member;
-    public PrincipalDetails(Member member) {
+
+    public PrincipalDetails(Long id, String email, String password, Member member, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
         this.member = member;
     }
 
-    // 권한: ROLE_USER
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(() -> String.valueOf(member.getRole()));
-        return authorities;
+    public static PrincipalDetails create(Member member) {
+        List<GrantedAuthority> authorities = Collections.
+                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return new PrincipalDetails(
+                member.getId(),
+                member.getMemberName(),
+                member.getPassword(),
+                member,
+                authorities
+        );
     }
 
+    public static PrincipalDetails create(Member member, Map<String, Object> attributes) {
+        PrincipalDetails principalDetails = PrincipalDetails.create(member);
+        principalDetails.setAttributes(attributes);
+        return principalDetails;
+    }
+    public Long getId() {
+        return id;
+    }
+    public String getEmail() {
+        return email;
+    }
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return password;
     }
-
     @Override
     public String getUsername() {
-        return member.getMemberName();
+        return email;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+    @Override
+    public String getName() {
+        return String.valueOf(id);
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     @Override
-    public boolean isAccountNonExpired() { // 만료 여부 : true(No), false(Yes)
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() { // 잠김 여부 : true(No), false(Yes)
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() { // 비밀번호 기간 만료 여부 : true(No), false(Yes)
-        return true;
-    }
-
-    /* 휴면계정 전환 설정시 사용하는 메서드
-    User에 loginDate 필드를 두고 로그인할 때마다 갱신.
-    if (현재시간 - user.getLoginDate()[로그인시간] > 1년) return false
-    * */
-    @Override
-    public boolean isEnabled() { // 계정 활성화 여부: true(No), false(Yes)
-        return true;
+    public String toString() {
+        return "PrincipalDetails{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", member=" + member +
+                '}';
     }
 }

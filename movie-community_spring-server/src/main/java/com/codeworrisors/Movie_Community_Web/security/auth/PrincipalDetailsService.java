@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.security.auth;
 
+import com.codeworrisors.Movie_Community_Web.exception.ResourceNotFoundException;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /*
@@ -25,13 +27,28 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String memberName)
-            throws UsernameNotFoundException {
-        Optional<Member> byMemberName = memberRepository.findByMemberName(memberName);
+            {
+        Member member = memberRepository.findByMemberName(memberName)
+                .orElseThrow(()-> {
+                    logger.error("아이디 '" + memberName + "'가 존재하지 않음");
+                    return new UsernameNotFoundException("유저가 없음");
+                }
+                );
 
-        if (byMemberName.isPresent()) {
-            return new PrincipalDetails(byMemberName.get());
-        }
-        logger.error("아이디 '" + memberName + "'가 존재하지 않음");
-        return null;
+        return PrincipalDetails.create(member);
     }
+
+
+    @Transactional
+    public PrincipalDetails loadUserById(Long id){
+        Member member = memberRepository.findById( id  ).orElseThrow(
+                () -> new ResourceNotFoundException()
+        );
+
+        return PrincipalDetails.create(member);
+    }
+
+
+
+
 }

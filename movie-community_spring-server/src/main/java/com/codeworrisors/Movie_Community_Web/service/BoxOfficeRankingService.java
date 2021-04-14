@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
+import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

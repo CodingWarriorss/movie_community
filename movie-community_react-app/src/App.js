@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react'
+import React, {Component,} from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
@@ -7,15 +7,11 @@ import LogoutComponent from "./component/login/LogoutComponent";
 import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
-import MainTest from "./component/MainTest";
+import Main from "./component/Main";
+import MyProfileComponent from "./component/mypage/MyProfileComponent";
+import OthersProfileComponent from "./component/mypage/OthersProfileComponent";
 
-
-const getMovieTitle = (title) => {
-    console.log("APP.js");
-    console.log(title);
-    //settingMovieTitle(title);
-    //console.log(movieTitle);
-}
+import OAuth2RedirectHandler from "./component/oauth2/OAuth2RedirectHandler"
 
 class App extends Component {
     constructor(props) {
@@ -23,6 +19,8 @@ class App extends Component {
         this.state = {
             movieTitle: ""
         }
+
+        this.refreshReview = React.createRef();
 
         this.setMovieTitle = this.setMovieTitle.bind(this);
     }
@@ -43,26 +41,32 @@ class App extends Component {
 
                 <div className="App">
                     { /*네비게이션 바*/}
+                    
                     <nav className="navbar-expand-lg navbar-light fixed-top"
                          style={{height: "70px"}}>
                         <div className="container fixed-top">
                             <div className="collapse navbar-collapse" style={{marginTop: "10px"}}
                                  id="navbarTogglerDemo02">
-                                <Link className="navbar-brand" to={"/"}><h2>Movie Community</h2></Link>
-                                {/*로그인 상태별 네비게이션 메뉴 분리*/}
-                                {access === null ?
-                                    <MenuForUnauthenticated/> :
-                                    <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}
+                                <Link className="navbar-brand" to={"/review"}><h2 className="title-fix">Movie Community</h2></Link>
+
+                                <Switch>
+                                    <Route path="/review" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route path="/mypage" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route path="/otherspage" render={ () => <MenuForAuthenticated getMovieTitle={this.setMovieTitle}/>}></Route>
+                                    <Route exact path="/*" component={MenuForUnauthenticated}></Route>
+                                </Switch>
                             </div>
                         </div>
                     </nav>
 
                     <Switch>
+                        <Route path="/otherspage" component={OthersProfileComponent}/>
+                        <Route path="/mypage" component={MyProfileComponent}/>
                         <Route path="/logout" component={LogoutComponent}/>
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>
-                        {access === null ? <Route path="/" component={LoginComponent}/> :
-                            <Route path="/" render={() => <MainTest movieTitle={this.state.movieTitle}/>}/>}
+                        <Route path="/oauth2/redirect" component={OAuth2RedirectHandler} ></Route>
+                        <Route path="/review" render={() => <Main movieTitle={this.state.movieTitle}/>}/>
                     </Switch>
                 </div>
 

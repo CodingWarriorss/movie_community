@@ -13,6 +13,16 @@ Input styles
     border-radius: 0.2rem;
 }
 
+.search-bar-header {
+    width: 450px;
+    font-size: 23px;
+    color: dimgrey;
+    border: white;
+    font-weight: 50;
+    border-radius: 0.2rem;
+    transform: translate(-100px, -30px);
+}
+
 .search-bar:focus {
     outline: none;
 }
@@ -39,7 +49,18 @@ SearchBar container
     font-weight: 500;
 
     z-index: 1;
-    transform: translate(335px, 44px) scale(1.5);
+    transform: translate(335px, 45px) scale(1.5);
+}
+
+.cancel-btn-header {
+    color: white;
+    border: 1px;
+    outline: none;
+
+    background : #009688;
+    z-index: 1;
+    border-radius: 10px;
+    transform: translate(340px, 38px) scale(0.8);
 }
 
 .search {

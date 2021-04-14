@@ -1,9 +1,15 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
+import com.codeworrisors.Movie_Community_Web.dto.member.request.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.ReadMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberSelectResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberUpdateResponseDto;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @PostMapping("checkid")
+    @PostMapping("/auth/checkid")
     public int checkId(@RequestBody Member member) {
         try {
             memberService.validateDuplicateMemberId(member.getMemberName());
@@ -33,10 +39,11 @@ public class MemberController {
         return SUCCESS;
     }
 
-    @PostMapping("join")
-    public int joinMember(@RequestBody Member member) {
+    @PostMapping("/auth/join")
+    public int joinMember(CreateMemberDto createMemberDto) {
         try {
-            memberService.createMember(member);
+            System.out.println();
+            memberService.createMember(createMemberDto);
         } catch (IllegalStateException e) {
             logger.error(e.getMessage());
             return FAIL;
@@ -45,35 +52,19 @@ public class MemberController {
     }
 
     @GetMapping("/api/member")
-    public int readMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
-        try {
-            memberService.selectMember(userDetail.getUsername());
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            return FAIL;
-        }
-        return SUCCESS;
+    public MemberSelectResponseDto readMember(@AuthenticationPrincipal PrincipalDetails userDetail,@ModelAttribute ReadMemberDto readMemberDto) {
+        return memberService.selectMember(userDetail , readMemberDto );
     }
 
     @PutMapping("/api/member")
-    public int modifyMember(@RequestBody Member member) {
-        try {
-            memberService.updateMember(member);
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            return FAIL;
-        }
-        return SUCCESS;
+    public MemberUpdateResponseDto modifyMember(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                                @ModelAttribute UpdateMemberDto updateMemberDto) {
+        return memberService.updateMember(userDetail.getMember(), updateMemberDto);
     }
 
     @DeleteMapping("api/member")
-    public int withdrawMember(@RequestBody Member member) {
-        try {
-            memberService.deleteMember(member.getMemberName());
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            return FAIL;
-        }
+    public int withdrawMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
+        memberService.deleteMember(userDetail.getMember());
         return SUCCESS;
     }
 }

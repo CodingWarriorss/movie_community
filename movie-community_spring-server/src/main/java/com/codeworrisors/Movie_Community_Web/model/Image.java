@@ -28,6 +28,5 @@ public class Image {
 
     @NonNull
     @ManyToOne
-    @JsonIgnore
     private Review review;
 }

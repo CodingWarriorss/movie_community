@@ -1,31 +1,61 @@
 import axios from 'axios'
-import {REST_API_SERVER_URL} from '../constants/APIConstants';
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from '../constants/APIConstants';
 
 class AuthenticationService {
 
     // 1. 로그인 요청 : memberName, password를 서버에 전송
     executeJwtAuthenticationService(memberName, password) {
-        return axios.post(REST_API_SERVER_URL+ '/login', {
+        return axios.post(REST_API_SERVER_URL + '/auth/login', {
             memberName,
             password
         });
     }
 
     // 2. 로그인 후처리
-    registerSuccessfulLoginForJwt(memberName, token) {
+    // registerSuccessfulLoginForJwt(memberName, token) {
+    registerSuccessfulLoginForJwt(memberName, response) {
+        const token = response.data.accessToken;
+
         // 스토리지에 로그인된 유저의 id(memberName)과 token 저장
-        if (token.startsWith('Bearer')) {
+        if (token) {
             console.log('[로그인 성공]'); // 토큰 확인 완료
             localStorage.setItem('token', token);
             localStorage.setItem('authenticatedMember', memberName);
+
             return 'success';
-        } else if (token.startsWith('failure')) {
-            console.log('[로그인 실패]'); // 토큰 확인 완료
-            return token;
         } else {
             console.log('[로그인 오류 발생]')
         }
-        this.setupAxiosInterceptors();
+    }
+
+    setMemberInfo(memberName) {
+        const requestURL = REST_API_SERVER_URL + '/api/member';
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' +localStorage.getItem('token')
+            },
+            params :{
+                memberName: memberName
+            }
+        }
+
+        axios.get(requestURL, config)
+            .then((response) => {
+                console.log(response.data);
+                const member = response.data.member;
+
+                console.log( JSON.stringify( member , null ,4));
+                localStorage.setItem('name', member.name ? member.name : '');
+                localStorage.setItem('email', member.email ? member.email : '');
+                localStorage.setItem('website', member.website ? member.website : '');
+                localStorage.setItem('bio', member.bio ? member.bio : '');
+
+                let imgUrl = member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL;
+                if( member.provider !== "local" ) imgUrl = member.profileImg;
+                localStorage.setItem('profileImg', imgUrl);
+                localStorage.setItem('authenticatedMember' , member.memberName);
+                window.location.replace('/review');
+            });
     }
 
     // 3. 요청이나 응답전 axios
@@ -51,7 +81,7 @@ class AuthenticationService {
     logout() {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
-        console.log('[로그아웃 완료]');
+        localStorage.removeItem("profileImg");
         window.location.replace('/');
     }
 }

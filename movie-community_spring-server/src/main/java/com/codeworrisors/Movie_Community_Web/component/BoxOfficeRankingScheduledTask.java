@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.component;
 
-import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
+import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -60,6 +60,7 @@ public class BoxOfficeRankingScheduledTask {
         HttpEntity<String> entity = new HttpEntity<String>("", null);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(queryUri, HttpMethod.GET, entity, String.class);
+
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
