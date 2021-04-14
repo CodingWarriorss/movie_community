@@ -1,18 +1,17 @@
-import React, { Component, useState } from "react";
-import { Accordion, Button, Dropdown, Modal, Form } from "react-bootstrap";
+import React, {Component, useState} from "react";
+import {Accordion, Button, Dropdown, Modal, Form} from "react-bootstrap";
 
-import { Slide } from 'react-slideshow-image';
+import {Slide} from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 import './ReviewContents.css';
-import { IMAGE_RESOURCE_URL } from "component/constants/APIConstants";
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL} from "component/constants/APIConstants";
 import ReactImageUploadComponent from "react-images-upload";
 
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
-import { Favorite, FavoriteBorder } from "@material-ui/icons";
-
-
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
+import {Link} from "react-router-dom";
 
 
 //Review 게시물 상단
@@ -73,7 +72,7 @@ function ReviewHeader(props) {
         props.deleteReview(data)
     }
 
-    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    const CustomToggle = React.forwardRef(({children, onClick}, ref) => (
         <img
             ref={ref}
             alt={editImage}
@@ -87,7 +86,11 @@ function ReviewHeader(props) {
         </img>
     ));
 
+    const profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
+
+
     return (
+
         <div className="card-header">
             <div className="row justify-content-md-center">
                 <div className="h5 col-md-auto">
@@ -96,9 +99,24 @@ function ReviewHeader(props) {
             </div>
             <div className="row">
                 <div className="col-1 contents-center">
-                    <img alt="NoImage"
-                        src={IMAGE_RESOURCE_URL + props.reviewData.member.profileImg}
-                        style={{ width: 50, height: 50, borderRadius: 25 }} />
+                    {props.reviewData.member.memberName === localStorage.getItem('authenticatedMember') ?
+                        <Link className="nav-link" to={"/mypage"}>
+                            <img
+                                src={localStorage.getItem('profileImg')}
+                                width={40} height={40} style={{borderRadius: 50}}/>
+                        </Link>
+                        :
+                        <Link className="nav-link" to={
+                            {
+                                pathname: "/otherspage",
+                                memberName: props.reviewData.member.memberName
+                            }
+                        }>
+                            <img
+                                src={profileImg}
+                                style={{width: 50, height: 50, borderRadius: 25}}/>
+                        </Link>
+                    }
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -124,7 +142,9 @@ function ReviewHeader(props) {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Form.Control as="textarea" value={contentModified}
-                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
+                                                      rows={8} onChange={(e) => {
+                                            setContent(e.target.value);
+                                        }}/>
 
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -252,7 +272,7 @@ function ReviewFooter(props) {
     const [inputValue, setValue] = useState("");
 
     const setComment = (event) => {
-        const { value } = event.target
+        const {value} = event.target
         setValue(value)
     }
     const writeComment = () => {
@@ -302,7 +322,10 @@ function ReviewFooter(props) {
                                     <div className="bg-white comment" key={comment.id}>
                                         <div className="comment-top">
                                             <h5 className="comment-name">{comment.member.memberName}</h5>
-                                            {(myComment) ? <img className="x-btn" alt={closeImage} src={closeImage} onClick={() => { deleteComment(comment.id) }}></img> : null}
+                                            {(myComment) ? <img className="x-btn" alt={closeImage} src={closeImage}
+                                                                onClick={() => {
+                                                                    deleteComment(comment.id)
+                                                                }}></img> : null}
                                         </div>
                                         <br></br>
                                         <div>
@@ -313,8 +336,10 @@ function ReviewFooter(props) {
                             })}
                         </div>
                         <div className="input-group mt-3">
-                            <input className="form-control" maxLength={100} value={inputValue} onChange={setComment} onKeyPress={handleKeyPress}></input>
-                            <button className="btn btn-outline-secondary" type="button" onClick={writeComment} >작성</button>
+                            <input className="form-control" maxLength={100} value={inputValue} onChange={setComment}
+                                   onKeyPress={handleKeyPress}></input>
+                            <button className="btn btn-outline-secondary" type="button" onClick={writeComment}>작성
+                            </button>
                         </div>
                     </div>
                 </Accordion.Collapse>
@@ -322,7 +347,6 @@ function ReviewFooter(props) {
         </div>
     )
 }
-
 
 
 //ReviewBox Component

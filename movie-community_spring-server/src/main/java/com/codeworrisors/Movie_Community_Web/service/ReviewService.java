@@ -58,13 +58,9 @@ public class ReviewService {
     }
 
     private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
-        memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
+        Member m = memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
 
-
-        if (! member.getMemberName().equals(memberName))
-            throw new AuthorizationServiceException("Access to unauthorized resources");
-
-        List<Review> reviews = reviewRepository.findByMemberId(pageable, member.getId()).getContent();
+        List<Review> reviews = reviewRepository.findByMemberId(pageable, m.getId()).getContent();
         reviews.forEach(review -> {
             review.setLikeCount(likeRepository.countByReviewId(review.getId()));
             review.setCommentCount(commentRepository.countByReviewId(review.getId()));

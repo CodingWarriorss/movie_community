@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import '../css/Profile.css';
-import EditProfileComponent from "./EditProfileComponent";
-import {REST_API_SERVER_URL} from "../constants/APIConstants";
+import EditMyProfileComponent from "./EditMyProfileComponent";
+import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants";
 import axios from "axios";
 import ProfileReviewComponent from "./ProfileReviewComponent";
 import DeleteMemberComponent from "./DeleteMemberComponent";
 
-class ProfileComponent extends Component {
+class MyProfileComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -14,9 +14,20 @@ class ProfileComponent extends Component {
         this.state = {
             isModalEditOpen: false,
             isModalWithdrawOpen: false,
+
+            member: {
+                memberName: '',
+                name: '',
+                website: '',
+                bio: '',
+                profileImg: '',
+            },
+
             reviewList: [],
         }
 
+        this.loadMemberInfo = this.loadMemberInfo.bind(this);
+        this.modifyMemberInfo = this.modifyMemberInfo.bind(this);
         this.loadReview = this.loadReview.bind(this);
         this.openEditModal = this.openEditModal.bind(this);
         this.closeEditModal = this.closeEditModal.bind(this);
@@ -25,7 +36,9 @@ class ProfileComponent extends Component {
     }
 
     componentDidMount() {
-        this.loadReview();
+        const memberName = localStorage.getItem('authenticatedMember');
+        this.loadMemberInfo(memberName);
+        this.loadReview(memberName);
     }
 
     openEditModal() {
@@ -44,20 +57,58 @@ class ProfileComponent extends Component {
         this.setState({isModalWithdrawOpen: false});
     }
 
-    loadReview() {
-        const requestUrl = REST_API_SERVER_URL + '/api/review'
+    loadMemberInfo(memberName) {
+        const requestUrl = REST_API_SERVER_URL + '/api/member';
         let config = {
             headers: {
                 'Authorization': localStorage.getItem('token')
             },
             params: {
-                memberName: localStorage.getItem('authenticatedMember'),
+                memberName: memberName
+            }
+        }
+        axios.get(requestUrl, config)
+            .then((response) => {
+                const member = response.data.member;
+                console.log("response : " + response.data);
+                this.setState({
+                    member: {
+                        memberName: member.memberName,
+                        name: member.name,
+                        website: member.website,
+                        bio: member.bio,
+                        profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                    },
+                });
+            }).catch((error) => {
+
+        })
+    }
+
+    modifyMemberInfo(member) {
+        this.setState({
+            member: {
+                name: member.name,
+                website: member.website,
+                bio: member.bio,
+                profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+            },
+        })
+    }
+
+    loadReview(memberName) {
+        const requestUrl = REST_API_SERVER_URL + '/api/review';
+        let config = {
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
+            params: {
+                memberName: memberName,
                 pageIndex: 0
             }
         }
         axios.get(requestUrl, config)
             .then((response) => {
-                console.log(response.data);
                 this.setState({
                     reviewList: response.data
                 });
@@ -67,11 +118,13 @@ class ProfileComponent extends Component {
     }
 
     render() {
-        const memberName = localStorage.getItem('authenticatedMember');
-        const name = localStorage.getItem('name');
-        const website = localStorage.getItem('website');
-        const bio = localStorage.getItem('bio');
-        const profileImg = localStorage.getItem('profileImg');
+        const {
+            isModalEditOpen, isModalWithdrawOpen, reviewList
+        } = this.state;
+
+        const {
+            memberName, name, website, bio, profileImg
+        } = this.state.member;
 
         return (
             <main id="profile" style={{backgroundColor: "white", padding: "100px 100px"}}>
@@ -93,13 +146,16 @@ class ProfileComponent extends Component {
                                 <button className="profile_edit_btn" onClick={this.openEditModal}>
                                     회원수정
                                 </button>
-                                <EditProfileComponent isOpen={this.state.isModalEditOpen} close={this.closeEditModal}/>
+                                <EditMyProfileComponent member={this.state.member}
+                                                        modifyMemberInfo={this.modifyMemberInfo}
+                                                        isOpen={isModalEditOpen} close={this.closeEditModal}/>
                             </a>
                             <a href="#">
                                 <button className="profile_follow_btn" onClick={this.openWithdrawModal}>
                                     회원탈퇴
                                 </button>
-                                <DeleteMemberComponent isOpen={this.state.isModalWithdrawOpen} close={this.closeWithdrawModal}/>
+                                <DeleteMemberComponent isOpen={isModalWithdrawOpen}
+                                                       close={this.closeWithdrawModal}/>
                             </a>
                         </div>
 
@@ -111,7 +167,7 @@ class ProfileComponent extends Component {
                     </div>
                 </header>
                 <div className="profile__photo-grid">
-                    {this.state.reviewList.map(
+                    {reviewList.map(
                         reviewData => {
                             return <ProfileReviewComponent reviewData={reviewData} key={reviewData.reviewId}/>
                         }
@@ -122,4 +178,4 @@ class ProfileComponent extends Component {
     }
 }
 
-export default ProfileComponent
+export default MyProfileComponent

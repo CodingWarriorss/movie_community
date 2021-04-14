@@ -1,13 +1,10 @@
 logging:
-  level: 
+  level:
     root: info
+
   pattern:
-      console: "%d %-5level %logger : %msg%n"
-      file: "%d %-5level [%thread] %logger : %msg%n"
-
-  file:
-    path: C:/movie_community/log/
-
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
 
 spring:
   datasource:
@@ -80,3 +77,5 @@ app:
       - myiosapp://oauth2/redirect
 
 
+  mvc:
+    static-path-pattern: /image/**

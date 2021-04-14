@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
 import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
@@ -76,10 +77,10 @@ public class MemberService {
         return uuidFilename;
     }
 
-    public JSONObject selectMember(Member member) throws NoSuchElementException {
+    public JSONObject selectMember(ReadMemberDto readMemberDto) throws NoSuchElementException {
         JSONObject result = new JSONObject();
 
-        memberRepository.findByMemberName(member.getMemberName())
+        memberRepository.findByMemberName(readMemberDto.getMemberName())
                 .ifPresentOrElse(m -> {
                             result.put("name", m.getName());
                             result.put("email", m.getEmail());
@@ -95,6 +96,7 @@ public class MemberService {
 
         return result;
     }
+
 
     public JSONObject updateMember(Member member, UpdateMemberDto updateMemberDto) throws NoSuchElementException {
         JSONObject result = new JSONObject();

@@ -28,7 +28,7 @@ class AuthenticationService {
         }
     }
 
-    setMemberInfo() {
+    setMemberInfo(memberName) {
         const requestURL = REST_API_SERVER_URL + '/api/member';
         const config = {
             headers: {
@@ -77,11 +77,6 @@ class AuthenticationService {
     logout() {
         localStorage.removeItem("authenticatedMember");
         localStorage.removeItem("token");
-        localStorage.removeItem("name");
-        localStorage.removeItem("email");
-        localStorage.removeItem("birth");
-        localStorage.removeItem("website");
-        localStorage.removeItem("bio");
         localStorage.removeItem("profileImg");
         window.location.replace('/');
     }
