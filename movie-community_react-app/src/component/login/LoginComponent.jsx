@@ -61,7 +61,7 @@ class LoginComponent extends Component {
             .then((response) => {
                 // 토큰저장
                 const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response);
-                AuthenticationService.setMemberInfo();
+                AuthenticationService.setMemberInfo(this.state.memberName);
             }).catch((error) => {
 
                 console.log( error );

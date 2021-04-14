@@ -86,9 +86,8 @@ function ReviewHeader(props) {
         </img>
     ));
 
-    const profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
-
-
+    let profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
+    if( props.reviewData.member.provider !== "local" ) profileImg = props.reviewData.member.profileImg;
     return (
 
         <div className="card-header">
