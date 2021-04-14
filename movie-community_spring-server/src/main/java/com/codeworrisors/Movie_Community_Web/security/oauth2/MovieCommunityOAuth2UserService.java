@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 
@@ -39,6 +40,8 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
+        logger.info("사용자 인증 서비스 loadUser");
+
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException ex) {
@@ -50,6 +53,7 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+        logger.info("request에서 정보 추출");
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
@@ -57,6 +61,8 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
 
         Optional<Member> memberOptional = memberRepository.findByMemberName(oAuth2UserInfo.getEmail());
         Member member;
+        
+        //기존 정보 유무에 따라 새로 생성 또는 업데이트
         if(memberOptional.isPresent()) {
             member = memberOptional.get();
             if(!member.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -64,6 +70,7 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
                         member.getProvider() + " account. Please use your " + member.getProvider() +
                         " account to login.");
             }
+
             member = updateExistingUser(member, oAuth2UserInfo);
         } else {
             member = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
@@ -72,11 +79,13 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
         logger.info( member.toString() );
 
 
+
         return PrincipalDetails.create(member);
 
     }
 
-    private Member registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+    @Transactional
+    public Member registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         Member member = new Member();
 
         member.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
@@ -88,7 +97,8 @@ public class MovieCommunityOAuth2UserService extends DefaultOAuth2UserService {
         return memberRepository.save(member);
     }
 
-    private Member updateExistingUser(Member existingUser, OAuth2UserInfo oAuth2UserInfo) {
+    @Transactional
+    public Member updateExistingUser(Member existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         existingUser.setProfileImg(oAuth2UserInfo.getImageUrl());
         return memberRepository.save(existingUser);

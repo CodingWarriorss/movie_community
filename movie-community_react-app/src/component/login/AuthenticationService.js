@@ -47,8 +47,9 @@ class AuthenticationService {
                 localStorage.setItem('bio', member.bio ? member.bio : '');
 
                 let imgUrl = member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL;
-                if( member.provider === "local" ) imgUrl = member.profileImg;
-                localStorage.setItem('profileImg', member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL);
+                if( member.provider !== "local" ) imgUrl = member.profileImg;
+                localStorage.setItem('profileImg', imgUrl);
+                localStorage.setItem('authenticatedMember' , member.memberName);
                 window.location.replace('/review');
             });
     }

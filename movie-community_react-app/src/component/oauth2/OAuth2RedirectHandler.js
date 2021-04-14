@@ -19,6 +19,7 @@ class OAuth2RedirectHandler extends Component {
 
         if(token) {
             localStorage.setItem("token", token);
+            AuthenticationService.setMemberInfo();
             return <Redirect to={{
                 pathname: "/review",
                 state: { from: this.props.location }

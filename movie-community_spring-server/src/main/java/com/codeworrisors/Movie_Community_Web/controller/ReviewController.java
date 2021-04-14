@@ -63,6 +63,8 @@ public class ReviewController {
         JSONObject response = new JSONObject();
         response.put(RESULT, SUCCESS);
 
+        logger.info( userDetail.toString() );
+
         try {
             response.put(REVIEW, reviewService.createReview(userDetail.getMember(), createReviewDto));
         } catch (IOException e) {

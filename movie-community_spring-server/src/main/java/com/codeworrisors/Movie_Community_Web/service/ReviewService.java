@@ -85,6 +85,8 @@ public class ReviewService {
 
 
     public Review createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
+        logger.info("whyL??? : " +   member.toString() );
+
         Review review = reviewRepository.save(
                 new Review(createReviewDto.getMovieTitle().replaceAll("\n", ""),
                         createReviewDto.getContent(),

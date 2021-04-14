@@ -25,15 +25,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     private Map<String, Object> attributes;
     private Member member;
 
-    public PrincipalDetails(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public PrincipalDetails(Long id, String email, String password, Member member, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
-
-        Member setMember = new Member();
-        setMember.setMemberName(email);
-        this.member =setMember;
+        this.member = member;
     }
 
     public static PrincipalDetails create(Member member) {
@@ -43,6 +40,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
                 member.getId(),
                 member.getMemberName(),
                 member.getPassword(),
+                member,
                 authorities
         );
     }
@@ -106,4 +104,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         this.member = member;
     }
 
+    @Override
+    public String toString() {
+        return "PrincipalDetails{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", member=" + member +
+                '}';
+    }
 }

@@ -86,6 +86,8 @@ public class MemberService {
                             result.put("website", m.getWebsite());
                             result.put("bio", m.getBio());
                             result.put("profileImg", m.getProfileImg());
+                            result.put("provider" , m.getProvider());
+                            result.put("memberName" , m.getMemberName());
                         },
                         () -> {
                             throw new NoSuchElementException("존재하지 않는 회원에 대한 정보조회 요청");

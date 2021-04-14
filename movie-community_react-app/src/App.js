@@ -7,7 +7,7 @@ import LogoutComponent from "./component/login/LogoutComponent";
 import SignupComponent from "./component/signup/SignupComponent";
 import MenuForAuthenticated from "./component/menu/MenuForAuthenticated";
 import MenuForUnauthenticated from "./component/menu/MenuForUnauthenticated";
-import MainTest from "./component/Main";
+import Main from "./component/Main";
 import ProfileComponent from "./component/mypage/ProfileComponent";
 
 import OAuth2RedirectHandler from "./component/oauth2/OAuth2RedirectHandler"
@@ -67,7 +67,7 @@ class App extends Component {
                         <Route path="/login" component={LoginComponent}/>
                         <Route path="/signup" component={SignupComponent}/>
                         <Route path="/oauth2/redirect" component={OAuth2RedirectHandler} ></Route>
-                        <Route path="/review" render={() => <MainTest movieTitle={this.state.movieTitle}/>}/>
+                        <Route path="/review" render={() => <Main movieTitle={this.state.movieTitle}/>}/>
                     </Switch>
                 </div>
 

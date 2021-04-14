@@ -10,7 +10,7 @@ import ReactImageUploadComponent from "react-images-upload";
 
 import editImage from "img/button/edit.png";
 import closeImage from "img/button/close.png";
-import {Favorite, FavoriteBorder } from "@material-ui/icons";
+import { Favorite, FavoriteBorder } from "@material-ui/icons";
 
 
 
@@ -98,7 +98,7 @@ function ReviewHeader(props) {
                 <div className="col-1 contents-center">
                     <img alt="NoImage"
                         src={IMAGE_RESOURCE_URL + props.reviewData.member.profileImg}
-                        style={{width : 50, height : 50, borderRadius : 25}}/>
+                        style={{ width: 50, height: 50, borderRadius: 25 }} />
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -124,7 +124,7 @@ function ReviewHeader(props) {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Form.Control as="textarea" value={contentModified}
-                                                      rows={8} onChange={(e) => { setContent(e.target.value); }} />
+                                            rows={8} onChange={(e) => { setContent(e.target.value); }} />
 
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -181,22 +181,22 @@ function ReviewBody(props) {
 
     const handleLike = (event) => {
         const likeData = {
-            reviewId : props.reviewData.id,
+            reviewId: props.reviewData.id,
         }
 
 
-        if( !like ){
-            props.likeReview( likeData );
-        }else{
-            props.unlikeReview( likeData );
+        if (!like) {
+            props.likeReview(likeData);
+        } else {
+            props.unlikeReview(likeData);
         }
 
     }
 
     let like = false;
-    
-    props.reviewData.likesList.forEach( likeinfo =>{
-        if( likeinfo.member.memberName === localStorage.getItem("authenticatedMember") ) like = true;
+
+    props.reviewData.likesList.forEach(likeinfo => {
+        if (likeinfo.member.memberName === localStorage.getItem("authenticatedMember")) like = true;
     });
 
     return (
@@ -204,40 +204,42 @@ function ReviewBody(props) {
             <div className="review-content">
                 <p>{props.reviewData.content}</p>
             </div>
+                {(props.reviewData.imageList.length < 1) ? null :
             <div className="review-images">
-                <div className="slide-container">
-                    <Slide autoplay={false} >
-                        {(props.reviewData.imageList.length < 1) ? null :
-                            props.reviewData.imageList.map(image => {
-                                return (
-                                    <div className="each-slide" key={image.id}>
-                                        <img alt="NotFound" src={ IMAGE_RESOURCE_URL+ image.fileName}></img>
-                                    </div>
-                                )
-                            })
-                        }
-                    </Slide>
-                </div>
-
+                    <div className="slide-container">
+                        <Slide autoplay={false} >
+                            {
+                                props.reviewData.imageList.map(image => {
+                                    return (
+                                        <div className="each-slide" key={image.id}>
+                                            <img alt="NotFound" src={IMAGE_RESOURCE_URL + image.fileName}></img>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Slide>
+                    </div>
             </div>
+                }
+
             <div className="row">
                 <div className="col review-like-btn">
                     {(like) ?
                         <Favorite style={{
                             color: 'indianred',
                             fontSize: 40,
-                            marginLeft : 10,
-                        }} onClick={handleLike}/>
+                            marginLeft: 10,
+                        }} onClick={handleLike} />
                         : <FavoriteBorder style={{
                             color: 'indianred',
-                            fontSize : 40,
-                            marginLeft : 10,
-                        }} onClick={handleLike}/>
+                            fontSize: 40,
+                            marginLeft: 10,
+                        }} onClick={handleLike} />
                     }
                 </div>
                 <div className="col">
                     <div className="review-like" style={{
-                        marginRight : 15,
+                        marginRight: 15,
                     }}>{props.reviewData.likesList.length}명이 좋아합니다</div>
                 </div>
             </div>
@@ -256,27 +258,27 @@ function ReviewFooter(props) {
     const writeComment = () => {
 
         const newComment = {
-                reviewId : props.reviewData.id,
-                id: null,
-                member: {
-                    memberName: localStorage.getItem("authenticatedMember"),
-                },
-                content: inputValue,
+            reviewId: props.reviewData.id,
+            id: null,
+            member: {
+                memberName: localStorage.getItem("authenticatedMember"),
+            },
+            content: inputValue,
         }
 
-        props.addComment( newComment );
+        props.addComment(newComment);
         setValue("")
     }
 
     const deleteComment = (commentId) => {
 
         const commentData = {
-            reviewId : props.reviewData.id,
-            commentId : commentId
+            reviewId: props.reviewData.id,
+            commentId: commentId
         }
 
-        props.deleteComment( commentData );
-        
+        props.deleteComment(commentData);
+
     }
 
     const handleKeyPress = (event) => {
@@ -295,7 +297,7 @@ function ReviewFooter(props) {
                     <div>
                         <div className="comment-area">
                             {props.reviewData.commentsList.map(comment => {
-                                const myComment = ( comment.member.memberName === localStorage.getItem("authenticatedMember") );
+                                const myComment = (comment.member.memberName === localStorage.getItem("authenticatedMember"));
                                 return (
                                     <div className="bg-white comment" key={comment.id}>
                                         <div className="comment-top">
@@ -331,16 +333,16 @@ export default class ReviewContent extends Component {
             <div className="review-box">
                 <div className="card">
                     <ReviewHeader reviewData={this.props.reviewData}
-                                  modifyReview={this.props.modifyReview}
-                                  deleteReview={this.props.deleteReview}
-                                  addImage={this.props.addImage} />
-                    <ReviewBody reviewData={this.props.reviewData} 
-                                likeReview={this.props.likeReview}
-                                unlikeReview={this.props.unlikeReview}
+                        modifyReview={this.props.modifyReview}
+                        deleteReview={this.props.deleteReview}
+                        addImage={this.props.addImage} />
+                    <ReviewBody reviewData={this.props.reviewData}
+                        likeReview={this.props.likeReview}
+                        unlikeReview={this.props.unlikeReview}
                     />
-                    <ReviewFooter reviewData={this.props.reviewData} 
-                                addComment={this.props.addComment}
-                                deleteComment={this.props.deleteComment}
+                    <ReviewFooter reviewData={this.props.reviewData}
+                        addComment={this.props.addComment}
+                        deleteComment={this.props.deleteComment}
                     />
                 </div>
             </div>

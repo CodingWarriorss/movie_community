@@ -2,6 +2,7 @@ package com.codeworrisors.Movie_Community_Web.model;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -55,7 +56,7 @@ public class Member {
     @Setter
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
+    private AuthProvider provider = AuthProvider.local;
 
     @Getter
     @Setter
@@ -63,5 +64,5 @@ public class Member {
 
     @Setter
     @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private RoleType role = RoleType.ROLE_USER;
 }

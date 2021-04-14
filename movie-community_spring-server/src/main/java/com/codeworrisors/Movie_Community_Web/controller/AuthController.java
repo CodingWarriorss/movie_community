@@ -9,6 +9,8 @@ import com.codeworrisors.Movie_Community_Web.model.AuthProvider;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import com.codeworrisors.Movie_Community_Web.security.TokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,9 +43,12 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
 
+        logger.info("login called!!!!!");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getMemberName(),
@@ -57,29 +62,29 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser( @RequestBody SignUpRequest signUpRequest) {
-        if(memberRepository.existsByMemberName(signUpRequest.getEmail())) {
-            throw new BadRequestException("요청이 그지음");
-        }
-
-        // Creating user's account
-        Member user = new Member();
-        user.setName(signUpRequest.getName());
-        user.setMemberName(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
-        user.setProvider(AuthProvider.local);
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        Member result = memberRepository.save(user);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();
-
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully@"));
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> registerUser( @RequestBody SignUpRequest signUpRequest) {
+//        if(memberRepository.existsByMemberName(signUpRequest.getEmail())) {
+//            throw new BadRequestException("요청이 그지음");
+//        }
+//
+//        // Creating user's account
+//        Member user = new Member();
+//        user.setName(signUpRequest.getName());
+//        user.setMemberName(signUpRequest.getEmail());
+//        user.setPassword(signUpRequest.getPassword());
+//        user.setProvider(AuthProvider.local);
+//
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//
+//        Member result = memberRepository.save(user);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath().path("/user/me")
+//                .buildAndExpand(result.getId()).toUri();
+//
+//        return ResponseEntity.created(location)
+//                .body(new ApiResponse(true, "User registered successfully@"));
+//    }
 
 }

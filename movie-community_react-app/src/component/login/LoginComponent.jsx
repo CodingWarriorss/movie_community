@@ -5,6 +5,8 @@ import {GOOGLE_AUTH_URL ,GITHUB_AUTH_URL } from "component/constants/SocialLogin
 
 import googleLogo from 'img/google-logo.png';
 import githubLogo from 'img/github-logo.png';
+
+import "./LoginComponent.css"
 /*
 https://ko.reactjs.org/docs/react-component.html
 <마운트>
@@ -109,9 +111,9 @@ class LoginComponent extends Component {
                     </div>
 
                     <div className="social-login">
-                <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                <a className="s-btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
                     <img src={googleLogo} alt="Google" /> Log in with Google</a>
-                <a className="btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
+                <a className="s-btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
                     <img src={githubLogo} alt="Github" /> Log in with Github</a>
             </div>
 
