@@ -118,7 +118,7 @@ export default class ReviewEditBox extends Component {
                 console.log('게시물 등록에 실패하였습니다.', error)
             })
 
-            
+
     }
 
     render() {
