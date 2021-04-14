@@ -1,8 +1,10 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.ReadMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberSelectResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberUpdateResponseDto;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.service.MemberService;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
@@ -50,46 +52,19 @@ public class MemberController {
     }
 
     @GetMapping("/api/member")
-    public JSONObject readMember(@ModelAttribute ReadMemberDto readMemberDto) {
-        JSONObject response = new JSONObject();
-
-        logger.info( userDetail.getEmail() );
-
-        try {
-            response.put("result", SUCCESS);
-            response.put("member", memberService.selectMember(readMemberDto));
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put("result", FAIL);
-        }
-
-        return response;
+    public MemberSelectResponseDto readMember(@ModelAttribute ReadMemberDto readMemberDto) {
+        return memberService.selectMember(readMemberDto);
     }
 
     @PutMapping("/api/member")
-    public JSONObject modifyMember(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @ModelAttribute UpdateMemberDto updateMemberDto) {
-        JSONObject response = new JSONObject();
-
-        try {
-            response.put("result", SUCCESS);
-            response.put("member", memberService.updateMember(userDetail.getMember(), updateMemberDto));
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put("result", FAIL);
-        }
-
-        return response;
+    public MemberUpdateResponseDto modifyMember(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                                @ModelAttribute UpdateMemberDto updateMemberDto) {
+        return memberService.updateMember(userDetail.getMember(), updateMemberDto);
     }
 
     @DeleteMapping("api/member")
     public int withdrawMember(@AuthenticationPrincipal PrincipalDetails userDetail) {
-        try {
-            memberService.deleteMember(userDetail.getMember());
-        } catch (NoSuchElementException e) {
-            logger.error(e.getMessage());
-            return FAIL;
-        }
+        memberService.deleteMember(userDetail.getMember());
         return SUCCESS;
     }
 }

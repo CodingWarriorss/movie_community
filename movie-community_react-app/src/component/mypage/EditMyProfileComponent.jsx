@@ -100,7 +100,7 @@ class EditMyProfileComponent extends Component {
         axios.put(url, formData, config)
             .then((response) => {
                 const data = response.data;
-                if (data.result === 1) {
+                if (data.result === 'success') {
                     const member = data.member;
                     this.props.modifyMemberInfo(member);
                     alert('수정이 완료되었습니다.');

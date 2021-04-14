@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.codeworrisors.Movie_Community_Web.exception.NoAuthCommentStateException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -33,6 +34,7 @@ public class Comments {
 
     @NonNull
     @ManyToOne
+    @Setter
     @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
@@ -40,4 +42,14 @@ public class Comments {
     @ManyToOne
     @JsonIgnore
     private Review review;
+
+    public Comments updateContents(Long memberId, String content) {
+        if (member.isNotSameMember(memberId)) {
+            throw new NoAuthCommentStateException();
+        }
+        this.content = content;
+        return this;
+    }
+
+
 }

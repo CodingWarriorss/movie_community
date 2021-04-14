@@ -1,24 +1,22 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
-import com.codeworrisors.Movie_Community_Web.model.*;
+import com.codeworrisors.Movie_Community_Web.dto.*;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
+import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
+import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
+import com.codeworrisors.Movie_Community_Web.model.*;
 import com.codeworrisors.Movie_Community_Web.repository.*;
 
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,12 +28,11 @@ import java.util.*;
 @Service
 @Transactional
 public class ReviewService {
+    public static final String SUCCESS_CODE = "SUCCESS";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ReviewRepository reviewRepository;
     private final ImageRepository imageRepository;
-    private final LikeRepository likeRepository;
-    private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
 
@@ -51,28 +48,32 @@ public class ReviewService {
     private List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
         List<Review> reviews = reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getCommentsList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
         return reviews;
     }
 
     private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
-        Member m = memberRepository.findByMemberName(memberName).orElseThrow(() -> new NoSuchElementException("Non-existent user"));
+        Member member1 = memberRepository
+                .findByMemberName(memberName)
+                .orElseThrow(NoMemberElementException::new);
 
-        List<Review> reviews = reviewRepository.findByMemberId(pageable, m.getId()).getContent();
+       List<Review> reviews = reviewRepository
+               .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).get().getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getLikesList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
+
         return reviews;
     }
 
     private List<Review> getAll(Pageable pageable) {
         List<Review> reviews = reviewRepository.findAll(pageable).getContent();
         reviews.forEach(review -> {
-            review.setLikeCount(likeRepository.countByReviewId(review.getId()));
-            review.setCommentCount(commentRepository.countByReviewId(review.getId()));
+            review.setLikeCount(review.getLikesList().size());
+            review.setCommentCount(review.getCommentsList().size());
         });
 
         return reviews;
@@ -80,9 +81,7 @@ public class ReviewService {
 
 
 
-    public Review createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
-        logger.info("whyL??? : " +   member.toString() );
-
+    public ResponseDto createReview(Member member, CreateReviewDto createReviewDto) throws IOException {
         Review review = reviewRepository.save(
                 new Review(createReviewDto.getMovieTitle().replaceAll("\n", ""),
                         createReviewDto.getContent(),
@@ -92,44 +91,42 @@ public class ReviewService {
         if (createReviewDto.getFiles() != null) {
             saveImages(review, createReviewDto.getFiles());
         }
-        return review;
+        return ResponseDto.builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-
-    public Review updateReview(Member member, UpdateReviewDto updateReviewDto) throws IllegalStateException, NoSuchElementException, IOException {
-        reviewRepository.findById(updateReviewDto.getReviewId())
-                .ifPresentOrElse(review -> {
-                    if (review.getMember().getId() != member.getId())
-                        throw new AuthorizationServiceException("권한 없는 리뷰에 대한 수정 요청");
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 리뷰에 대한 수정 요청");
-                });
-
-        Review review = reviewRepository.findById(updateReviewDto.getReviewId()).get();
-        review.setContent(updateReviewDto.getContent());
-        review.setRating(updateReviewDto.getRating());
+    public ResponseDto updateReview(Member member, UpdateReviewDto updateReviewDto) throws IOException {
+        Review updateReview = reviewRepository.findById(updateReviewDto.getReviewId())
+                .map(review -> review.updateReview(member.getId(), updateReviewDto.getContent(), updateReviewDto.getRating()))
+                .orElseThrow(NoReviewElementException::new);
 
         if (updateReviewDto.getNewFiles() != null) {
-            saveImages(review, updateReviewDto.getNewFiles());
+            saveImages(updateReview, updateReviewDto.getNewFiles());
         }
+
         if (updateReviewDto.getDeletedFiles() != null) {
-            deleteImages(review.getId(), updateReviewDto.getDeletedFiles());
+            deleteImages(updateReview.getId(), updateReviewDto.getDeletedFiles());
         }
-        return review;
+
+        return ResponseDto
+                .builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public void deleteReview(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        reviewRepository.findById(reviewId).ifPresentOrElse(
-                review -> {
-                    if (review.getMember().getId() != member.getId())
-                        throw new IllegalStateException("권한 없는 리뷰에 대한 삭제 요청");
 
-                    review.getImageList().forEach(image -> removeFile(image.getFileName()));
-                    reviewRepository.delete(review);
-                },
-                () -> {
-                    throw new NoSuchElementException("존재하지 않는 리뷰에 대한 삭제 요청");
-                });
+    public ResponseDto deleteReview(Member member, long reviewId){
+        Review deleteReview = reviewRepository.findById(reviewId)
+                .map(review -> review.validateReviewAuth(member.getId()))
+                .orElseThrow(NoReviewElementException::new);
+
+        reviewRepository.delete(deleteReview);
+
+        return ResponseDto
+                .builder()
+                .result(SUCCESS_CODE)
+                .build();
     }
 
 
@@ -175,84 +172,5 @@ public class ReviewService {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-    }
-
-
-    /*
-     * 댓글
-     * */
-    public JSONObject createComment(Member member, CreateCommentDto createCommentDto) throws EntityNotFoundException {
-        if (reviewRepository.findById(createCommentDto.getReviewId()).isEmpty())
-            throw new EntityNotFoundException("존재하지 않는 리뷰에 대한 댓글 추가 요청");
-        Comments saved = commentRepository.save(
-                new Comments(createCommentDto.getContent(), member, reviewRepository.getOne(createCommentDto.getReviewId())));
-
-        JSONObject result = new JSONObject();
-        result.put("commentId", saved.getId());
-        return result;
-    }
-
-    public JSONObject updateComment(Member member, UpdateCommentDto updateCommentDto) throws IllegalStateException, NoSuchElementException {
-        JSONObject result = new JSONObject();
-
-        commentRepository.findById(updateCommentDto.getCommentId())
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 수정 요청");
-                    comment.setContent(updateCommentDto.getContent());
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
-                });
-
-        Optional<Comments> filter = commentRepository.findById(updateCommentDto.getCommentId())
-                .filter( comment -> ( comment.getMember().getId() == member.getId() ) );
-
-        Optional<Comments> mapFilter = filter.map( comment -> {
-           return comment;
-        });
-
-
-
-        return result;
-    }
-
-    public void deleteComment(Member member, long commentId) throws IllegalStateException, NoSuchElementException {
-        commentRepository.findById(commentId)
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId())
-                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요청");
-                    commentRepository.delete(comment);
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
-                });
-    }
-
-
-    /*
-     * 좋아요
-     * */
-    public Long createLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        if (reviewRepository.findById(reviewId).isEmpty())
-            throw new NoSuchElementException("존재하지 않는 리뷰");
-
-        if( likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId).isPresent() )
-            throw new IllegalStateException("이미 like 상태");
-
-        Likes pressedLike = likeRepository.save(new Likes(member, reviewRepository.getOne(reviewId)));
-        return pressedLike.getId();
-    }
-
-    public Long deleteLike(Member member, long reviewId) throws IllegalStateException, NoSuchElementException {
-        Long deletedLikeId = null;
-        if (reviewRepository.findById(reviewId).isEmpty())
-            throw new NoSuchElementException("존재하지 않는 리뷰");
-
-        Likes deletedLike = likeRepository.findByMemberIdAndReviewId(member.getId(), reviewId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("이미 unlike 상태");
-                });
-
-        likeRepository.delete(deletedLike);
-        return deletedLike.getId();
     }
 }

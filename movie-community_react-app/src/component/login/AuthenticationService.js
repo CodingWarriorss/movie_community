@@ -38,6 +38,7 @@ class AuthenticationService {
 
         axios.get(requestURL, config)
             .then((response) => {
+                console.log(response.data);
                 const member = response.data.member;
 
                 console.log( JSON.stringify( member , null ,4));

@@ -1,14 +1,13 @@
 package com.codeworrisors.Movie_Community_Web.controller;
 
+import com.codeworrisors.Movie_Community_Web.dto.*;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
-import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.CreateReviewDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -16,11 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.io.*;
 import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @RestController
@@ -58,145 +54,20 @@ public class ReviewController {
     }
 
     @PostMapping
-    public JSONObject uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @ModelAttribute CreateReviewDto createReviewDto) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        logger.info( userDetail.toString() );
-
-        try {
-            response.put(REVIEW, reviewService.createReview(userDetail.getMember(), createReviewDto));
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
+    public ResponseDto uploadReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                    @ModelAttribute CreateReviewDto createReviewDto) throws IOException {
+        return reviewService.createReview(userDetail.getMember(), createReviewDto);
     }
 
     @PutMapping
-    public JSONObject modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @ModelAttribute UpdateReviewDto updateReviewDto) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            response.put(REVIEW, reviewService.updateReview(userDetail.getMember(), updateReviewDto));
-        } catch (IllegalStateException | NoSuchElementException | IOException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
+    public ResponseDto modifyReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+                                   @ModelAttribute UpdateReviewDto updateReviewDto) throws IOException {
+        return reviewService.updateReview(userDetail.getMember(), updateReviewDto);
     }
 
     @DeleteMapping
-    public JSONObject deleteReview(@AuthenticationPrincipal PrincipalDetails userDetail,
+    public ResponseDto deleteReview(@AuthenticationPrincipal PrincipalDetails userDetail,
                                    @RequestParam("reviewId") long reviewId) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            reviewService.deleteReview(userDetail.getMember(), reviewId);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            throw new NoSuchElementException(FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-
-    /*
-     * 댓글 CRUD
-     * */
-    @PostMapping("/comment")
-    public JSONObject postComment(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                  @RequestBody CreateCommentDto createCommentDto) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            response.put(COMMENT, reviewService.createComment(userDetail.getMember(), createCommentDto));
-        } catch (EntityNotFoundException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-
-    @PutMapping("/comment")
-    public JSONObject modifyComment(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                    @ModelAttribute UpdateCommentDto updateCommentDto) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            reviewService.updateComment(userDetail.getMember(), updateCommentDto);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-    @DeleteMapping("/comment")
-    public JSONObject deleteComment(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                    @RequestParam long commentId) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            reviewService.deleteComment(userDetail.getMember(), commentId);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-
-    /*
-     * 좋아요 CD
-     * */
-    @PostMapping("/like")
-    public JSONObject likeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                 @RequestBody Map<String, Long> params) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            Long pressedLike = reviewService.createLike(userDetail.getMember(), params.get("reviewId"));
-            response.put("status", "LIKE");
-            response.put("likeId" , pressedLike);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
-    }
-
-    @DeleteMapping("/like")
-    public JSONObject unlikeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                   @RequestParam("reviewId") long reviewId) {
-        JSONObject response = new JSONObject();
-        response.put(RESULT, SUCCESS);
-
-        try {
-            Long deletedLikeId = reviewService.deleteLike(userDetail.getMember(), reviewId);
-            response.put("status", "UNLIKE");
-            response.put("likeId" , deletedLikeId);
-        } catch (IllegalStateException | NoSuchElementException e) {
-            logger.error(e.getMessage());
-            response.put(RESULT, FAIL + "/" + e.getMessage());
-        }
-
-        return response;
+        return reviewService.deleteReview(userDetail.getMember(), reviewId);
     }
 }
