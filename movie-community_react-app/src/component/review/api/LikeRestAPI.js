@@ -6,12 +6,13 @@ class CommentRestAPI {
     likeReview(likeData) {
         const token = localStorage.getItem("token");
         const config = {
-            headers: {
+            headers : {
                 'Authorization': 'Bearer ' + token
+
             }
         }
 
-        return axios.post(requestUrl, likeData, config);
+        return axios.post(requestUrl,likeData, config);
     }
 
     unlikeReview(likeData) {

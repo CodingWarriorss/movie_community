@@ -1,19 +1,23 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateCommentDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.response.CommentResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.request.CreateCommentDto;
+import com.codeworrisors.Movie_Community_Web.dto.comment.request.UpdateCommentDto;
+import com.codeworrisors.Movie_Community_Web.exception.NoCommentElementException;
+import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.model.Comments;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.repository.CommentRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
+
 
 @Service
 public class CommentService {
+    public static final String SUCCESS_CODE = "SUCCESS";
+
     private CommentRepository commentRepository;
     private ReviewRepository reviewRepository;
 
@@ -22,52 +26,65 @@ public class CommentService {
         this.reviewRepository = reviewRepository;
     }
 
-    public JSONObject createComment(Member member, CreateCommentDto createCommentDto)
-            throws EntityNotFoundException{
-        JSONObject result = new JSONObject();
-
+    public CommentResponseDto createComment(Member member, CreateCommentDto createCommentDto)
+            throws NoSuchElementException {
         reviewRepository.findById(createCommentDto.getReviewId())
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException();
-                });
+                .orElseThrow(NoReviewElementException::new);
 
-        Comments savedComments =
-                new Comments(
-                        createCommentDto.getContent(),
-                        member,
-                        reviewRepository.getOne(createCommentDto.getReviewId())
-                );
+        Comments savedComments = commentRepository.save(
+                new Comments(createCommentDto.getContent(), member, reviewRepository.getOne(createCommentDto.getReviewId())));
 
-        result.put("commentId", savedComments.getId());
-        return result;
+        return CommentResponseDto
+                .builder()
+                .commentId(savedComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public JSONObject updateComment(Member member, UpdateCommentDto updateCommentDto) {
-        JSONObject result = new JSONObject();
+    public CommentResponseDto updateComment(Member member, UpdateCommentDto updateCommentDto)
+            throws NoSuchElementException{
+        Comments updateComments = commentRepository
+                .findById(updateCommentDto.getCommentId())
+                .filter(comments -> comments.getMember().getId() == member.getId())
+                .map(comments -> {
+                    comments.setContent(updateCommentDto.getContent());
+                    return comments;
+                })
+                .orElseThrow(NoCommentElementException::new);
 
-        commentRepository.findById(updateCommentDto.getCommentId())
-                .ifPresentOrElse(comments -> {
-                    if (member.getId() != comments.getMember().getId()) {
-                        throw new IllegalStateException("권한 없는 댓글에 대한 수정 요청");
-                    }
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 수정 요청");
-                });
-        return result;
+        return CommentResponseDto
+                .builder()
+                .commentId(updateComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 
-    public void deleteComment(Member member, long commentId)
+    public CommentResponseDto updateComment2(Member member, UpdateCommentDto updateCommentDto) {
+        Comments updateComments = commentRepository.findById(updateCommentDto.getCommentId())
+                .map(comments -> comments.updateContents(member.getId(), updateCommentDto.getContent()))
+                .orElseThrow(NoCommentElementException::new);
+
+        return CommentResponseDto
+                .builder()
+                .commentId(updateComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
+    }
+
+    public CommentResponseDto deleteComment(Member member, long commentId)
             throws  IllegalStateException, NoSuchElementException {
-        commentRepository
-                .findById(commentId)
-                .ifPresentOrElse(comment -> {
-                    if (member.getId() != comment.getMember().getId()) {
-                        throw new IllegalStateException("권한 없는 댓글에 대한 삭제 요창");
-                    }
+        Comments deleteComments = commentRepository.findById(commentId)
+                .filter(comments -> comments.getMember().getId() == member.getId())
+                .map(comments -> {
+                    commentRepository.delete(comments);
+                    return comments;
+                })
+                .orElseThrow(NoCommentElementException::new);
 
-                    commentRepository.delete(comment);
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 댓글에 대한 삭제 요청");
-                });
+        return CommentResponseDto
+                .builder()
+                .commentId(deleteComments.getId())
+                .result(SUCCESS_CODE)
+                .build();
     }
 }

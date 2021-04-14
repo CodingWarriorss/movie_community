@@ -1,8 +1,12 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
-import com.codeworrisors.Movie_Community_Web.dto.CreateMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.ReadMemberDto;
-import com.codeworrisors.Movie_Community_Web.dto.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.ResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.CreateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.ReadMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.request.UpdateMemberDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberSelectResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.member.response.MemberUpdateResponseDto;
 import com.codeworrisors.Movie_Community_Web.model.Image;
 import com.codeworrisors.Movie_Community_Web.model.Member;
 import com.codeworrisors.Movie_Community_Web.model.Review;
@@ -19,8 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,6 +36,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class MemberService {
+    public static final int SUCCESS = 1;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MemberRepository memberRepository;
@@ -51,22 +54,19 @@ public class MemberService {
     public int createMember(CreateMemberDto createMemberDto) throws IllegalStateException {
         validateDuplicateMemberId(createMemberDto.getMemberName());// 한번 더 중복체크
 
-        Member member = new Member();
-        member.setMemberName(createMemberDto.getMemberName());
-        member.setPassword(bCryptPasswordEncoder.encode(createMemberDto.getPassword()));
-        member.setName(createMemberDto.getName());
-        member.setEmail(createMemberDto.getEmail());
-        member.setBio(createMemberDto.getBio());
-        member.setWebsite(createMemberDto.getWebsite());
-        if (createMemberDto.getProfileImg() != null) {
-            member.setProfileImg(saveImg(createMemberDto.getProfileImg()));
-        }
-        member.setRole(RoleType.ROLE_USER);
+        Member member = new Member(createMemberDto.getMemberName(), bCryptPasswordEncoder.encode(createMemberDto.getPassword()),
+                createMemberDto.getName(), createMemberDto.getEmail(), createMemberDto.getBio(),
+                createMemberDto.getWebsite(), saveImg(createMemberDto.getProfileImg()), RoleType.ROLE_USER);
+
         memberRepository.save(member);
-        return 1;
+
+        return SUCCESS;
     }
 
     private String saveImg(MultipartFile file) {
+        if (file.isEmpty()) {
+            return null;
+        }
         UUID uuid = UUID.randomUUID();
         String uuidFilename = uuid + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(StaticResourceProperties.IMAGE_UPLOAD_PATH + uuidFilename);
@@ -78,49 +78,39 @@ public class MemberService {
         return uuidFilename;
     }
 
-    public JSONObject selectMember(ReadMemberDto readMemberDto) throws NoSuchElementException {
-        JSONObject result = new JSONObject();
+    public MemberSelectResponseDto selectMember(ReadMemberDto readMemberDto) throws NoSuchElementException {
+        Member selectMember = memberRepository.findByMemberName(readMemberDto.getMemberName())
+                .orElseThrow(NoSuchElementException::new);
 
-        memberRepository.findByMemberName(readMemberDto.getMemberName())
-                .ifPresentOrElse(m -> {
-                            result.put("name", m.getName());
-                            result.put("email", m.getEmail());
-                            result.put("website", m.getWebsite());
-                            result.put("bio", m.getBio());
-                            result.put("profileImg", m.getProfileImg());
-                        },
-                        () -> {
-                            throw new NoSuchElementException("존재하지 않는 회원에 대한 정보조회 요청");
-                        });
+        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                .name(selectMember.getName())
+                .bio(selectMember.getBio())
+                .email(selectMember.getEmail())
+                .profileImg(selectMember.getProfileImg())
+                .build();
 
-        return result;
+        return MemberSelectResponseDto
+                .builder()
+                .result("success")
+                .member(memberResponseDto)
+                .build();
     }
 
+    public MemberUpdateResponseDto updateMember(Member member, UpdateMemberDto updateMemberDto) throws NoSuchElementException {
+        Member updateMember = memberRepository.findById(member.getId())
+                .orElseThrow(NoSuchElementException::new);
+        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+        .name(updateMember.changeName(updateMember.getName()))
+        .email(updateMember.changeEmail(updateMemberDto.getEmail()))
+        .website(updateMember.changeWebsite(updateMemberDto.getWebsite()))
+        .bio(updateMember.changeBio(updateMemberDto.getBio()))
+        .profileImg(updateMember.changeProfile(updateMemberDto.getProfileImg()))
+        .build();
 
-    public JSONObject updateMember(Member member, UpdateMemberDto updateMemberDto) throws NoSuchElementException {
-        JSONObject result = new JSONObject();
-
-        memberRepository.findById(member.getId())
-                .ifPresentOrElse(m -> {
-                    m.setName(updateMemberDto.getName());
-                    m.setEmail(updateMemberDto.getEmail());
-                    m.setWebsite(updateMemberDto.getWebsite());
-                    m.setBio(updateMemberDto.getBio());
-                    if (updateMemberDto.getProfileImg() != null) {
-                        removeImg(member.getProfileImg());
-                        String profileImg = saveImg(updateMemberDto.getProfileImg());
-                        m.setProfileImg(profileImg);
-                    }
-                    result.put("name", m.getName());
-                    result.put("email", m.getEmail());
-                    result.put("website", m.getWebsite());
-                    result.put("bio", m.getBio());
-                    result.put("profileImg", m.getProfileImg());
-                }, () -> {
-                    throw new NoSuchElementException("존재하지 않는 회원에 대한 정보수정 요청");
-                });
-
-        return result;
+        return MemberUpdateResponseDto.builder()
+                .result("success")
+                .member(memberResponseDto)
+                .build();
     }
 
     private void removeImg(String uuidFilename) {
@@ -157,15 +147,18 @@ public class MemberService {
                 });
     }
 
-    public void deleteMember(Member member) {
+    public ResponseDto deleteMember(Member member) {
         memberRepository.findById(member.getId())
-                .ifPresentOrElse(m -> {
-                            removeImg(member.getProfileImg());
-                            deleteCascades(member);
-                            memberRepository.delete(m);
-                        },
-                        () -> {
-                            throw new NoSuchElementException("존재하지 않는 회원에 대한 정보삭제 요청");
-                        });
+                .map(deleteMember -> {
+                    removeImg(deleteMember.getProfileImg());
+                    deleteCascades(deleteMember);
+                    memberRepository.delete(deleteMember);
+                    return deleteMember;
+                })
+                .orElseThrow(NoSuchElementException::new);
+
+        return ResponseDto.builder()
+                .result("success")
+                .build();
     }
 }

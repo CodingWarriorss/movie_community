@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.dto;
+package com.codeworrisors.Movie_Community_Web.dto.naver;
 
 import java.util.List;
 

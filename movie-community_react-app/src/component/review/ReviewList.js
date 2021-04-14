@@ -35,7 +35,8 @@ export default class ReviewList extends Component {
     loadReview() {
 
         ReviewAPI.getList(this.state.page , this.props.movieTitle)
-        .then( response =>{
+        .then( response => {
+            console.log(response.data);
             this.setState({
                 reviewList: [...this.state.reviewList, ...response.data],
                 page: (this.state.page + 1)
@@ -123,7 +124,8 @@ export default class ReviewList extends Component {
 
         CommentAPI.add( commentData )
         .then(response => {
-            commentData.id = response.data.comment.commentId;
+            console.log(response.data);
+            commentData.id = response.data.commentId;
             let updateList = this.state.reviewList.map( review =>{
                 if( review.id === commentData.reviewId){
                     review.commentsList = review.commentsList.concat(commentData);
@@ -139,6 +141,9 @@ export default class ReviewList extends Component {
     deleteComment( commentData ){
         CommentAPI.delete( commentData )
         .then( response => {
+                console.log(response.data);
+                console.log(commentData);
+                console.log(this.state.reviewList);
                 if (response.data.result === "SUCCESS") {
                     let updateList = this.state.reviewList.map( review =>{
                         if( review.id === commentData.reviewId){
@@ -146,7 +151,8 @@ export default class ReviewList extends Component {
                         }
                         return review;
                     })
-                    
+
+                    console.log(updateList);
                     this.setState({
                         reviewList: updateList
                     });

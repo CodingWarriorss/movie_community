@@ -1,4 +1,4 @@
-package com.codeworrisors.Movie_Community_Web.dto;
+package com.codeworrisors.Movie_Community_Web.dto.member.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.component;
 
-import com.codeworrisors.Movie_Community_Web.dto.BoxOfficeRankingDto;
+import com.codeworrisors.Movie_Community_Web.dto.boxoffice.BoxOfficeRankingDto;
 import com.codeworrisors.Movie_Community_Web.model.BoxOfficeRanking;
 import com.codeworrisors.Movie_Community_Web.repository.BoxOfficeRankingRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

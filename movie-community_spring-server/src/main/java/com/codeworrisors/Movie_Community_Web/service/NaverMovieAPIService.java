@@ -1,8 +1,8 @@
 package com.codeworrisors.Movie_Community_Web.service;
 
 import com.codeworrisors.Movie_Community_Web.property.NaverApiProperties;
-import com.codeworrisors.Movie_Community_Web.dto.NaverAPIResponseDto;
-import com.codeworrisors.Movie_Community_Web.dto.NaverMovieDto;
+import com.codeworrisors.Movie_Community_Web.dto.naver.NaverAPIResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.naver.NaverMovieDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 

@@ -34,6 +34,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
+        ErrorResponse errorResponse = ErrorResponse
+                .builder()
+                .error(HttpStatus.BAD_REQUEST.toString())
+                .message(e.getMessage())
+                .status(HttpStatus.BAD_REQUEST).build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(AuthenticationServiceException.class)
     protected  ResponseEntity<ErrorResponse> handleAuthenticationServiceException( AuthenticationServiceException e){
         ErrorResponse errorResponse = ErrorResponse

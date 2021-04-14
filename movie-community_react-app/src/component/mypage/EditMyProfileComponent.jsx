@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import '../css/Profile.css';
-import EditProfileComponent from "./EditProfileComponent";
+import EditMyProfileComponent from "./EditMyProfileComponent";
 import {DEFAULT_AVATAR_URL, IMAGE_RESOURCE_URL, REST_API_SERVER_URL} from "../constants/APIConstants";
 import axios from "axios";
 import ProfileReviewComponent from "./ProfileReviewComponent";
 import DeleteMemberComponent from "./DeleteMemberComponent";
 
-class ProfileComponent extends Component {
+class MyProfileComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -15,16 +15,19 @@ class ProfileComponent extends Component {
             isModalEditOpen: false,
             isModalWithdrawOpen: false,
 
-            memberName: '',
-            name: '',
-            website: '',
-            bio: '',
-            profileImg: '',
+            member: {
+                memberName: '',
+                name: '',
+                website: '',
+                bio: '',
+                profileImg: '',
+            },
 
             reviewList: [],
         }
 
         this.loadMemberInfo = this.loadMemberInfo.bind(this);
+        this.modifyMemberInfo = this.modifyMemberInfo.bind(this);
         this.loadReview = this.loadReview.bind(this);
         this.openEditModal = this.openEditModal.bind(this);
         this.closeEditModal = this.closeEditModal.bind(this);
@@ -33,8 +36,9 @@ class ProfileComponent extends Component {
     }
 
     componentDidMount() {
-        this.loadMemberInfo(this.props.location.memberName);
-        this.loadReview(this.props.location.memberName);
+        const memberName = localStorage.getItem('authenticatedMember');
+        this.loadMemberInfo(memberName);
+        this.loadReview(memberName);
     }
 
     openEditModal() {
@@ -65,19 +69,31 @@ class ProfileComponent extends Component {
         }
         axios.get(requestUrl, config)
             .then((response) => {
-                console.log(response.data);
                 const member = response.data.member;
+                console.log("response : " + response.data);
                 this.setState({
-                    memberName: memberName,
-                    name: member.name,
-                    website: member.website,
-                    bio: member.bio,
-                    profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                    member: {
+                        memberName: member.memberName,
+                        name: member.name,
+                        website: member.website,
+                        bio: member.bio,
+                        profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                    },
                 });
             }).catch((error) => {
 
         })
+    }
 
+    modifyMemberInfo(member) {
+        this.setState({
+            member: {
+                name: member.name,
+                website: member.website,
+                bio: member.bio,
+                profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+            },
+        })
     }
 
     loadReview(memberName) {
@@ -93,7 +109,6 @@ class ProfileComponent extends Component {
         }
         axios.get(requestUrl, config)
             .then((response) => {
-                console.log(response.data);
                 this.setState({
                     reviewList: response.data
                 });
@@ -104,10 +119,12 @@ class ProfileComponent extends Component {
 
     render() {
         const {
-            isModalEditOpen, isModalWithdrawOpen,
-            memberName, name, website, bio, profileImg,
-            reviewList
+            isModalEditOpen, isModalWithdrawOpen, reviewList
         } = this.state;
+
+        const {
+            memberName, name, website, bio, profileImg
+        } = this.state.member;
 
         return (
             <main id="profile" style={{backgroundColor: "white", padding: "100px 100px"}}>
@@ -129,7 +146,9 @@ class ProfileComponent extends Component {
                                 <button className="profile_edit_btn" onClick={this.openEditModal}>
                                     회원수정
                                 </button>
-                                <EditProfileComponent isOpen={isModalEditOpen} close={this.closeEditModal}/>
+                                <EditMyProfileComponent member={this.state.member}
+                                                        modifyMemberInfo={this.modifyMemberInfo}
+                                                        isOpen={isModalEditOpen} close={this.closeEditModal}/>
                             </a>
                             <a href="#">
                                 <button className="profile_follow_btn" onClick={this.openWithdrawModal}>
@@ -159,4 +178,4 @@ class ProfileComponent extends Component {
     }
 }
 
-export default ProfileComponent
+export default MyProfileComponent

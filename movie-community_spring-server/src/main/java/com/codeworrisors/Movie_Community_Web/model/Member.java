@@ -1,6 +1,7 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
 public class Member {
 
     @Id
+    @Setter
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "member_seq_gen"
@@ -38,4 +40,43 @@ public class Member {
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    public Member(String memberName, String password, String name, String email,
+                  String bio, String website, String profileImg, RoleType role) {
+        this.memberName = memberName;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.bio = bio;
+        this.website = website;
+        this.profileImg = profileImg;
+        this.role = role;
+    }
+
+    public boolean isNotSameMember(Long id) {
+        return !this.id.equals(id);
+    }
+
+    public String changeName(String name) {
+        return this.name = name;
+    }
+
+    public String changeEmail(String email) {
+        return this.email = email;
+    }
+
+    public String changeWebsite(String website) {
+        return this.website = website;
+    }
+
+    public String changeBio(String bio) {
+        return this.bio = bio;
+    }
+
+    public String changeProfile(MultipartFile profileImg) {
+        if (profileImg != null) {
+            return this.profileImg = profileImg.getName();
+        }
+        return this.profileImg;
+    }
 }
