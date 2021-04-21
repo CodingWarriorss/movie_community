@@ -3,14 +3,13 @@ package com.codeworrisors.Movie_Community_Web.controller;
 import com.codeworrisors.Movie_Community_Web.dto.*;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewResponseDto;
 import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
-import com.codeworrisors.Movie_Community_Web.model.Review;
 import com.codeworrisors.Movie_Community_Web.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,10 +37,9 @@ public class ReviewController {
      * 리뷰 CRUD
      * */
     @GetMapping
-    public List<Review> seeReview(@AuthenticationPrincipal PrincipalDetails userDetail,
-                                  @RequestParam int pageIndex,
-                                  @RequestParam(required = false) String movieTitle,
-                                  @RequestParam(required = false) String memberName) {
+    public List<ReviewResponseDto> seeReview(@RequestParam int pageIndex,
+                                             @RequestParam(required = false) String movieTitle,
+                                             @RequestParam(required = false) String memberName) {
 
         return reviewService.getReviews(PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
                     movieTitle, memberName);

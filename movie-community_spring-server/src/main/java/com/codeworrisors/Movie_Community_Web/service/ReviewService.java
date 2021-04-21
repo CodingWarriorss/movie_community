@@ -4,6 +4,7 @@ import com.codeworrisors.Movie_Community_Web.dto.*;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewImageResponseDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewResponseDto;
 import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,50 +38,36 @@ public class ReviewService {
     private final MemberRepository memberRepository;
 
 
-    /*
-     * 리뷰
-     * */
-    public List<Review> getReviews(Pageable pageable, String movieTitle, String memberName) throws IllegalStateException {
+    public List<ReviewResponseDto> getReviews(Pageable pageable, String movieTitle, String memberName) throws IllegalStateException {
         if (movieTitle != null) return getReviewsByMovieTitle(pageable, movieTitle);
         else if (memberName != null) return getReviewsByMemberName(pageable, memberName);
         return getAll(pageable);
     }
 
-    private List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
-        List<Review> reviews = reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
-
-        reviews.forEach(review -> {
-            review.setLikeCount(review.getCommentsList().size());
-            review.setCommentCount(review.getCommentsList().size());
-        });
-        return reviews;
-    }
-
-    private List<Review> getReviewsByMemberName(Pageable pageable, String memberName) {
-        Member member = memberRepository.findByMemberName(memberName)
-                .orElseThrow(NoMemberElementException::new);
-        List<Review> reviews = reviewRepository.findByMemberId(pageable, member.getId())
+    private List<ReviewResponseDto> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
+        List<ReviewResponseDto> reviews = reviewRepository.findByMovieTitle(pageable, movieTitle)
+                .map(review -> ReviewResponseDto.fromEntity(review))
                 .getContent();
 
-
-        reviews.forEach(review -> {
-            review.setLikeCount(review.getLikesList().size());
-            review.setCommentCount(review.getCommentsList().size());
-        });
-
         return reviews;
     }
 
-    private List<Review> getAll(Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAll(pageable).getContent();
-
-        reviews.forEach(review -> {
-            review.setLikeCount(review.getLikesList().size());
-            review.setCommentCount(review.getCommentsList().size());
-        });
-
+    private List<ReviewResponseDto> getReviewsByMemberName(Pageable pageable, String memberName) {
+        Member member = memberRepository.findByMemberName(memberName)
+                .orElseThrow(NoMemberElementException::new);
+        List<ReviewResponseDto> reviews = reviewRepository.findByMemberId(pageable, member.getId())
+                .map(review -> ReviewResponseDto.fromEntity(review))
+                .getContent();
         return reviews;
     }
+
+    private List<ReviewResponseDto> getAll(Pageable pageable) {
+        List<ReviewResponseDto> reviews =  reviewRepository.findAll(pageable)
+                .map(ReviewResponseDto::fromEntity)
+                .getContent();
+        return reviews;
+    }
+
 
 
 

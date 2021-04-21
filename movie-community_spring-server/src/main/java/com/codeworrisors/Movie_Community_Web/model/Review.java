@@ -22,7 +22,6 @@ import java.util.List;
         allocationSize = 50
 )
 public class Review {
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
