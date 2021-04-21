@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,16 +42,9 @@ public class ReviewController {
                                   @RequestParam int pageIndex,
                                   @RequestParam(required = false) String movieTitle,
                                   @RequestParam(required = false) String memberName) {
-        try {
-            return reviewService.getReviews(
-                    PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
-                    movieTitle,
-                    memberName,
-                    userDetail.getMember());
-        } catch (IllegalStateException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
+
+        return reviewService.getReviews(PageRequest.of(pageIndex, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createDate")),
+                    movieTitle, memberName);
     }
 
     @PostMapping

@@ -3,6 +3,7 @@ package com.codeworrisors.Movie_Community_Web.service;
 import com.codeworrisors.Movie_Community_Web.dto.*;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.CreateReviewDto;
 import com.codeworrisors.Movie_Community_Web.dto.review.request.UpdateReviewDto;
+import com.codeworrisors.Movie_Community_Web.dto.review.response.ReviewImageResponseDto;
 import com.codeworrisors.Movie_Community_Web.exception.NoMemberElementException;
 import com.codeworrisors.Movie_Community_Web.exception.NoReviewElementException;
 import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,14 +41,15 @@ public class ReviewService {
     /*
      * 리뷰
      * */
-    public List<Review> getReviews(Pageable pageable, String movieTitle, String memberName, Member member) throws IllegalStateException {
+    public List<Review> getReviews(Pageable pageable, String movieTitle, String memberName) throws IllegalStateException {
         if (movieTitle != null) return getReviewsByMovieTitle(pageable, movieTitle);
-        else if (memberName != null) return getReviewsByMemberName(pageable, memberName, member);
+        else if (memberName != null) return getReviewsByMemberName(pageable, memberName);
         return getAll(pageable);
     }
 
     private List<Review> getReviewsByMovieTitle(Pageable pageable, String movieTitle) {
         List<Review> reviews = reviewRepository.findByMovieTitle(pageable, movieTitle).getContent();
+
         reviews.forEach(review -> {
             review.setLikeCount(review.getCommentsList().size());
             review.setCommentCount(review.getCommentsList().size());
@@ -54,13 +57,13 @@ public class ReviewService {
         return reviews;
     }
 
-    private List<Review> getReviewsByMemberName(Pageable pageable, String memberName, Member member) {
-        Member member1 = memberRepository
-                .findByMemberName(memberName)
+    private List<Review> getReviewsByMemberName(Pageable pageable, String memberName) {
+        Member member = memberRepository.findByMemberName(memberName)
                 .orElseThrow(NoMemberElementException::new);
+        List<Review> reviews = reviewRepository.findByMemberId(pageable, member.getId())
+                .getContent();
 
-       List<Review> reviews = reviewRepository
-               .findByMemberId(pageable, memberRepository.findByMemberName(memberName).get().getId()).get().getContent();
+
         reviews.forEach(review -> {
             review.setLikeCount(review.getLikesList().size());
             review.setCommentCount(review.getCommentsList().size());
@@ -71,6 +74,7 @@ public class ReviewService {
 
     private List<Review> getAll(Pageable pageable) {
         List<Review> reviews = reviewRepository.findAll(pageable).getContent();
+
         reviews.forEach(review -> {
             review.setLikeCount(review.getLikesList().size());
             review.setCommentCount(review.getCommentsList().size());
@@ -102,7 +106,14 @@ public class ReviewService {
                 .orElseThrow(NoReviewElementException::new);
 
         if (updateReviewDto.getNewFiles() != null) {
-            saveImages(updateReview, updateReviewDto.getNewFiles());
+            List<ReviewImageResponseDto> updateImages = saveImages(updateReview, updateReviewDto.getNewFiles());
+            List<Image> previousImages = imageRepository.findImagesByReviewId(updateReviewDto.getReviewId());
+
+           if (previousImages != null) {
+               for (Image image : previousImages) {
+                   updateImages.add(ReviewImageResponseDto.builder().id(image.getId()).fileName(image.getFileName()).build());
+               }
+           }
         }
 
         if (updateReviewDto.getDeletedFiles() != null) {
@@ -130,15 +141,19 @@ public class ReviewService {
     }
 
 
-    private void saveImages(Review review, List<MultipartFile> newFiles) throws IOException {
+    private List<ReviewImageResponseDto> saveImages(Review review, List<MultipartFile> newFiles) throws IOException {
         JSONArray imageIds = new JSONArray();
+        List<ReviewImageResponseDto> updateImages = new ArrayList<>();
 
         for (MultipartFile file : newFiles) {
             String uuidFilename = saveFile(file);
             Image saved = imageRepository.save(new Image(uuidFilename, review));
             imageIds.add(saved.getId());
+
+            updateImages.add(ReviewImageResponseDto.builder().id(saved.getId()).fileName(saved.getFileName()).build());
         }
 
+        return updateImages;
     }
 
     private void deleteImages(long reviewId, List<Long> deletedFiles) {

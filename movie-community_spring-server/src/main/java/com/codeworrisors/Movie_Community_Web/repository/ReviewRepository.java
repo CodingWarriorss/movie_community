@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByMovieTitle(Pageable pageable, String movieTitle);
-    Optional<Page<Review>> findByMemberId(Pageable pageable, long memberId);
+    Page<Review> findByMemberId(Pageable pageable, long memberId);
 
     Integer countReviewByMember(Member member);
 }
