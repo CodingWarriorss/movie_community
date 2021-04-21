@@ -29,11 +29,9 @@ public class Likes {
 
     @NonNull
     @ManyToOne
-    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
     @NonNull
     @ManyToOne
-    @JsonIgnore
     private Review review;
 }

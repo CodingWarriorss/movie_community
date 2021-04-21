@@ -35,12 +35,10 @@ public class Comments {
     @NonNull
     @ManyToOne
     @Setter
-    @JsonIgnoreProperties({"password", "name", "email", "address", "gender", "birth", "phone", "role"})
     private Member member;
 
     @NonNull
     @ManyToOne
-    @JsonIgnore
     private Review review;
 
     public Comments updateContents(Long memberId, String content) {
