@@ -11,7 +11,9 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script: "cd movie-community_spring-server && ./gradlew clean build"
+script: 
+	- "cd movie-community_spring-server"
+	- "./gradlew clean build"
 
 notifications:
   email:
