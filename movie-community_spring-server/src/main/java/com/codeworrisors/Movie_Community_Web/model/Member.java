@@ -41,7 +41,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    public Member(String memberName, String password, String name, String email,
+    public Member (String memberName, String password, String name, String email,
                   String bio, String website, String profileImg, RoleType role) {
         this.memberName = memberName;
         this.password = password;
