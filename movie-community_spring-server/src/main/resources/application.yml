@@ -18,10 +18,62 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: false
 
+#    show-sql: true
+
+#여기서 바꾸는걸로 합시다.
   mvc:
-    static-path-pattern: /image/**
+    static-path-pattern: /resource/image/**
+
+  web:
+    resources:
+#      절대경로로 파일경로를 명시할때 앞에 'file:///'를 넣는걸 잊지 맙시다.
+      static-locations: file:///C:/movie_community/image/
+
+
+
+
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 861883093774-juq6046gpo14ka3r8761l1s8jv1p1cbb.apps.googleusercontent.com
+            client-secret: CWNPcqbUxJobEZqcBD6HTeq4
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 3700393949998410
+            clientSecret: 0e94090905e9ac655c68a35e19d71f88
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: 46a7f62e625a480eb0f8
+            clientSecret: e32dde2fc63cf001fa4699b598d2da74ac50a93e
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+
+

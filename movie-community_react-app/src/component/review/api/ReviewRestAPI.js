@@ -43,7 +43,7 @@ class ReviewRestAPI{
         const token = localStorage.getItem("token");
         let config = {
             headers: {
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             }
         }
 
@@ -61,7 +61,7 @@ class ReviewRestAPI{
         const token = localStorage.getItem("token");
         let config = {
             headers: {
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             },
             params :{
                 reviewId: deleteData.reviewId

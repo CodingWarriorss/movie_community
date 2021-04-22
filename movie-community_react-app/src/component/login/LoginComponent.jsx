@@ -1,5 +1,12 @@
 import React, {Component} from 'react'
 import AuthenticationService from "./AuthenticationService.js";
+
+import {GOOGLE_AUTH_URL ,GITHUB_AUTH_URL } from "component/constants/SocialLogin";
+
+import googleLogo from 'img/google-logo.png';
+import githubLogo from 'img/github-logo.png';
+
+import "./LoginComponent.css"
 /*
 https://ko.reactjs.org/docs/react-component.html
 <마운트>
@@ -54,17 +61,10 @@ class LoginComponent extends Component {
             .then((response) => {
                 // 토큰저장
                 const res = AuthenticationService.registerSuccessfulLoginForJwt(this.state.memberName, response);
-                if (res.startsWith('success')) { // 로그인 성공
-                    AuthenticationService.setMemberInfo(this.state.memberName);
-                } else if (res.startsWith('failure')) { // 로그인 실패 (아이디 오류, 비밀번호 오류)
-                    const msg = res.split('/')[1] === 'memberName' ?
-                        '존재하지 않는 아이디입니다.' : '비밀번호가 틀렸습니다.';
-                    alert(msg);
-                    return;
-                }
-            }).catch(() => {
-            this.setState({showSuccessMessage: false});
-            this.setState({hasLoginFailed: true});
+                AuthenticationService.setMemberInfo(this.state.memberName);
+            }).catch((error) => {
+
+                console.log( error );
         });
     }
 
@@ -109,6 +109,13 @@ class LoginComponent extends Component {
                         {/*    <a href="#"> password?</a>*/}
                         {/*</p>*/}
                     </div>
+
+                    <div className="social-login">
+                <a className="s-btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                    <img src={googleLogo} alt="Google" /> Log in with Google</a>
+                <a className="s-btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
+                    <img src={githubLogo} alt="Github" /> Log in with Github</a>
+            </div>
 
                 </div>
             </div>

@@ -8,7 +8,7 @@ class CommentRestAPI{
         const token = localStorage.getItem("token");
         let config = {
             headers: {
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             }
         }
 
@@ -19,7 +19,7 @@ class CommentRestAPI{
         const token = localStorage.getItem("token");
         const config = {
             headers: {
-                'Authorization': token
+                'Authorization': 'Bearer ' +token
             },
             params: {
                 commentId: commentData.commentId,

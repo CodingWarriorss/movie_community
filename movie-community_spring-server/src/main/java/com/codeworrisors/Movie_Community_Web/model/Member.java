@@ -1,5 +1,6 @@
 package com.codeworrisors.Movie_Community_Web.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,9 +38,34 @@ public class Member {
     private String website;
     @Setter
     private String profileImg;
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", memberName='" + memberName + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", bio='" + bio + '\'' +
+                ", website='" + website + '\'' +
+                ", profileImg='" + profileImg + '\'' +
+                '}';
+    }
+
+    @Getter
+    @Setter
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider = AuthProvider.local;
+
+    @Getter
+    @Setter
+    private String providerId;
+
     @Setter
     @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private RoleType role = RoleType.ROLE_USER;
 
     public Member (String memberName, String password, String name, String email,
                   String bio, String website, String profileImg, RoleType role) {

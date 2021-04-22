@@ -36,7 +36,7 @@ class DeleteMemberComponent extends Component {
     withdraw() {
         const config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': "Bearer " +localStorage.getItem('token')
             }
         }
 

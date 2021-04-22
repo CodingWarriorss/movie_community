@@ -15,10 +15,12 @@ import com.codeworrisors.Movie_Community_Web.property.StaticResourceProperties;
 import com.codeworrisors.Movie_Community_Web.repository.ImageRepository;
 import com.codeworrisors.Movie_Community_Web.repository.MemberRepository;
 import com.codeworrisors.Movie_Community_Web.repository.ReviewRepository;
+import com.codeworrisors.Movie_Community_Web.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,15 +80,24 @@ public class MemberService {
         return uuidFilename;
     }
 
-    public MemberSelectResponseDto selectMember(ReadMemberDto readMemberDto) throws NoSuchElementException {
-        Member selectMember = memberRepository.findByMemberName(readMemberDto.getMemberName())
+    public MemberSelectResponseDto selectMember(PrincipalDetails userDetail , ReadMemberDto readMemberDto) throws NoSuchElementException {
+        Member selectMember;
+        if( readMemberDto.getMemberName() == null )
+            selectMember = memberRepository.findByMemberName(userDetail.getMember().getMemberName())
                 .orElseThrow(NoSuchElementException::new);
+
+        else
+            selectMember = memberRepository.findByMemberName(readMemberDto.getMemberName())
+                    .orElseThrow(NoSuchElementException::new);
+
 
         MemberResponseDto memberResponseDto = MemberResponseDto.builder()
                 .name(selectMember.getName())
                 .bio(selectMember.getBio())
                 .email(selectMember.getEmail())
                 .profileImg(selectMember.getProfileImg())
+                .provider(selectMember.getProvider())
+                .memberName(selectMember.getMemberName())
                 .build();
 
         return MemberSelectResponseDto

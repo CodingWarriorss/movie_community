@@ -86,9 +86,8 @@ function ReviewHeader(props) {
         </img>
     ));
 
-    const profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
-
-
+    let profileImg = props.reviewData.member.profileImg ? IMAGE_RESOURCE_URL + props.reviewData.member.profileImg : DEFAULT_AVATAR_URL;
+    if( props.reviewData.member.provider !== "local" ) profileImg = props.reviewData.member.profileImg;
     return (
 
         <div className="card-header">
@@ -224,22 +223,24 @@ function ReviewBody(props) {
             <div className="review-content">
                 <p>{props.reviewData.content}</p>
             </div>
+                {(props.reviewData.imageList.length < 1) ? null :
             <div className="review-images">
-                <div className="slide-container">
-                    <Slide autoplay={false}>
-                        {(props.reviewData.imageList.length < 1) ? null :
-                            props.reviewData.imageList.map(image => {
-                                return (
-                                    <div className="each-slide" key={image.id}>
-                                        <img alt="NotFound" src={IMAGE_RESOURCE_URL + image.fileName}></img>
-                                    </div>
-                                )
-                            })
-                        }
-                    </Slide>
-                </div>
-
+                    <div className="slide-container">
+                        <Slide autoplay={false} >
+                            {
+                                props.reviewData.imageList.map(image => {
+                                    return (
+                                        <div className="each-slide" key={image.id}>
+                                            <img alt="NotFound" src={IMAGE_RESOURCE_URL + image.fileName}></img>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Slide>
+                    </div>
             </div>
+                }
+
             <div className="row">
                 <div className="col review-like-btn">
                     {(like) ?
@@ -247,19 +248,18 @@ function ReviewBody(props) {
                             color: 'indianred',
                             fontSize: 40,
                             marginLeft: 10,
-                        }} onClick={handleLike}/>
+                        }} onClick={handleLike} />
                         : <FavoriteBorder style={{
                             color: 'indianred',
                             fontSize: 40,
                             marginLeft: 10,
-                        }} onClick={handleLike}/>
+                        }} onClick={handleLike} />
                     }
                 </div>
                 <div className="col">
                     <div className="review-like" style={{
                         marginRight: 15,
-                    }}>{props.reviewData.likesList.length}명이 좋아합니다
-                    </div>
+                    }}>{props.reviewData.likesList.length}명이 좋아합니다</div>
                 </div>
             </div>
         </div>
@@ -356,16 +356,16 @@ export default class ReviewContent extends Component {
             <div className="review-box">
                 <div className="card">
                     <ReviewHeader reviewData={this.props.reviewData}
-                                  modifyReview={this.props.modifyReview}
-                                  deleteReview={this.props.deleteReview}
-                                  addImage={this.props.addImage}/>
+                        modifyReview={this.props.modifyReview}
+                        deleteReview={this.props.deleteReview}
+                        addImage={this.props.addImage} />
                     <ReviewBody reviewData={this.props.reviewData}
-                                likeReview={this.props.likeReview}
-                                unlikeReview={this.props.unlikeReview}
+                        likeReview={this.props.likeReview}
+                        unlikeReview={this.props.unlikeReview}
                     />
                     <ReviewFooter reviewData={this.props.reviewData}
-                                  addComment={this.props.addComment}
-                                  deleteComment={this.props.deleteComment}
+                        addComment={this.props.addComment}
+                        deleteComment={this.props.deleteComment}
                     />
                 </div>
             </div>

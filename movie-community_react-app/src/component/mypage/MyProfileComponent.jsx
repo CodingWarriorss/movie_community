@@ -61,7 +61,7 @@ class MyProfileComponent extends Component {
         const requestUrl = REST_API_SERVER_URL + '/api/member';
         let config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             params: {
                 memberName: memberName
@@ -71,13 +71,16 @@ class MyProfileComponent extends Component {
             .then((response) => {
                 const member = response.data.member;
                 console.log("response : " + response.data);
+
+                let imgUrl = member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL;
+                if( member.provider !== "local" ) imgUrl = member.profileImg;
                 this.setState({
                     member: {
                         memberName: member.memberName,
                         name: member.name,
                         website: member.website,
                         bio: member.bio,
-                        profileImg: member.profileImg ? IMAGE_RESOURCE_URL + member.profileImg : DEFAULT_AVATAR_URL,
+                        profileImg:imgUrl,
                     },
                 });
             }).catch((error) => {
@@ -100,7 +103,7 @@ class MyProfileComponent extends Component {
         const requestUrl = REST_API_SERVER_URL + '/api/review';
         let config = {
             headers: {
-                'Authorization': localStorage.getItem('token')
+                'Authorization':'Bearer ' + localStorage.getItem('token')
             },
             params: {
                 memberName: memberName,
