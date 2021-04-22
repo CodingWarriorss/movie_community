@@ -1,0 +1,19 @@
+language: java
+jdk:
+  - openjdk8
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "cd movie-community_spring-server && ./gradlew clean build"
+
+notifications:
+  email:
+    recipients:
+      - sdrs69211@gmail.com
