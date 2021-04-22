@@ -39,6 +39,7 @@ public class Member {
     @Setter
     private String profileImg;
 
+
     @Override
     public String toString() {
         return "Member{" +
@@ -67,8 +68,21 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType role = RoleType.ROLE_USER;
 
-    public Member (String memberName, String password, String name, String email,
+    public Member (Long id, String memberName, String password, String name, String email,
                   String bio, String website, String profileImg, RoleType role) {
+        this.id = id;
+        this.memberName = memberName;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.bio = bio;
+        this.website = website;
+        this.profileImg = profileImg;
+        this.role = role;
+    }
+
+    public Member (String memberName, String password, String name, String email,
+                   String bio, String website, String profileImg, RoleType role) {
         this.memberName = memberName;
         this.password = password;
         this.name = name;
