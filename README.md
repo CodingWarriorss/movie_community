@@ -1,4 +1,4 @@
-# movie_community
+# movie_community [![Build Status](https://travis-ci.com/CodingWarriorss/movie_community.svg?branch=master)](https://travis-ci.com/CodingWarriorss/movie_community)
 
 moovie community 프로젝트 repository
 
