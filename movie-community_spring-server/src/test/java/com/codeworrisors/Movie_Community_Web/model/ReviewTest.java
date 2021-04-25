@@ -60,5 +60,4 @@ class ReviewTest {
                 .isInstanceOf(NoAuthReviewStateException.class)
                 .hasMessageContaining("리뷰에 관한 권한이 없음");
     }
-
 }
